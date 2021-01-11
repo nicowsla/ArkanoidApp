@@ -83,70 +83,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     //fills the list with bricks
     private void generateBricks(Context context) {
-        /*for (int i = 3; i < 15; i++) {
-            for (int j = 1; j < 10; j++) {
-                //list.add(new Brick(context, j * 150, i * 100));
-                list.add(new Brick(context, j*100, i*70));
+        for (int i = 3; i < 7; i++) {
+            for (int j = 1; j < 6; j++) {
+                list.add(new Brick(context, j * 150, i * 100));
             }
-        }*/
-
-       //mario block
-        int a= 6;
-        int j;
-        int i=3;
-        //capelli e vestito rossi
-        for ( j = 5; j < 6; j++) {
-            list.add(new Brick(context, j*100, i*70,a));
         }
-        i=4;
-        for ( j = 4; j < 7; j++) {
-            list.add(new Brick(context, j*100, i*70,a));
-        }
-        i=5;
-        for ( j = 4; j < 9; j++) {
-            list.add(new Brick(context, j*100, i*70,a));
-        }
-        j=2;
-        for ( i = 10; i < 11; i++) {
-            list.add(new Brick(context, j*100, i*70,a));
-        }
-        j=3;
-        for ( i = 9; i < 10; i++) {
-            list.add(new Brick(context, j*100, i*70,a));
-        }
-        j=5;
-        for ( i = 9; i < 10; i++) {
-            list.add(new Brick(context, j*100, i*70,a));
-        }
-        j=7;
-        for ( i = 9; i < 10; i++) {
-            list.add(new Brick(context, j*100, i*70,a));
-        }
-        j=8;
-        for ( i = 10; i < 11; i++) {
-            list.add(new Brick(context, j*100, i*70,a));
-        }
-        //faccia e mani
-        i=5;
-        for ( j = 5; j < 7; j++) {
-            list.add(new Brick(context, j*100, i*70,a));
-        }
-        i=8;
-        for ( j = 4; j < 7; j++) {
-            list.add(new Brick(context, j*100, i*70,a));
-        }
-        i=7; j=5;
-        list.add(new Brick(context, j*100, i*70,a));
-        i=12; j=2;
-        list.add(new Brick(context, j*100, i*70,a));
-        j=8;
-        list.add(new Brick(context, j*100, i*70,a));
-
-        //capelli baffi scarpe
-
-        //tuta
-
-
     }
 
     // set background
