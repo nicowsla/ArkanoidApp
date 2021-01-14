@@ -9,12 +9,9 @@
         android:roundIcon="@drawable/redball"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< Updated upstream
-=======
         <activity android:name=".SignInActivity"></activity>
         <activity android:name=".LoginActivity">
         </activity>
->>>>>>> Stashed changes
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
