@@ -3,8 +3,10 @@ package com.example.android.arkanoid;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
