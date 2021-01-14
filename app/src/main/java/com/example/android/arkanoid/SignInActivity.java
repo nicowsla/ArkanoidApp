@@ -39,7 +39,7 @@ public class SignInActivity extends AppCompatActivity {
     private String password;
 
     private TextInputLayout passwordConfirmationLayout;
-    private EditText passworConfirmationET;
+    private EditText passwordConfirmationET;
     private String passwordConfirmation;
 
     private Button signinButton;
@@ -69,7 +69,7 @@ public class SignInActivity extends AppCompatActivity {
         pswET = findViewById(R.id.signin_psw);
 
         passwordConfirmationLayout = findViewById(R.id.signin_psw_confermac);
-        passworConfirmationET = findViewById(R.id.signin_psw_conferma);
+        passwordConfirmationET = findViewById(R.id.signin_psw_conferma);
 
         signinButton = findViewById(R.id.signin_confirm);
 
@@ -130,7 +130,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         } );
 
-        passworConfirmationET.setOnFocusChangeListener( new View.OnFocusChangeListener() {
+        passwordConfirmationET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 passwordConfirmationLayout.setError( null );
@@ -138,7 +138,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         } );
 
-        passworConfirmationET.setOnClickListener( new View.OnClickListener() {
+        passwordConfirmationET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 passwordConfirmationLayout.setError( null );
@@ -158,7 +158,7 @@ public class SignInActivity extends AppCompatActivity {
     public void insertData(){
         email = emailET.getText().toString();
         password = pswET.getText().toString();
-        passwordConfirmation = passworConfirmationET.getText().toString();
+        passwordConfirmation = passwordConfirmationET.getText().toString();
         username = userNameET.getText().toString();
     }
 
