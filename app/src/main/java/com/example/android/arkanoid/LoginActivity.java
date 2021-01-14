@@ -53,13 +53,13 @@ public class LoginActivity extends AppCompatActivity {
                             if(user!=null && user.isEmailVerified()){
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             }else{
-                                Toast.makeText(LoginActivity.this, "Verifica prima la tua mail.",
+                                Toast.makeText(LoginActivity.this, getString(R.string.login_verify_mail),
                                         Toast.LENGTH_SHORT).show();
                             }
 
                         } else {
                             // If sign in fails, display a message to the user
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, getString(R.string.login_failed_authentication),
                                     Toast.LENGTH_SHORT).show();
 
                         }

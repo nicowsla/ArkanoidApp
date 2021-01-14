@@ -39,13 +39,13 @@
         app:errorEnabled="true"
         android:ems="10"
         android:hint="@string/login_psw"
-        android:inputType="textPassword"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="235dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_psw"
             android:layout_width="match_parent"
+            android:inputType="textPassword"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,6 +66,5 @@
         android:layout_marginRight="70dp"
         android:onClick="signInNewUser"
         android:text="@string/login_to_signin"/>
-
 
 </LinearLayout>
