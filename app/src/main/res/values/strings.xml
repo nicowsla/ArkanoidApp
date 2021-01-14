@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Arkanoid</string>
+    <string name="login_email">E-mail</string>
+    <string name="login_psw">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_to_signin">Non sei registrato? Registrati ora!</string>
+    <string name="signin_username">Crea il tuo username!</string>
+    <string name="signin_email">Inserisci la tua e-mail</string>
+    <string name="signin_psw">Crea la tua password</string>
+    <string name="signin_button">Registrati</string>
+
 </resources>

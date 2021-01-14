@@ -32,12 +32,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
-        emailET = findViewById(R.id.email);
-        pswET = findViewById(R.id.psw);
-        //commento vuoto
+        emailET = findViewById(R.id.login_email);
+        pswET = findViewById(R.id.login_psw);
+
     }
-
-
 
     public void login(View view){
         email1 = emailET.getText().toString();

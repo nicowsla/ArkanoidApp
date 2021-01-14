@@ -7,32 +7,69 @@
     tools:context=".SignInActivity"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/signin_email"
-        android:hint="email"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signin_emailc"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        app:errorEnabled="true"
+        android:ems="10"
+        android:hint="@string/signin_email"
+        android:inputType="textEmailAddress"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="235dp">
 
-    <EditText
-        android:id="@+id/signin_username"
-        android:hint="username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="100dp"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signin_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/signin_psw"
-        android:hint="password"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signin_usernamec"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        app:errorEnabled="true"
+        android:ems="10"
+        android:hint="@string/signin_username"
+        android:inputType="text"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="235dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signin_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signin_pswc"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        app:errorEnabled="true"
+        android:ems="10"
+        android:hint="@string/signin_psw"
+        android:inputType="textPassword"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="235dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signin_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
@@ -41,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:text="Registrati"
+        android:text="@string/signin_button"
         android:onClick="createAccount"/>
 
 

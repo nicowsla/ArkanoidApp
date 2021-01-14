@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,10 +24,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignInActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    private TextInputLayout emailLayout;
     private EditText emailET;
     private EditText pswET;
+    private TextInputLayout usernameLayout;
     private EditText userNameET;
     private String email;
+    private TextInputLayout passwordLayout;
     private String password;
     private String username;
     private Boolean validCredentials;
@@ -35,7 +40,12 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         mAuth = FirebaseAuth.getInstance();
-        emailET = findViewById(R.id.signin_email);
+
+        emailLayout = findViewById((R.id.signin_emailc));
+        usernameLayout = findViewById(R.id.signin_usernamec);
+        passwordLayout = findViewById(R.id.signin_pswc);
+        emailET = (EditText)findViewById(R.id.signin_email);
+
         pswET = findViewById(R.id.signin_psw);
         userNameET = findViewById(R.id.signin_username);
     }
