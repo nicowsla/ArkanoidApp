@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "822668679569",
+    "project_id": "arkanoid-be2bb",
+    "storage_bucket": "arkanoid-be2bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822668679569:android:5b1c570b73fe6007c8e230",
+        "android_client_info": {
+          "package_name": "com.example.android.arkanoid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "822668679569-jvmmn11gcel3dtvt5mmrc9b9214g73bg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlPF7MpI9HRsnv_9SDhIpg0LvYY-0t-BU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "822668679569-jvmmn11gcel3dtvt5mmrc9b9214g73bg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
