@@ -41,8 +41,8 @@ public class Ball {
 
     //increase speed based on level
     protected void increaseSpeed(int level) {
-        xSpeed = xSpeed + (5 * level);
-        ySpeed = ySpeed - (5 * level);
+        xSpeed = xSpeed + (2 * level);
+        ySpeed = ySpeed - (2 * level);
     }
 
     // changes direction depending on which wall it touched and speed

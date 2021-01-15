@@ -57,8 +57,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private int Livello9M[][];
     private int Livello10M[][];
 
+    private int screenWidth;
+    private int screenHeight;
 
-    public Game(Context context, int lifes, int score) {
+
+    public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight) {
         super(context);
         paint = new Paint();
 
@@ -218,7 +221,9 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         this.context = context;
         this.lifes = lifes;
         this.score = score;
-        this.level = 0;
+        this.level = level; //level = 0
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
 
         // start a gameOver to see if the game continues or the player has lost all the lives
         start = false;
@@ -240,13 +245,13 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         paddle = new Paddle(size.x / 2, size.y - 400);
         list = new ArrayList<Brick>();
 
-        generateBricks(context);
+        generateBricks(context,level);
         this.setOnTouchListener(this);
 
     }
 
     //fills the list with bricks
-    private void generateBricks(Context context) {
+    private void generateBricks(Context context, int level) {
         /*//Questa istruzione mette un singolo mattoncino in alto a sinistra
         list.add(new Brick(context, 100, 180));
 
@@ -254,14 +259,19 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         for (int i = 3; i < 7; i++) {
                 list.add(new Brick(context, i * 100, 180));
         }*/
-        int NumeroLivello = 1 + (int)(Math.random() * ((10 - 1) + 1));
-        System.out.println(NumeroLivello);
 
-        for (int i = 2; i < 12; i++) {
+        //In questo modo genero una serie di righe
+        int Numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
+        //System.out.println(NumeroLivello);
+
+        for (int i = 3; i < 15; i++) {
             for (int j = 1; j < 10; j++) {
-                switch(NumeroLivello){
+                list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Numero));
+                /*switch(level){
                     case 1:
-                        list.add(new Brick(context, j * 100, i * 100, Livello1M[i][j]));
+                        if(Livello1M[i][j] != 0) {
+                            list.add(new Brick(context, j * 100, i * 100, Livello1M[i][j]));
+                        }
                         break;
                     case 2:
                         if(Livello2M[i][j] != 0){
@@ -308,7 +318,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                             list.add(new Brick(context, j * 100, i * 100, Livello10M[i][j]));
                         }
                         break;
-                }
+                }*/
 
             }
         }
@@ -343,7 +353,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         paint.setColor(Color.GREEN);
         for (int i = 0; i < list.size(); i++) {
             Brick b = list.get(i);
-            r = new RectF(b.getX(), b.getY(), b.getX() + 100, b.getY() + 80);
+            r = new RectF(b.getX(), b.getY(), b.getX() + 100, b.getY() + 70);
             canvas.drawBitmap(b.getBrick(), null, r, paint);
         }
 
@@ -439,29 +449,44 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         if (gameOver == true && start == false) {
             score = 0;
             lifes = 3;
-            resetLevel();
+            resetLevel(level);
             gameOver = false;
 
-        } else {
+        }else if(start==true && gameOver==false) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_UP:
+                    paddle.setX(event.getRawX());
+                    invalidate();
+                    return true;
+                case MotionEvent.ACTION_MOVE:
+                    paddle.setX(event.getRawX());
+                    invalidate();
+                    return true;
+                case MotionEvent.ACTION_DOWN:
+                    paddle.setX(event.getRawX());
+                    return true;
+            }
+        }
+        else {
             start = true;
         }
         return false;
     }
 
     // sets the game to start
-    private void resetLevel() {
+    private void resetLevel(int level) {
         ball.setX(size.x / 2);
         ball.setY(size.y - 480);
         ball.createSpeed();
         list = new ArrayList<Brick>();
-        generateBricks(context);
+        generateBricks(context,level);
     }
 
     // find out if the player won or not
     private void win() {
         if (list.isEmpty()) {
             ++level;
-            resetLevel();
+            resetLevel(level);
             ball.increaseSpeed(level);
             start = false;
         }
