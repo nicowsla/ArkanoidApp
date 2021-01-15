@@ -19,7 +19,7 @@ import android.view.WindowManager;
 
 import java.util.ArrayList;
 
-public class Game extends View implements SensorEventListener, View.OnTouchListener {
+public class Game extends View implements SensorEventListener, View.OnTouchListener, Levels {
 
     private Bitmap background;
     private Bitmap redBall;
@@ -45,8 +45,6 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private boolean start;
     private boolean gameOver;
     private Context context;
-
-
 
     private int screenWidth;
     private int screenHeight;
@@ -105,65 +103,64 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         }*/
 
         //In questo modo genero una serie di righe
-        int Numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
+        //int Numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
         //System.out.println(NumeroLivello);
 
-        for (int i = 3; i < level+3; i++) {
+        for (int i = 3; i < 15; i++) {
             for (int j = 1; j < 10; j++) {
-                list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Numero));
-                /*switch(level){
+                //list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Numero));
+                switch(level){
                     case 1:
-                        if(Livello1M[i][j] != 0) {
-                            list.add(new Brick(context, j * 100, i * 100, Livello1M[i][j]));
+                        if(Levels.Livello1M[i][j] != 0) {
+                            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Levels.Livello1M[i][j]));
                         }
                         break;
                     case 2:
-                        if(Livello2M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello2M[i][j]));
+                        if(Levels.Livello2M[i][j] != 0){
+                            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Levels.Livello2M[i][j]));
                         }
                         break;
                     case 3:
-                        if(Livello3M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello3M[i][j]));
+                        if(Levels.Livello3M[i][j] != 0){
+                            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Levels.Livello3M[i][j]));
                         }
                         break;
                     case 4:
-                        if(Livello4M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello4M[i][j]));
+                        if(Levels.Livello4M[i][j] != 0){
+                            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Levels.Livello4M[i][j]));
                         }
                         break;
                     case 5:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello5M[i][j]));
+                        if(Levels.Livello5M[i][j] != 0){
+                            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Levels.Livello5M[i][j]));
                         }
                         break;
                     case 6:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello6M[i][j]));
+                        if(Levels.Livello6M[i][j] != 0){
+                            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Levels.Livello6M[i][j]));
                         }
                         break;
                     case 7:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello7M[i][j]));
+                        if(Levels.Livello7M[i][j] != 0){
+                            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Levels.Livello7M[i][j]));
                         }
                         break;
                     case 8:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello8M[i][j]));
+                        if(Levels.Livello8M[i][j] != 0){
+                            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Levels.Livello8M[i][j]));
                         }
                         break;
                     case 9:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello9M[i][j]));
+                        if(Levels.Livello9M[i][j] != 0){
+                            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Levels.Livello9M[i][j]));
                         }
                         break;
                     case 10:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello10M[i][j]));
+                        if(Levels.Livello10M[i][j] != 0){
+                            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Levels.Livello10M[i][j]));
                         }
                         break;
-                }*/
-
+                }
             }
         }
     }
@@ -239,7 +236,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             ball.setX(size.x / 2);
             ball.setY(size.y - 480);
             ball.createSpeed(level);
-           // ball.increaseSpeed(level);
+            //ball.increaseSpeed(level);
             start = false;
         }
     }
