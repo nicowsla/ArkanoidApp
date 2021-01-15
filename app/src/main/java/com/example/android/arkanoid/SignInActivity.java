@@ -183,29 +183,29 @@ public class SignInActivity extends AppCompatActivity {
 
     public void verifyCredentials(){
         if(username == null || username.length()<1){
-            usernameLayout.setError( "Inserire un username valido!" );
+            usernameLayout.setError( getString(R.string.signin_username_error) );
             error = true;
         }
 
         if(email == null || email.length()<1){
-            emailLayout.setError( "Inserire una e-mail!" );
+            emailLayout.setError( getString(R.string.signin_email_error) );
             error = true;
 
         }else if(!isValidEmailAddress(email)){
-            emailLayout.setError( "Inserire una e-mail valida!" );
+            emailLayout.setError( getString(R.string.signin_email_error) );
             error = true;
         }
         if(password == null || password.length()<1){
-            passwordLayout.setError( "Inserire una password!" );
+            passwordLayout.setError( getString(R.string.signin_psw_error) );
             error = true;
 
         }else if(password.length()<6){
-            passwordLayout.setError( "La password deve avere almeno 6 caratteri!" );
+            passwordLayout.setError( getString(R.string.signin_psw_lenght_error) );
             error = true;
 
         }else if(!confirmPassword(password, passwordConfirmation)){
-            passwordLayout.setError("Le password non coincidono");
-            passwordConfirmationLayout.setError("Le password non coincidono");
+            passwordLayout.setError(getString(R.string.signin_psw_confirm_error));
+            passwordConfirmationLayout.setError(getString(R.string.signin_psw_confirm_error));
             error = true;
         }
     }

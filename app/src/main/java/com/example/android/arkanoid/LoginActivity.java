@@ -131,11 +131,11 @@ public class LoginActivity extends AppCompatActivity {
     public void verifyCredentials(){
         if(Objects.isNull(email) || email.length()<1){
 
-            emailLayout.setError( "Email mancante!" );
+            emailLayout.setError( getString(R.string.login_missing_mail) );
             return;
         }
         if(Objects.isNull(password) || password.length()<1){
-            pswLayout.setError( "Password mancante!" );
+            pswLayout.setError( getString(R.string.login_missing_psw)  );
             return;
         }
     }
