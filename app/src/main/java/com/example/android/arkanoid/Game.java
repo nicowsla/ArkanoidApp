@@ -60,6 +60,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private int screenWidth;
     private int screenHeight;
 
+    private boolean accelerometro = false;
+
 
     public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight) {
         super(context);
@@ -241,7 +243,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
 
         // creates a new ball, paddle, and list of bricks
-        ball = new Ball(size.x / 2, size.y - 480);
+        ball = new Ball(size.x / 2, size.y - 480, level);
         paddle = new Paddle(size.x / 2, size.y - 400);
         list = new ArrayList<Brick>();
 
@@ -264,7 +266,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         int Numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
         //System.out.println(NumeroLivello);
 
-        for (int i = 3; i < 15; i++) {
+        for (int i = 3; i < level+3; i++) {
             for (int j = 1; j < 10; j++) {
                 list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Numero));
                 /*switch(level){
@@ -353,7 +355,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         paint.setColor(Color.GREEN);
         for (int i = 0; i < list.size(); i++) {
             Brick b = list.get(i);
-            r = new RectF(b.getX(), b.getY(), b.getX() + 100, b.getY() + 70);
+            r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1080, b.getY() + (70*screenHeight)/2340) ;
             canvas.drawBitmap(b.getBrick(), null, r, paint);
         }
 
@@ -394,8 +396,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             lifes--;
             ball.setX(size.x / 2);
             ball.setY(size.y - 480);
-            ball.createSpeed();
-            ball.increaseSpeed(level);
+            ball.createSpeed(level);
+           // ball.increaseSpeed(level);
             start = false;
         }
     }
@@ -428,15 +430,18 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     //change accelerometer
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
+        if(accelerometro) { //se il flag accelerometro è true vuol dire che si sta giocando con l'accereometro
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
 
-            if (paddle.getX() + event.values[0] > size.x - 240) {
-                paddle.setX(size.x - 240);
-            } else if (paddle.getX() - event.values[0] <= 20) {
-                paddle.setX(20);
+                if (paddle.getX() + event.values[0] > size.x - 240) {
+                    paddle.setX(size.x - 240);
+                } else if (paddle.getX() - event.values[0] <= 20) {
+                    paddle.setX(20);
+                }
             }
         }
+
     }
 
     @Override
@@ -448,11 +453,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     public boolean onTouch(View v, MotionEvent event) {
         if (gameOver && !start) {
             score = 0;
-            lifes = 3;
+            lifes = 3;    //se cambi vite cambia anche qui
             resetLevel(level);
             gameOver = false;
 
-        }else if(start==true && gameOver==false) {
+        }else if(start && !gameOver && !accelerometro) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_UP:
                     paddle.setX(event.getRawX());
@@ -477,7 +482,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private void resetLevel(int level) {
         ball.setX(size.x / 2);
         ball.setY(size.y - 480);
-        ball.createSpeed();
+        ball.createSpeed(level);
         list = new ArrayList<Brick>();
         generateBricks(context,level);
     }
