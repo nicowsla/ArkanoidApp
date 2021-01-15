@@ -446,7 +446,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     //serves to suspend the game in case of a new game
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (gameOver == true && start == false) {
+        if (gameOver && !start) {
             score = 0;
             lifes = 3;
             resetLevel(level);
