@@ -11,17 +11,17 @@ public class Brick extends View {
     private float x;
     private float y;
 
-    public Brick(Context context, float x, float y) {
+    public Brick(Context context, float x, float y, int a) {
         super(context);
         this.x = x;
         this.y = y;
-        skin();
+        skin(a);
     }
 
 
     //assigns a random image to the brick
-    private void skin() {
-        int a = (int) (Math.random() * 8);
+    private void skin(int a) {
+        //int a = (int) (Math.random() * 8);
         switch (a) {
             case 0:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua);
@@ -46,6 +46,21 @@ public class Brick extends View {
                 break;
             case 7:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_yellow);
+                break;
+            case 8:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_black);
+                break;
+            case 9:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_bordeaux);
+                break;
+            case 10:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_green2);
+                break;
+            case 11:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_white);
+                break;
+            case 12:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_bluscuro);
                 break;
         }
     }

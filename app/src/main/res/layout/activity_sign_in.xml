@@ -61,16 +61,36 @@
         app:errorEnabled="true"
         android:ems="10"
         android:hint="@string/signin_psw"
-        android:inputType="textPassword"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="235dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="textPassword"
             android:id="@+id/signin_psw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signin_psw_confermac"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        app:errorEnabled="true"
+        android:ems="10"
+        android:hint="@string/signin_psw_confirm"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="235dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:inputType="textPassword"
+            android:id="@+id/signin_psw_conferma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/signin_confirm"
@@ -78,8 +98,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:layout_marginTop="40dp"
         android:text="@string/signin_button"
-        android:onClick="createAccount"/>
+        android:onClick="signin"/>
 
 
 </LinearLayout>

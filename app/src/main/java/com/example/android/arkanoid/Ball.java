@@ -7,23 +7,18 @@ public class Ball {
     private float x;
     private float y;
 
-    public Ball(float x, float y) {
+    public Ball(float x, float y, int level) {
         this.x = x;
         this.y = y;
-        createSpeed();
+        createSpeed(level);
     }
 
     // creates a random speed ball
-    protected void createSpeed() {
-        int maxX = 13;
-        int minX = 7;
-        int maxY = -17;
-        int minY = -23;
-        int rangeX = maxX - minX + 1;
-        int rangeY = maxY - minY + 1;
-
-        xSpeed = (int) (Math.random() * rangeX) + minX;
-        ySpeed = (int) (Math.random() * rangeY) + minY;
+    protected void createSpeed(int level) {
+        int minX = 6;
+        int minY = -10;
+        xSpeed = (level/2)+ minX;
+        ySpeed = (level/2)+ minY;
     }
 
     // changes direction according to speed
@@ -41,8 +36,8 @@ public class Ball {
 
     //increase speed based on level
     protected void increaseSpeed(int level) {
-        xSpeed = xSpeed + (1 * level);
-        ySpeed = ySpeed - (1 * level);
+        xSpeed = xSpeed + (2 * level);
+        ySpeed = ySpeed - (2 * level);
     }
 
     // changes direction depending on which wall it touched and speed
