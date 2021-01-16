@@ -2,6 +2,7 @@ package com.example.android.arkanoid;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -44,6 +45,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
+
+        //salvo lo userID per non perdere l'accesso
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        String uid = pref.getString("uid", null);
+        if(!Objects.isNull(uid)){
+            startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+        }
 
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
@@ -104,7 +112,11 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             if(user!=null && user.isEmailVerified()){
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                //salvo lo userID dell'utente che si è appena loggato
+                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                editor.putString("uid", user.getUid());
+                                editor.apply();
+                                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                             }else{
                                 Toast.makeText(LoginActivity.this, getString(R.string.login_verify_mail),
                                         Toast.LENGTH_SHORT).show();
@@ -143,5 +155,6 @@ public class LoginActivity extends AppCompatActivity {
     public void signInNewUser(View view){
         startActivity(new Intent(LoginActivity.this, SignInActivity.class));
     }
+
 
 }

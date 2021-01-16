@@ -206,6 +206,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         paint.setTextSize(50);
         canvas.drawText("" + lifes, 400, 100, paint);
         canvas.drawText("" + score, 700, 100, paint);
+        canvas.drawText("livello:"+level,50,50, paint );
+        
 
         //in case of loss draw "Game over!"
         if (gameOver) {
@@ -239,7 +241,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             ball.setX(size.x / 2);
             ball.setY(size.y - 480);
             ball.createSpeed(level);
-           // ball.increaseSpeed(level);
+            ball.increaseSpeed(level);
             start = false;
         }
     }
@@ -334,7 +336,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         if (list.isEmpty()) {
             ++level;
             resetLevel(level);
-            ball.increaseSpeed(level);
+           // ball.increaseSpeed(level); la pallina accelera se perdo la vita
             start = false;
         }
     }
