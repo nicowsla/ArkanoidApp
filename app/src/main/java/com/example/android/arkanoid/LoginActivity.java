@@ -39,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     private Animation frombottom;
     private Animation fromtop;
 
+    private boolean error=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 emailLayout.setError( null );
-
+                error = false;
             }
         } );
 
@@ -80,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 emailLayout.setError( null );
+                error = false;
             }
         } );
 
@@ -87,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 pswLayout.setError( null );
+                error = false;
             }
         } );
 
@@ -94,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pswLayout.setError( null );
+                error = false;
             }
         } );
 
@@ -102,36 +107,39 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view){
         insertData();
         verifyCredentials();
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+        if(!error) {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                //Log.d(TAG, "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
 
-                            if(user!=null && user.isEmailVerified()){
-                                //salvo lo userID dell'utente che si è appena loggato
-                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                                editor.putString("uid", user.getUid());
-                                editor.apply();
-                                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
-                            }else{
-                                Toast.makeText(LoginActivity.this, getString(R.string.login_verify_mail),
+                                if (user != null && user.isEmailVerified()) {
+                                    //salvo lo userID dell'utente che si è appena loggato
+                                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                    editor.putString("uid", user.getUid());
+                                    editor.apply();
+                                    startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+                                } else {
+                                    Toast.makeText(LoginActivity.this, getString(R.string.login_verify_mail),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                // If sign in fails, display a message to the user
+                                Toast.makeText(LoginActivity.this, getString(R.string.login_failed_authentication),
                                         Toast.LENGTH_SHORT).show();
+
                             }
-
-                        } else {
-                            // If sign in fails, display a message to the user
-                            Toast.makeText(LoginActivity.this, getString(R.string.login_failed_authentication),
-                                    Toast.LENGTH_SHORT).show();
-
                         }
-
-
-                    }
-                });
+                    });
+        }else{
+            Toast.makeText(LoginActivity.this,getString(R.string.empty_field) ,
+                    Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -142,12 +150,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void verifyCredentials(){
         if(Objects.isNull(email) || email.length()<1){
-
             emailLayout.setError( getString(R.string.login_missing_mail) );
+            error = true;
             return;
         }
         if(Objects.isNull(password) || password.length()<1){
             pswLayout.setError( getString(R.string.login_missing_psw)  );
+            error = true;
             return;
         }
     }
