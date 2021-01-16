@@ -1,10 +1,14 @@
 package com.example.android.arkanoid;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private Game game;
     private UpdateThread myThread;
     private Handler updateHandler;
+    private TextView livello;
+    private TextView velocita;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +27,19 @@ public class MainActivity extends AppCompatActivity {
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        livello = findViewById(R.id.livello);
+        velocita = findViewById(R.id.velocita);
+
+
+        //get device resolution
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
+        wm.getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
+        int screenHeight = displayMetrics.heightPixels;
+
         // create a new game
-        game = new Game(this, 3, 0);
+        game = new Game(this, 200, 0, 1,screenWidth,screenHeight);
         setContentView(game);
 
         // create an handler and thread
