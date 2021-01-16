@@ -59,6 +59,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         //Livelli delle partite
 
 
+
         // continue context, lifes, score a level
         this.context = context;
         this.lifes = lifes;
@@ -70,6 +71,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         // start a gameOver to see if the game continues or the player has lost all the lives
         start = false;
         gameOver = false;
+
 
 
         //creates an accelerometer and a SensorManager
