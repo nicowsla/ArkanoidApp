@@ -1,11 +1,17 @@
 package com.example.android.arkanoid;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 
+import java.util.ArrayList;
 
 
 public class CreateLevelActivity extends AppCompatActivity {
@@ -16,6 +22,8 @@ public class CreateLevelActivity extends AppCompatActivity {
     private int y;
     private int i;
     private int j;
+    private ArrayList<Brick> list;
+
 
     private int[][] editableMatrix= new int[][]{{0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -52,8 +60,16 @@ public class CreateLevelActivity extends AppCompatActivity {
                 }
             });
         }
+        //non so se servano davvero
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
+        wm.getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
+        int screenHeight = displayMetrics.heightPixels;
+
 
         view.setOnTouchListener( handleTouch);
+
     }
 
     //funzione trasforma il tocco (x,y) (pixel) in coordinate (i,j)
@@ -69,6 +85,7 @@ public class CreateLevelActivity extends AppCompatActivity {
             float deltaHeight = height /16;
             i = (int) (y/deltaHeight);
             //editableMatrix[i][j] = 123;
+
             System.out.println("coordinate: I="+i+"    J="+j );
             return true;
         }
@@ -76,6 +93,8 @@ public class CreateLevelActivity extends AppCompatActivity {
 
     //fare una funzione attivata dal bottone di conferma che salva la matrice nel db!!!
 
+    private void onDrawBriks(Canvas canvas){
 
+    }
 
 }

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // create a new game
-        game = new Game(this, 200, 0, 1,screenWidth,screenHeight);
+        game = new Game(this, 200, 0, 1, screenWidth, screenHeight);
         setContentView(game);
 
         // create an handler and thread

@@ -54,7 +54,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private boolean accelerometro = false;
 
 
-    public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight) {
+    public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight ) {
         super(context);
         paint = new Paint();
 
@@ -105,12 +105,12 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         }*/
 
         //In questo modo genero una serie di righe
-        int Numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
+        int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
         //System.out.println(NumeroLivello);
 
         for (int i = 3; i < level+3; i++) {
             for (int j = 1; j < 10; j++) {
-                list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, Numero));
+                list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, numero));
                 /*switch(level){
                     case 1:
                         if(Livello1M[i][j] != 0) {
