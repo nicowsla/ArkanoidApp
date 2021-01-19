@@ -10,11 +10,11 @@
     <string name="signin_psw_confirm">Conferma password</string>
     <string name="signin_button">Registrati</string>
     <string name="signin_check_mail">Registrazione completata, controlla la tua email!</string>
-    <string name="signin_attention">ATTENZIONE</string>
+    <string name="attention">ATTENZIONE</string>
     <string name="signin_verify_email">Per proseguire verifica la tua mail!</string>
     <string name="signin_failed">REGISTRAZIONE FALLITA!</string>
     <string name="sigin_failure_msg">Verifica di aver inserito correttamente i dati!</string>
-    <string name="signin_empty_field">CAMPI VUOTI</string>
+    <string name="empty_field">CAMPI VUOTI</string>
     <string name="signin_empty_field_msg">Verifica di aver inserito correttamente i dati!</string>
     <string name="login_verify_mail">Verifica prima la tua mail.</string>
     <string name="login_failed_authentication">Autenticazione fallita</string>
@@ -25,4 +25,12 @@
     <string name="signin_psw_error">Inserire una password!</string>
     <string name="signin_psw_lenght_error">La password deve avere almeno 6 caratteri!</string>
     <string name="signin_psw_confirm_error">Le password non coincidono</string>
+    <string name="exit_confirm">Sei sicuro di voler uscire?</string>
+    <string name="yes">SI</string>
+    <string name="no">NO</string>
+    <string name="Close">Close</string>
+    <string name="Open">Open</string>
+    <string name="guest_mode">Gioca come ospite</string>
+
+
 </resources>

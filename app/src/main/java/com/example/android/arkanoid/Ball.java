@@ -15,13 +15,8 @@ public class Ball {
 
     // creates a random speed ball
     protected void createSpeed(int level) {
-        int maxX = 12;
         int minX = 6;
-        int maxY = -17;
         int minY = -10;
-        int rangeX = maxX - minX + 1;
-        int rangeY = maxY - minY + 1;
-
         xSpeed = (level/2)+ minX;
         ySpeed = (level/2)+ minY;
     }

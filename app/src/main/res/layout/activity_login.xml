@@ -4,8 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="-50dp"
+        tools:srcCompat="@drawable/redball" /> //cambiare immagine random con logo e inserire animazione
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_emailc"
@@ -15,10 +24,10 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
-        app:errorEnabled="true"
         android:ems="10"
         android:hint="@string/login_email"
         android:inputType="textEmailAddress"
+        app:errorEnabled="true"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="235dp">
 
@@ -36,37 +45,43 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
-        app:errorEnabled="true"
         android:ems="10"
         android:hint="@string/login_psw"
+        app:errorEnabled="true"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="235dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_psw"
             android:layout_width="match_parent"
-            android:inputType="textPassword"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/login_button"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="120dp"
+        android:layout_width="199dp"
+        android:layout_height="wrap_content"
         android:onClick="login"
-        android:layout_width="wrap_content"
-        android:text="@string/login_button"
-        android:layout_height="wrap_content"/>
+        android:layout_centerInParent="true"
+        android:text="@string/login_button" />
 
     <TextView
         android:id="@+id/sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="100dp"
-        android:textSize="10dp"
-        android:layout_marginRight="70dp"
         android:onClick="signInNewUser"
-        android:text="@string/login_to_signin"/>
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/login_to_signin"
+        android:textSize="10dp" />
+
+    <Button
+        android:id="@+id/guest_button"
+        android:layout_width="199dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:text="@string/guest_mode" />
 
 </LinearLayout>

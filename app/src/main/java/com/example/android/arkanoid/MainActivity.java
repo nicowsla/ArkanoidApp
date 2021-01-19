@@ -8,6 +8,7 @@ import android.os.Message;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private Game game;
     private UpdateThread myThread;
     private Handler updateHandler;
+    private TextView livello;
+    private TextView velocita;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        livello = findViewById(R.id.livello);
+        velocita = findViewById(R.id.velocita);
+
 
         //get device resolution
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -32,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // create a new game
-        game = new Game(this, 3, 0, 1,screenWidth,screenHeight);
+        game = new Game(this, 200, 0, 1, screenWidth, screenHeight);
         setContentView(game);
 
         // create an handler and thread

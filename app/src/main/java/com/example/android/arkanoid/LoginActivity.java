@@ -2,12 +2,15 @@ package com.example.android.arkanoid;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +28,8 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
+    private ImageView logo;
+
     private TextInputLayout emailLayout;
     private EditText emailET;
     private String email;
@@ -34,10 +39,9 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
 
     private Button loginButton;
+    private Button guestButton;
 
-    private Animation frombottom;
-    private Animation fromtop;
-
+    private boolean error=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +49,18 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
 
-        frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
-        fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
+        //salvo lo userID per non perdere l'accesso
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        String uid = pref.getString("uid", null);
+        if(!Objects.isNull(uid)){
+            startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+        }
+
+        Animation frombottom = AnimationUtils.loadAnimation(this, R.anim.show_from_bottom); //prima era frombottom
+        Animation fromtop = AnimationUtils.loadAnimation(this, R.anim.fromtop);
+
+        logo = findViewById(R.id.logo);
+        logo.setBackgroundResource(R.drawable.redball);
 
         emailLayout = findViewById(R.id.login_emailc);
         emailET = findViewById(R.id.login_email);
@@ -55,16 +69,23 @@ public class LoginActivity extends AppCompatActivity {
         pswET = findViewById(R.id.login_psw);
 
         loginButton = findViewById(R.id.login_button);
+        TextView signin = findViewById(R.id.sign_in);
+        guestButton = findViewById(R.id.guest_button);
 
+        /*
+        logo.startAnimation(fromtop);
         emailLayout.startAnimation(fromtop);
         pswLayout.startAnimation(fromtop);
         loginButton.startAnimation(frombottom);
+        signin.startAnimation(frombottom);
+        */
+        guestButton.startAnimation(frombottom);
 
         emailET.setOnFocusChangeListener( new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 emailLayout.setError( null );
-
+                error = false;
             }
         } );
 
@@ -72,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 emailLayout.setError( null );
+                error = false;
             }
         } );
 
@@ -79,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 pswLayout.setError( null );
+                error = false;
             }
         } );
 
@@ -86,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pswLayout.setError( null );
+                error = false;
             }
         } );
 
@@ -94,32 +118,39 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view){
         insertData();
         verifyCredentials();
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+        if(!error) {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                //Log.d(TAG, "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
 
-                            if(user!=null && user.isEmailVerified()){
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            }else{
-                                Toast.makeText(LoginActivity.this, getString(R.string.login_verify_mail),
+                                if (user != null && user.isEmailVerified()) {
+                                    //salvo lo userID dell'utente che si è appena loggato
+                                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                    editor.putString("uid", user.getUid());
+                                    editor.apply();
+                                    startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+                                } else {
+                                    Toast.makeText(LoginActivity.this, getString(R.string.login_verify_mail),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                // If sign in fails, display a message to the user
+                                Toast.makeText(LoginActivity.this, getString(R.string.login_failed_authentication),
                                         Toast.LENGTH_SHORT).show();
+
                             }
-
-                        } else {
-                            // If sign in fails, display a message to the user
-                            Toast.makeText(LoginActivity.this, getString(R.string.login_failed_authentication),
-                                    Toast.LENGTH_SHORT).show();
-
                         }
-
-
-                    }
-                });
+                    });
+        }else{
+            Toast.makeText(LoginActivity.this,getString(R.string.empty_field) ,
+                    Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -130,12 +161,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void verifyCredentials(){
         if(Objects.isNull(email) || email.length()<1){
-
             emailLayout.setError( getString(R.string.login_missing_mail) );
+            error = true;
             return;
         }
         if(Objects.isNull(password) || password.length()<1){
             pswLayout.setError( getString(R.string.login_missing_psw)  );
+            error = true;
             return;
         }
     }
@@ -143,5 +175,6 @@ public class LoginActivity extends AppCompatActivity {
     public void signInNewUser(View view){
         startActivity(new Intent(LoginActivity.this, SignInActivity.class));
     }
+
 
 }
