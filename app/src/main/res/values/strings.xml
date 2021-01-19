@@ -31,6 +31,9 @@
     <string name="Close">Close</string>
     <string name="Open">Open</string>
     <string name="guest_mode">Gioca come ospite</string>
+    <string name="recovery_password_quest">Hai dimenticato la password?</string>
+    <string name="recovery_password">Recupero password</string>
+    <string name="send_request_recovery_password">Invia richiesta</string>
 
 
 </resources>

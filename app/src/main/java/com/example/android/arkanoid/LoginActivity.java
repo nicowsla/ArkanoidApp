@@ -202,5 +202,9 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(LoginActivity.this, SignInActivity.class));
     }
 
+    public void recoveryPassword(View view){
+        startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+    }
+
 
 }
