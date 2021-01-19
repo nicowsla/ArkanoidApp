@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -20,13 +21,16 @@ public class MenuActivity extends AppCompatActivity {
     private NavigationView nv;
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
+    private TextView username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        String usernameString = pref.getString("username", null);
         getSupportActionBar().setDisplayHomeAsUpEnabled( true );
-
+        username = findViewById(R.id.username);
+        username.setText(usernameString);
         nv = (NavigationView)findViewById(R.id.nv);
         dl = (DrawerLayout) findViewById(R.id.activity_menu);
         t = new ActionBarDrawerToggle(this, dl,R.string.Open, R.string.Close);

@@ -9,7 +9,7 @@
         android:roundIcon="@drawable/redball"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
-        <activity android:name=".ProvaActivity"></activity>
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">

@@ -40,13 +40,13 @@
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/navigation_menu">
         <TextView
-            android:id="@+id/nome"
+            android:id="@+id/username"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="177dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TIZIO"
-            android:textColor="#FFF"/>
+            android:textColor="#000"/>
 
     </com.google.android.material.navigation.NavigationView>
 
