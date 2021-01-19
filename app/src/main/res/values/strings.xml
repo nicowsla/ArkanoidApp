@@ -30,6 +30,7 @@
     <string name="no">NO</string>
     <string name="Close">Close</string>
     <string name="Open">Open</string>
+    <string name="guest_mode">Gioca come ospite</string>
 
 
 </resources>

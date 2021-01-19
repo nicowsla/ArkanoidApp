@@ -14,7 +14,7 @@
         <View
             android:id="@+id/matrix"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/matrice"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.41"

@@ -16,8 +16,10 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class Game extends View implements SensorEventListener, View.OnTouchListener {
 
@@ -110,7 +112,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
         for (int i = 3; i < level+3; i++) {
             for (int j = 1; j < 10; j++) {
-                list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, numero));
+
+            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, numero));
                 /*switch(level){
                     case 1:
                         if(Livello1M[i][j] != 0) {

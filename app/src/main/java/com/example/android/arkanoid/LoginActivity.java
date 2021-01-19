@@ -9,6 +9,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,8 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
+    private ImageView logo;
+
     private TextInputLayout emailLayout;
     private EditText emailET;
     private String email;
@@ -35,12 +39,9 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
 
     private Button loginButton;
-
-    private Animation frombottom;
-    private Animation fromtop;
+    private Button guestButton;
 
     private boolean error=false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +56,11 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, MenuActivity.class));
         }
 
-        frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
-        fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
+        Animation frombottom = AnimationUtils.loadAnimation(this, R.anim.show_from_bottom); //prima era frombottom
+        Animation fromtop = AnimationUtils.loadAnimation(this, R.anim.fromtop);
+
+        logo = findViewById(R.id.logo);
+        logo.setBackgroundResource(R.drawable.redball);
 
         emailLayout = findViewById(R.id.login_emailc);
         emailET = findViewById(R.id.login_email);
@@ -65,10 +69,17 @@ public class LoginActivity extends AppCompatActivity {
         pswET = findViewById(R.id.login_psw);
 
         loginButton = findViewById(R.id.login_button);
+        TextView signin = findViewById(R.id.sign_in);
+        guestButton = findViewById(R.id.guest_button);
 
+        /*
+        logo.startAnimation(fromtop);
         emailLayout.startAnimation(fromtop);
         pswLayout.startAnimation(fromtop);
         loginButton.startAnimation(frombottom);
+        signin.startAnimation(frombottom);
+        */
+        guestButton.startAnimation(frombottom);
 
         emailET.setOnFocusChangeListener( new View.OnFocusChangeListener() {
             @Override
