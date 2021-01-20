@@ -38,10 +38,6 @@ public class CreateLevelActivity extends AppCompatActivity{
     Context contex = this;
     private UpdateThread myThread;
     private Handler updateHandler;
-
-
-
-
     private TextView livello;
     private TextView velocita;
 
@@ -91,8 +87,8 @@ public class CreateLevelActivity extends AppCompatActivity{
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
         wm.getDefaultDisplay().getMetrics(displayMetrics);
-         screenWidth = displayMetrics.widthPixels;
-         screenHeight = displayMetrics.heightPixels;
+        screenWidth = displayMetrics.widthPixels;
+        screenHeight = displayMetrics.heightPixels;
 
 
 

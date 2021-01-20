@@ -22,6 +22,7 @@ public class MenuActivity extends AppCompatActivity {
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private TextView username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +87,9 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(new Intent(MenuActivity.this, CreateLevelActivity.class));
     }
 
+    public void goToUserList(View View){
+        startActivity(new Intent(MenuActivity.this, UsersListActivity.class));
+    }
 
 
     @Override

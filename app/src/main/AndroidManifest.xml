@@ -9,23 +9,23 @@
         android:roundIcon="@drawable/redball"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
-
+        <activity android:name=".MessagesActivity"></activity>
+        <activity android:name=".UsersListActivity" />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme" />
+        <activity android:name=".CreateLevelActivity" />
+        <activity android:name=".MenuActivity" />
+        <activity
+            android:name=".SignInActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateLevelActivity"></activity>
-        <activity android:name=".MenuActivity" />
-        <activity
-            android:name=".SignInActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
