@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,8 +56,13 @@ public class MessagesActivity extends AppCompatActivity {
         SharedPreferences p = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         friend = p.getString( "friend", null );
         linearLayoutManager = new LinearLayoutManager(this);
+
+        linearLayoutManager.setStackFromEnd(true); //visualizzare messaggi dal più recente
+
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
+
+
         fetch();
     }
     private void fetch() {
@@ -91,7 +98,7 @@ public class MessagesActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public void invia(View view) {
+    public void send(View view) {
         String c = commento.getText().toString();
         if(c!= null && !c.isEmpty()){
             SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
@@ -108,13 +115,15 @@ public class MessagesActivity extends AppCompatActivity {
 
             commento.setText("");
         }
+
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
         public TextView txtTitle;
         public TextView txtDesc;
-      
+
 
         public ViewHolder(View itemView) {
             super(itemView);

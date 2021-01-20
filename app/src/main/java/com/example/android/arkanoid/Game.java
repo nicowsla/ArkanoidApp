@@ -25,7 +25,6 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     private Bitmap background;
     private Bitmap redBall;
-    private Bitmap left;
     private Bitmap stretchedOut;
     private Bitmap paddle_p;
 
@@ -61,15 +60,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight ) {
         super(context);
         paint = new Paint();
-
-        //Livelli delle partite
-
-
         // continue context, lifes, score a level
         this.context = context;
         this.lifes = lifes;
         this.score = score;
-        this.level = level; //level = 0
+        this.level = level;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 
@@ -77,22 +72,21 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         start = false;
         gameOver = false;
 
-
+        readBackground(context);
         //creates an accelerometer and a SensorManager
         sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        readBackground(context);
+
 
         // create a bitmap for the ball and paddle
         redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
         paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
-      //  left = BitmapFactory.decodeResource(getResources(), R.drawable.left);
+
 
         // creates a new ball, paddle, and list of bricks
         ball = new Ball(size.x / 2, size.y - 480, level);
         paddle = new Paddle(size.x / 2, size.y - 400);
-
         list = new ArrayList<Brick>();
 
         generateBricks(context,level);
@@ -114,7 +108,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
         //System.out.println(NumeroLivello);
 
-        for (int i = 3; i < 16; i++) {
+        for (int i = 3; i < level+3; i++) {
             for (int j = 1; j < 9; j++) {
 
     list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, numero));
@@ -221,11 +215,6 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         canvas.drawText("livello:"+level,50,50, paint );
         canvas.drawText("velocitaX:"+velocitaX,50,100, paint );
         canvas.drawText("velocitaY:"+velocitaY,50,150, paint );
-
-        //draw button BBOH
-
-
-        
 
         //in case of loss draw "Game over!"
         if (gameOver) {

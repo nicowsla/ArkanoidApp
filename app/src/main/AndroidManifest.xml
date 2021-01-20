@@ -15,10 +15,14 @@
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme" />
         <activity android:name=".CreateLevelActivity" />
+        <activity android:name=".MainActivity">
+
+        </activity>
         <activity android:name=".MenuActivity" />
         <activity
             android:name=".SignInActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

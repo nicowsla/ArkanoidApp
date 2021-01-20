@@ -21,7 +21,6 @@ public class Brick extends View {
 
     //assigns a random image to the brick
     private void skin(int a) {
-        //int a = (int) (Math.random() * 8);
         switch (a) {
             case 0:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua);
