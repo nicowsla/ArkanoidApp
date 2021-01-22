@@ -45,6 +45,7 @@ public class MenuActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 switch(id){
                     case R.id.profile:
+                        startActivity(new Intent(MenuActivity.this, UserProfileActivity.class));
 
 
                              break;

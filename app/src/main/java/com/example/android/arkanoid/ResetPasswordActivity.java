@@ -22,9 +22,9 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 public class ResetPasswordActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private EditText emailET;
-    private  String email;
-    private TextInputLayout emailL;
+    private EditText email;
+    private  String emailString;
+    private TextInputLayout emailLayout;
     private Animation frombottom, fromtop;
     private Button b;
 
@@ -32,19 +32,21 @@ public class ResetPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_reset_password);
+        mAuth = FirebaseAuth.getInstance();
+
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
-        mAuth = FirebaseAuth.getInstance();
-        emailET = (EditText) findViewById(R.id.emailRecuperoPsw);
-        emailL = (TextInputLayout) findViewById(R.id.emailRecuperoPswc);
-        b = (Button) findViewById( R.id.recuperoPsw ) ;
-        emailL.startAnimation( fromtop );
+
+        email = findViewById(R.id.email_reset_psw);
+        emailLayout =  findViewById(R.id.email_reset_pswc);
+        b =  findViewById( R.id.reset_psw) ;
+        emailLayout.startAnimation( fromtop );
         b.startAnimation( frombottom );
     }
 
-    public  void recuperoPassword (View view){
-        inserimentomail();
-        mAuth.fetchSignInMethodsForEmail(email)
+    public  void resetPassword(View view){
+        insertData();
+        mAuth.fetchSignInMethodsForEmail(emailString)
                 .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
                     @Override
                     public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
@@ -53,8 +55,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
                         if (emailNotExists) {
                             AlertDialog alertDialog = new AlertDialog.Builder(ResetPasswordActivity.this).create();
-                            alertDialog.setTitle("Errore");
-                            alertDialog.setMessage("L'e-mail fornita non risulta essere iscritta");
+                            alertDialog.setTitle(getString(R.string.error));
+                            alertDialog.setMessage(getString(R.string.email_nor_registered));
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -64,10 +66,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                     });
                             alertDialog.show();
                         } else {
-                            mAuth.sendPasswordResetEmail(email);
+                            mAuth.sendPasswordResetEmail(emailString);
                             AlertDialog alertDialog = new AlertDialog.Builder(ResetPasswordActivity.this).create();
-                            alertDialog.setTitle("Recupero password");
-                            alertDialog.setMessage("Controlla la tua casella e-mail!");
+                            alertDialog.setTitle(getString(R.string.reset_psw));
+                            alertDialog.setMessage(getString(R.string.check_email));
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -83,8 +85,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     }
 
-    public  void inserimentomail(){
-        email = emailET.getText().toString();
+    public  void insertData(){
+        emailString = email.getText().toString();
     }
 
     @Override
