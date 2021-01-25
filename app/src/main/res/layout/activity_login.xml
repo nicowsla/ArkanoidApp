@@ -74,14 +74,28 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
         android:text="@string/login_to_signin"
-        android:textSize="10dp" />
+        android:textSize="13dp" />
+
+
 
     <Button
         android:id="@+id/guest_button"
         android:layout_width="199dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:onClick="goToResetPassword"
         android:layout_centerInParent="true"
         android:text="@string/guest_mode" />
+
+
+    <TextView
+        android:id="@+id/recovery_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goToResetPassword"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/recovery_password_quest"
+        android:textSize="13dp" />
 
 </LinearLayout>

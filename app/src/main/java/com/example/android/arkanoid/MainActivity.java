@@ -17,8 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Game game;
     private UpdateThread myThread;
     private Handler updateHandler;
-    private TextView livello;
-    private TextView velocita;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        livello = findViewById(R.id.livello);
-        velocita = findViewById(R.id.velocita);
 
 
         //get device resolution

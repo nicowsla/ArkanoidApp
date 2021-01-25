@@ -4,6 +4,12 @@
     <item android:id="@+id/profile"
         android:icon="@drawable/baseline_account_circle_24"
         android:title="Profilo"/>
+    <item android:id="@+id/rankings"
+        android:icon="@drawable/ic_ranking"
+        android:title="Classifiche"/>
+    <item android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Impostazioni"/>
     <item android:id="@+id/logout"
         android:icon="@drawable/baseline_login_24"
         android:title="Logout"/>

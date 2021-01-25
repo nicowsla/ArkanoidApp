@@ -16,7 +16,13 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.ActionMenuView;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -27,6 +33,9 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private Bitmap redBall;
     private Bitmap stretchedOut;
     private Bitmap paddle_p;
+
+
+
 
     private Display display;
     private Point size;
@@ -50,24 +59,23 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
 
 
+
     private int screenWidth;
     private int screenHeight;
 
     private boolean accelerometro = false;
+    private boolean touch = false;
+
 
 
     public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight ) {
         super(context);
         paint = new Paint();
-
-        //Livelli delle partite
-
-
         // continue context, lifes, score a level
         this.context = context;
         this.lifes = lifes;
         this.score = score;
-        this.level = level; //level = 0
+        this.level = level;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 
@@ -75,16 +83,17 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         start = false;
         gameOver = false;
 
-
+        readBackground(context);
         //creates an accelerometer and a SensorManager
         sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        readBackground(context);
+
 
         // create a bitmap for the ball and paddle
         redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
         paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
+
 
         // creates a new ball, paddle, and list of bricks
         ball = new Ball(size.x / 2, size.y - 480, level);
@@ -96,76 +105,19 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     }
 
+
+
+
     //fills the list with bricks
     private void generateBricks(Context context, int level) {
-        /*//Questa istruzione mette un singolo mattoncino in alto a sinistra
-        list.add(new Brick(context, 100, 180));
 
-        //Questa ne mette n in orizzontale
-        for (int i = 3; i < 7; i++) {
-                list.add(new Brick(context, i * 100, 180));
-        }*/
-
-        //In questo modo genero una serie di righe
         int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
         //System.out.println(NumeroLivello);
 
         for (int i = 3; i < level+3; i++) {
-            for (int j = 1; j < 10; j++) {
+            for (int j = 1; j < 9; j++) {
 
-            list.add(new Brick(context, (j * 100 * screenWidth)/1080, (i * 70 * screenHeight)/2340, numero));
-                /*switch(level){
-                    case 1:
-                        if(Livello1M[i][j] != 0) {
-                            list.add(new Brick(context, j * 100, i * 100, Livello1M[i][j]));
-                        }
-                        break;
-                    case 2:
-                        if(Livello2M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello2M[i][j]));
-                        }
-                        break;
-                    case 3:
-                        if(Livello3M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello3M[i][j]));
-                        }
-                        break;
-                    case 4:
-                        if(Livello4M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello4M[i][j]));
-                        }
-                        break;
-                    case 5:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello5M[i][j]));
-                        }
-                        break;
-                    case 6:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello6M[i][j]));
-                        }
-                        break;
-                    case 7:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello7M[i][j]));
-                        }
-                        break;
-                    case 8:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello8M[i][j]));
-                        }
-                        break;
-                    case 9:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello9M[i][j]));
-                        }
-                        break;
-                    case 10:
-                        if(Livello5M[i][j] != 0){
-                            list.add(new Brick(context, j * 100, i * 100, Livello10M[i][j]));
-                        }
-                        break;
-                }*/
+                 list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, numero));
 
             }
         }
@@ -190,6 +142,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         // draw the ball
         paint.setColor(Color.RED);
         canvas.drawBitmap(redBall, ball.getX(), ball.getY(), paint);
+
 
         // draw fell
         paint.setColor(Color.WHITE);
@@ -216,8 +169,6 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         canvas.drawText("livello:"+level,50,50, paint );
         canvas.drawText("velocitaX:"+velocitaX,50,100, paint );
         canvas.drawText("velocitaY:"+velocitaY,50,150, paint );
-
-        
 
         //in case of loss draw "Game over!"
         if (gameOver) {
@@ -284,7 +235,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     //change accelerometer
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if(accelerometro) { //se il flag accelerometro è true vuol dire che si sta giocando con l'accereometro
+        if(accelerometro) {                                                     //se il flag accelerometro è true vuol dire che si sta giocando con l'accereometro
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
 
@@ -310,20 +261,27 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             lifes = 3;    //se cambi vite cambia anche qui
             resetLevel(level);
             gameOver = false;
-
-        }else if(start && !gameOver && !accelerometro) {
+        }else if(start && !gameOver && !accelerometro && touch) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_UP:
                     paddle.setX(event.getRawX());
                     invalidate();
                     return true;
                 case MotionEvent.ACTION_MOVE:
-                    paddle.setX(event.getRawX());
+                    paddle.setX(event.getRawX()-100); //posiziona il paddle in modo centrato!!
                     invalidate();
                     return true;
                 case MotionEvent.ACTION_DOWN:
                     paddle.setX(event.getRawX());
                     return true;
+            }
+        }else if(start && !gameOver && !accelerometro && !touch){
+            float x = event.getRawX();
+            float x_paddle = paddle.getX();
+            if(x<(screenWidth/2) && x_paddle>90){
+                paddle.setX(paddle.getX()-100);
+            }else if(x>(screenWidth/2) && x_paddle<(screenWidth-280)){
+                paddle.setX(paddle.getX()+100);
             }
         }
         else {
@@ -340,6 +298,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         list = new ArrayList<Brick>();
         generateBricks(context,level);
     }
+
 
     // find out if the player won or not
     private void win() {

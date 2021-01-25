@@ -232,7 +232,7 @@ public class SignInActivity extends AppCompatActivity {
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference myRef = database.getReference( "utenti" ).child( user.getUid() );
-                            myRef.setValue( new User(username, email) );
+                            myRef.setValue( new User(user.getUid(),username, email) );
 
                             Toast.makeText( getApplicationContext(), R.string.signin_check_mail, Toast.LENGTH_LONG ).show();
                             AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
