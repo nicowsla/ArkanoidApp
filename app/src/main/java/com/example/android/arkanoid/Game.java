@@ -74,12 +74,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int storia, int classificata) {
         super(context);
         paint = new Paint();
-<<<<<<< Updated upstream
-=======
 
-        //Livelli delle partite
-
->>>>>>> Stashed changes
         // continue context, lifes, score a level
         this.context = context;
         this.lifes = lifes;
@@ -123,21 +118,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     }
 
-
-
-
     //fills the list with bricks
-<<<<<<< Updated upstream
-    private void generateBricks(Context context, int level) {
-
-        int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
-        //System.out.println(NumeroLivello);
-
-        for (int i = 3; i < level+3; i++) {
-            for (int j = 1; j < 9; j++) {
-
-                 list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, numero));
-
     private void generateBricks(Context context, int level, int button) {
 
         if(button == 2){
@@ -259,8 +240,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         float velocitaX = ball.xSpeed;
         float velocitaY = ball.ySpeed;
 
-        canvas.drawText("" + lifes, 400, 100, paint);
-        canvas.drawText("" + score, 700, 100, paint);
+        canvas.drawText("" + lifes, (size.x/3), 100, paint);
+        canvas.drawText("" + score, (size.x/3)*2, 100, paint);
         canvas.drawText("livello:"+level,50,50, paint );
         canvas.drawText("velocitaX:"+velocitaX,50,100, paint );
         canvas.drawText("velocitaY:"+velocitaY,50,150, paint );
@@ -339,7 +320,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     //change accelerometer
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if(accelerometro) {                                                     //se il flag accelerometro è true vuol dire che si sta giocando con l'accereometro
+        if(accelerometro) { //se il flag accelerometro è true vuol dire che si sta giocando con l'accereometro
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
 
@@ -365,13 +346,9 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             lifes = 3;    //se cambi vite cambia anche qui
             resetLevel(level);
             gameOver = false;
-<<<<<<< Updated upstream
-        }else if(start && !gameOver && !accelerometro && touch) {
-=======
 
             //LA DIMNSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235
         }else if(start && !gameOver && !accelerometro) {
->>>>>>> Stashed changes
             switch (event.getAction()) {
                 case MotionEvent.ACTION_UP:
                     paddle.setX(event.getRawX());
@@ -383,16 +360,12 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                     invalidate();
                     return true;
                 case MotionEvent.ACTION_MOVE:
-<<<<<<< Updated upstream
-                    paddle.setX(event.getRawX()-100); //posiziona il paddle in modo centrato!!
-=======
                     paddle.setX(event.getRawX());
                     if (event.getRawX() > size.x - 235) {
                         paddle.setX(size.x - 235);
                     } else if (event.getRawX() <= 35) {
                         paddle.setX(35);
                     }
->>>>>>> Stashed changes
                     invalidate();
                     return true;
                 case MotionEvent.ACTION_DOWN:
@@ -404,16 +377,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                     }
                     return true;
             }
-        }else if(start && !gameOver && !accelerometro && !touch){
-            float x = event.getRawX();
-            float x_paddle = paddle.getX();
-            if(x<(screenWidth/2) && x_paddle>90){
-                paddle.setX(paddle.getX()-100);
-            }else if(x>(screenWidth/2) && x_paddle<(screenWidth-280)){
-                paddle.setX(paddle.getX()+100);
-            }
-        }
-        else {
+        }else {
             start = true;
         }
         return false;
