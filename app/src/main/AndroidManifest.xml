@@ -29,6 +29,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< Updated upstream
+=======
+        <activity android:name=".CreateLevelActivity"></activity>
+        <activity android:name=".MenuActivity" />
+        <activity
+            android:name=".SignInActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".MainActivity">
+
+        </activity>
+>>>>>>> Stashed changes
     </application>
 
 </manifest>

@@ -23,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //prendo l'id per capire quale tasto è stato scelto
+        Bundle b = getIntent().getExtras();
+        Bundle a = getIntent().getExtras();
+        int storia = b.getInt("S");
+        int classificata = a.getInt("C");
+
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -36,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // create a new game
-        game = new Game(this, 200, 0, 1, screenWidth, screenHeight);
+        game = new Game(this, 200, 0, 1, screenWidth, screenHeight, storia, classificata);
         setContentView(game);
 
         // create an handler and thread

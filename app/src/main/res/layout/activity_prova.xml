@@ -8,8 +8,11 @@
 
     <View
         android:id="@+id/view"
-        android:layout_centerHorizontal="true"
+        android:layout_width="0dp"
 
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/matrice"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.41"
@@ -17,9 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.174"
-        android:background="@drawable/matrice"
-        app:layout_constraintWidth_percent="0.84"
-        android:layout_height="0dp"
-        android:layout_width="0dp" />
+        app:layout_constraintWidth_percent="0.84" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

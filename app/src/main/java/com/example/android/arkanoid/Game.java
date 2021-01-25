@@ -27,7 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class Game extends View implements SensorEventListener, View.OnTouchListener {
+public class Game extends View implements SensorEventListener, View.OnTouchListener, Levels {
 
     private Bitmap background;
     private Bitmap redBall;
@@ -62,15 +62,24 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     private int screenWidth;
     private int screenHeight;
+    private int storia;
+    private int classificata;
+    private int button;
 
     private boolean accelerometro = false;
     private boolean touch = false;
 
 
 
-    public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight ) {
+    public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int storia, int classificata) {
         super(context);
         paint = new Paint();
+<<<<<<< Updated upstream
+=======
+
+        //Livelli delle partite
+
+>>>>>>> Stashed changes
         // continue context, lifes, score a level
         this.context = context;
         this.lifes = lifes;
@@ -78,6 +87,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         this.level = level;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        this.storia = storia;
+        this.classificata = classificata;
 
         // start a gameOver to see if the game continues or the player has lost all the lives
         start = false;
@@ -100,7 +111,14 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         paddle = new Paddle(size.x / 2, size.y - 400);
         list = new ArrayList<Brick>();
 
-        generateBricks(context,level);
+        if(storia == 1){
+            int buttonValue = 1;
+            generateBricks(context,level,buttonValue);
+        }else if(classificata == 2){
+            int buttonValue = 2;
+            generateBricks(context,level,buttonValue);
+        }
+
         this.setOnTouchListener(this);
 
     }
@@ -109,6 +127,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
 
     //fills the list with bricks
+<<<<<<< Updated upstream
     private void generateBricks(Context context, int level) {
 
         int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
@@ -119,6 +138,78 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
                  list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, numero));
 
+    private void generateBricks(Context context, int level, int button) {
+
+        if(button == 2){
+            //In questo modo genero una serie di righe
+            int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
+            //System.out.println(NumeroLivello);
+            for (int i = 3; i < level+3; i++) {
+                for (int j = 1; j < 10; j++) {
+                    list.add(new Brick(context, (j * 100 * size.x) / 1080, (i * 70 * size.y) / 2340, numero));
+                }
+            }
+        }else {
+            //In questo modo genero una serie di righe
+            //int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
+            //System.out.println(NumeroLivello);
+            //Parto da 3 perchè mi abbasso
+            for (int i = 3; i < 20; i++) {
+                for (int j = 1; j < 10; j++) {
+                    switch (level) {
+                        case 1:
+                            if (Levels.Livello1MARIO[i][j] != 0) {
+                                list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, Levels.Livello1MARIO[i][j]));
+                            }
+                            break;
+                        case 2:
+                            if (Levels.Livello2PIKACHU[i][j] != 0) {
+                                list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, Levels.Livello2PIKACHU[i][j]));
+                            }
+                            break;
+                        case 3:
+                            if (Levels.Livello3ZELDA[i][j] != 0) {
+                                list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, Levels.Livello3ZELDA[i][j]));
+                            }
+                            break;
+                        case 4:
+                            if (Levels.Livello4IRONMAN[i][j] != 0) {
+                                list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, Levels.Livello4IRONMAN[i][j]));
+                            }
+                            break;
+                        case 5:
+                            if (Levels.Livello5FANTASMINO[i][j] != 0) {
+                                list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, Levels.Livello5FANTASMINO[i][j]));
+                            }
+                            break;
+                        case 6:
+                            if (Levels.Livello6PACMAN[i][j] != 0) {
+                                list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, Levels.Livello6PACMAN[i][j]));
+                            }
+                            break;
+                        case 7:
+                            if (Levels.Livello7BATMAN[i][j] != 0) {
+                                list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, Levels.Livello7BATMAN[i][j]));
+                            }
+                            break;
+                        case 8:
+                            if (Levels.Livello8SFERA[i][j] != 0) {
+                                list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, Levels.Livello8SFERA[i][j]));
+                            }
+                            break;
+                        case 9:
+                            if (Levels.Livello9FIORE[i][j] != 0) {
+                                list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, Levels.Livello9FIORE[i][j]));
+                            }
+                            break;
+                        case 10:
+                            if (Levels.Livello10CREEPER[i][j] != 0) {
+                                list.add(new Brick(context, (j * 100 * screenWidth) / 1080, (i * 70 * screenHeight) / 2340, Levels.Livello10CREEPER[i][j]));
+                            }
+                            break;
+                    }
+
+                }
             }
         }
     }
@@ -135,9 +226,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     protected void onDraw(Canvas canvas) {
         // creates a background only once
         if (stretchedOut == null) {
-            stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, false);
+            stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
         }
-        canvas.drawBitmap(stretchedOut, 0, 0, paint);
+        //Posiziona lo sfondo nello schermo
+        canvas.drawBitmap(stretchedOut, 0, 0, null);
 
         // draw the ball
         paint.setColor(Color.RED);
@@ -145,6 +237,9 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
 
         // draw fell
+
+        // draw fell, disegna rettangolo cioè barra
+
         paint.setColor(Color.WHITE);
         r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + 200, paddle.getY() + 40);
         canvas.drawBitmap(paddle_p, null, r, paint);
@@ -169,6 +264,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         canvas.drawText("livello:"+level,50,50, paint );
         canvas.drawText("velocitaX:"+velocitaX,50,100, paint );
         canvas.drawText("velocitaY:"+velocitaY,50,150, paint );
+
+        //canvas.drawText("size:"+size.x,50,200, paint );
+        //canvas.drawText("size:"+size.y,50,250, paint );
+        //canvas.drawText("size1:"+screenWidth,50,300, paint );
+        //canvas.drawText("size1:"+screenHeight,50,350, paint );
 
         //in case of loss draw "Game over!"
         if (gameOver) {
@@ -228,6 +328,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         sManager.unregisterListener(this);
     }
 
+    public void stop(){
+
+    }
+
     public void lowerShooting() {
         sManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
@@ -239,10 +343,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
 
-                if (paddle.getX() + event.values[0] > size.x - 240) {
-                    paddle.setX(size.x - 240);
-                } else if (paddle.getX() - event.values[0] <= 20) {
-                    paddle.setX(20);
+                if (paddle.getX() + event.values[0] > size.x - 235) {
+                    paddle.setX(size.x - 235);
+                } else if (paddle.getX() - event.values[0] <= 35) {
+                    paddle.setX(35);
                 }
             }
         }
@@ -261,18 +365,43 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             lifes = 3;    //se cambi vite cambia anche qui
             resetLevel(level);
             gameOver = false;
+<<<<<<< Updated upstream
         }else if(start && !gameOver && !accelerometro && touch) {
+=======
+
+            //LA DIMNSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235
+        }else if(start && !gameOver && !accelerometro) {
+>>>>>>> Stashed changes
             switch (event.getAction()) {
                 case MotionEvent.ACTION_UP:
                     paddle.setX(event.getRawX());
+                    if (event.getRawX() > size.x - 235) {
+                        paddle.setX(size.x - 235);
+                    } else if (event.getRawX() <= 35) {
+                        paddle.setX(35);
+                    }
                     invalidate();
                     return true;
                 case MotionEvent.ACTION_MOVE:
+<<<<<<< Updated upstream
                     paddle.setX(event.getRawX()-100); //posiziona il paddle in modo centrato!!
+=======
+                    paddle.setX(event.getRawX());
+                    if (event.getRawX() > size.x - 235) {
+                        paddle.setX(size.x - 235);
+                    } else if (event.getRawX() <= 35) {
+                        paddle.setX(35);
+                    }
+>>>>>>> Stashed changes
                     invalidate();
                     return true;
                 case MotionEvent.ACTION_DOWN:
                     paddle.setX(event.getRawX());
+                    if (event.getRawX() > size.x - 235) {
+                        paddle.setX(size.x - 235);
+                    } else if (event.getRawX() <= 35) {
+                        paddle.setX(35);
+                    }
                     return true;
             }
         }else if(start && !gameOver && !accelerometro && !touch){
@@ -296,7 +425,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         ball.setY(size.y - 480);
         ball.createSpeed(level);
         list = new ArrayList<Brick>();
-        generateBricks(context,level);
+        generateBricks(context,level,button);
     }
 
 

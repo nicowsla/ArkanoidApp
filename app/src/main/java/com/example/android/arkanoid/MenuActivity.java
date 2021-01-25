@@ -81,7 +81,18 @@ public class MenuActivity extends AppCompatActivity {
 
 
     public void goToGame(View View){
-       startActivity(new Intent(MenuActivity.this, MainActivity.class));
+        switch (View.getId()) {
+            case (R.id.menu_go_to_storia):
+                Intent i = new Intent(this, MainActivity.class);
+                i.putExtra("S", 1);
+                startActivity(i);
+                break;
+            case (R.id.menu_go_to_game):
+                Intent j = new Intent(this, MainActivity.class);
+                j.putExtra("C", 2);
+                startActivity(j);
+                break;
+        }
     }
 
     public void goToCreateLevel(View View){
