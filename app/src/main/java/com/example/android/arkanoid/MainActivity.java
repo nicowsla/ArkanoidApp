@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
-
         //get device resolution
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // create a new game
-        game = new Game(this, 200, 0, 1, screenWidth, screenHeight, storia, classificata);
+        game = new Game(this, 3, 0, 1, screenWidth, screenHeight, storia, classificata);
         setContentView(game);
 
         // create an handler and thread
