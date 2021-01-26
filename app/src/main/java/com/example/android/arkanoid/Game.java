@@ -88,12 +88,9 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-
-
         // create a bitmap for the ball and paddle
         redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
         paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
-
 
         // creates a new ball, paddle, and list of bricks
         ball = new Ball((size.x / 2) - (30*screenWidth)/1080, size.y - (470*screenHeight)/1920, level);
@@ -140,47 +137,47 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                             break;
                         case 2:
                             if (Levels.Livello2PIKACHU[i][j] != 0) {
-                                list.add(new Brick(context, (j * 100 * screenWidth) / screenWidth, (i * 70 * screenHeight) / screenHeight, Levels.Livello2PIKACHU[i][j]));
+                                list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello2PIKACHU[i][j]));
                             }
                             break;
                         case 3:
                             if (Levels.Livello3ZELDA[i][j] != 0) {
-                                list.add(new Brick(context, (j * 100 * screenWidth) / screenWidth, (i * 70 * screenHeight) / screenHeight, Levels.Livello3ZELDA[i][j]));
+                                list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello3ZELDA[i][j]));
                             }
                             break;
                         case 4:
                             if (Levels.Livello4IRONMAN[i][j] != 0) {
-                                list.add(new Brick(context, (j * 100 * screenWidth) / screenWidth, (i * 70 * screenHeight) / screenHeight, Levels.Livello4IRONMAN[i][j]));
+                                list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello4IRONMAN[i][j]));
                             }
                             break;
                         case 5:
                             if (Levels.Livello5FANTASMINO[i][j] != 0) {
-                                list.add(new Brick(context, (j * 100 * screenWidth) / screenWidth, (i * 70 * screenHeight) / screenHeight, Levels.Livello5FANTASMINO[i][j]));
+                                list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello5FANTASMINO[i][j]));
                             }
                             break;
                         case 6:
                             if (Levels.Livello6PACMAN[i][j] != 0) {
-                                list.add(new Brick(context, (j * 100 * screenWidth) / screenWidth, (i * 70 * screenHeight) / screenHeight, Levels.Livello6PACMAN[i][j]));
+                                list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello6PACMAN[i][j]));
                             }
                             break;
                         case 7:
                             if (Levels.Livello7BATMAN[i][j] != 0) {
-                                list.add(new Brick(context, (j * 100 * screenWidth) / screenWidth, (i * 70 * screenHeight) / screenHeight, Levels.Livello7BATMAN[i][j]));
+                                list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello7BATMAN[i][j]));
                             }
                             break;
                         case 8:
                             if (Levels.Livello8SFERA[i][j] != 0) {
-                                list.add(new Brick(context, (j * 100 * screenWidth) / screenWidth, (i * 70 * screenHeight) / screenHeight, Levels.Livello8SFERA[i][j]));
+                                list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello8SFERA[i][j]));
                             }
                             break;
                         case 9:
                             if (Levels.Livello9FIORE[i][j] != 0) {
-                                list.add(new Brick(context, (j * 100 * screenWidth) / screenWidth, (i * 70 * screenHeight) / screenHeight, Levels.Livello9FIORE[i][j]));
+                                list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello9FIORE[i][j]));
                             }
                             break;
                         case 10:
                             if (Levels.Livello10CREEPER[i][j] != 0) {
-                                list.add(new Brick(context, (j * 100 * screenWidth) / screenWidth, (i * 70 * screenHeight) / screenHeight, Levels.Livello10CREEPER[i][j]));
+                                list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello10CREEPER[i][j]));
                             }
                             break;
                     }
@@ -238,10 +235,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         canvas.drawText("" + lifes, (size.x/4), 100, paint);
         canvas.drawText("" + score, (size.x/4)*2, 100, paint);
         canvas.drawText("" + level,(size.x/4)*3,100, paint );
-        //canvas.drawText("ballX:"+ball.getX(),50,150, paint );
-        //canvas.drawText("ballY:"+ball.getY(),50,200, paint );
-        //canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
-        //canvas.drawText("xpaddle:"+paddle.getY(),50,300, paint );
+        canvas.drawText("ballX:"+ball.getX(),50,150, paint );
+        canvas.drawText("ballY:"+ball.getY(),50,200, paint );
+        canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
+        canvas.drawText("xpaddle:"+paddle.getY(),50,300, paint );
         //canvas.drawText("size:"+size.x,50,200, paint );
         //canvas.drawText("size:"+size.y,50,250, paint );
         //canvas.drawText("size1:"+screenWidth,50,300, paint );

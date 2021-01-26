@@ -64,11 +64,11 @@ public class Ball {
     private boolean isNear(float ax, float ay, float bx, float by, int screenWidth, int screenHeight) {
         bx += 2;
         by += 1;
-        if ((Math.sqrt(Math.pow((ax + (50*screenWidth)/1080) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
+        if ((Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
             return true;
-        } else if ((Math.sqrt(Math.pow((ax + (100*screenWidth)/1080) - bx, 2) + Math.pow(ay - by, 2))) < 60) {
+        } else if ((Math.sqrt(Math.pow((ax + 100) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
             return true;
-        } else if ((Math.sqrt(Math.pow((ax + (150*screenWidth)/1080) - bx, 2) + Math.pow(ay - by, 2))) < 60) {
+        } else if ((Math.sqrt(Math.pow((ax + 150) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
             return true;
         }
         return false;
@@ -78,7 +78,7 @@ public class Ball {
     private boolean isCloseToBrick(float ax, float ay, float bx, float by, int screenWidth, int screenHeight) {
         bx += 2;
         by += 1;
-        double d = Math.sqrt(Math.pow((ax + (50*screenWidth)/1080) - bx, 2) + Math.pow((ay + (40*screenHeight)/1920) - by, 2));
+        double d = Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow((ay + 40) - by, 2));
         return d < 80;
     }
 
