@@ -58,7 +58,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private int screenHeight;
     private int storia;
     private int classificata;
-    private int button;
+    private int buttonValue;
 
     private boolean accelerometro = false;
     private boolean touch = false;
@@ -101,10 +101,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         list = new ArrayList<Brick>();
 
         if(storia == 1){
-            int buttonValue = 1;
+            buttonValue = 1;
             generateBricks(context,level,buttonValue);
         }else if(classificata == 2){
-            int buttonValue = 2;
+            buttonValue = 2;
             generateBricks(context,level,buttonValue);
         }
 
@@ -124,6 +124,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                     list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
                 }
             }
+
         }else {
             //In questo modo genero una serie di righe
             //int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
@@ -237,9 +238,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         canvas.drawText("" + lifes, (size.x/4), 100, paint);
         canvas.drawText("" + score, (size.x/4)*2, 100, paint);
         canvas.drawText("" + level,(size.x/4)*3,100, paint );
-        canvas.drawText("ballX:"+ball.getX(),50,150, paint );
-        canvas.drawText("ballY:"+ball.getY(),50,200, paint );
-        //canvas.drawText("velocitaY:"+velocitaY,50,150, paint );
+        //canvas.drawText("ballX:"+ball.getX(),50,150, paint );
+        //canvas.drawText("ballY:"+ball.getY(),50,200, paint );
+        //canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
+        //canvas.drawText("xpaddle:"+paddle.getY(),50,300, paint );
         //canvas.drawText("size:"+size.x,50,200, paint );
         //canvas.drawText("size:"+size.y,50,250, paint );
         //canvas.drawText("size1:"+screenWidth,50,300, paint );
@@ -257,7 +259,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private void chechEdges() {
         if (ball.getX() + ball.getxSpeed() >= size.x - (60*screenWidth)/1080) {
             ball.changeDirection("rights");
-        } else if (ball.getX() + ball.getxSpeed() <= (30*screenWidth)/1080) {
+        } else if (ball.getX() + ball.getxSpeed() <= (0*screenWidth)/1080) {
             ball.changeDirection("left");
         } else if (ball.getY() + ball.getySpeed() <= (150*screenHeight)/1920) {
             ball.changeDirection("up");
@@ -287,10 +289,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         if (start) {
             win();
             chechEdges();
-            ball.suddentlyPaddle(paddle.getX(), paddle.getY());
+            ball.suddentlyPaddle(paddle.getX(), paddle.getY(),screenWidth,screenHeight);
             for (int i = 0; i < list.size(); i++) {
                 Brick b = list.get(i);
-                if (ball.suddentlyBrick(b.getX(), b.getY())) {
+                if (ball.suddentlyBrick(b.getX(), b.getY(),screenWidth,screenHeight)) {
                     list.remove(i);
                     score = score + 80;
                 }
@@ -334,7 +336,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         if (gameOver && !start) {
             score = 0;
             lifes = 3;    //se cambi vite cambia anche qui
-            resetLevel(level);
+            resetLevel(level,buttonValue);
             gameOver = false;
 
             //LA DIMNSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235
@@ -374,12 +376,12 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     }
 
     // sets the game to start
-    private void resetLevel(int level) {
+    private void resetLevel(int level, int buttonValue) {
         ball.setX((size.x / 2) - (30*screenWidth)/1080);
         ball.setY(size.y - (470*screenHeight)/1920);
         ball.createSpeed(level);
         list = new ArrayList<Brick>();
-        generateBricks(context,level,button);
+        generateBricks(context,level,buttonValue);
     }
 
 
@@ -387,7 +389,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private void win() {
         if (list.isEmpty()) {
             ++level;
-            resetLevel(level);
+            resetLevel(level,buttonValue);
            // ball.increaseSpeed(level);
             start = false;
         }

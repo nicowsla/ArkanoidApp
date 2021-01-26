@@ -61,35 +61,35 @@ public class Ball {
 
     // zisti ci je lopticka blizko
     //clean ci is a ball close traduttore di merda che minchia vuol dire
-    private boolean isNear(float ax, float ay, float bx, float by) {
-        bx += 12;
-        by += 11;
-        if ((Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
+    private boolean isNear(float ax, float ay, float bx, float by, int screenWidth, int screenHeight) {
+        bx += 2;
+        by += 1;
+        if ((Math.sqrt(Math.pow((ax + (50*screenWidth)/1080) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
             return true;
-        } else if ((Math.sqrt(Math.pow((ax + 100) - bx, 2) + Math.pow(ay - by, 2))) < 60) {
+        } else if ((Math.sqrt(Math.pow((ax + (100*screenWidth)/1080) - bx, 2) + Math.pow(ay - by, 2))) < 60) {
             return true;
-        } else if ((Math.sqrt(Math.pow((ax + 150) - bx, 2) + Math.pow(ay - by, 2))) < 60) {
+        } else if ((Math.sqrt(Math.pow((ax + (150*screenWidth)/1080) - bx, 2) + Math.pow(ay - by, 2))) < 60) {
             return true;
         }
         return false;
     }
 
     //find out if the ball is close to a brick
-    private boolean isCloseToBrick(float ax, float ay, float bx, float by) {
-        bx += 12;
-        by += 11;
-        double d = Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow((ay + 40) - by, 2));
+    private boolean isCloseToBrick(float ax, float ay, float bx, float by, int screenWidth, int screenHeight) {
+        bx += 2;
+        by += 1;
+        double d = Math.sqrt(Math.pow((ax + (50*screenWidth)/1080) - bx, 2) + Math.pow((ay + (40*screenHeight)/1920) - by, 2));
         return d < 80;
     }
 
     //if the ball collides with the fall, it will change direction
-    protected void suddentlyPaddle(float xPaddle, float yPaddle) {
-        if (isNear(xPaddle, yPaddle, getX(), getY())) changeDirection();
+    protected void suddentlyPaddle(float xPaddle, float yPaddle, int screenWidth, int screenHeight) {
+        if (isNear(xPaddle, yPaddle, getX(), getY(),screenWidth,screenHeight)) changeDirection();
     }
 
     //if the ball collides with a brick, it changes direction
-    protected boolean suddentlyBrick(float xBrick, float yBrick) {
-        if (isCloseToBrick(xBrick, yBrick, getX(), getY())) {
+    protected boolean suddentlyBrick(float xBrick, float yBrick,int screenWidth, int screenHeight) {
+        if (isCloseToBrick(xBrick, yBrick, getX(), getY(),screenWidth,screenHeight)) {
             changeDirection();
             return true;
         } else return false;
