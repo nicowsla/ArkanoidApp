@@ -33,6 +33,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //mantiene il display acceso durante il gioco
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 
         //prendo l'id per capire quale tasto è stato scelto
@@ -129,73 +133,35 @@ public class MainActivity extends AppCompatActivity {
                     }else if(items[i].equals(getString(R.string.commands))){
                      //CAMBIA COMANDI
 
-                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
-                        alertDialog.setTitle( R.string.attention );
-                        alertDialog.setMessage("seleziona comando" );
-                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.accelerometer),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        game.touch = false;
-                                        game.accelerometro = true;
-                                        onResume();
-                                        dialog.dismiss();
-
-                                    }
-                                } );
-                        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.touch),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        game.touch = true;
-                                        game.accelerometro = false;
-                                        dialog.dismiss();
-                                    }
-                                } );
-                        alertDialog.show();
-
-                       /* Spinner spinner = (Spinner) findViewById(R.id.commands_spinner);
-
-                        // Create an ArrayAdapter using the string array and a default spinner layout
-                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(MainActivity.this,
-                                R.array.commands, android.R.layout.simple_spinner_item);
-                        // Specify the layout to use when the list of choices appears
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        // Apply the adapter to the spinner
-                        spinner.setAdapter(adapter);
-                        //spinner.setOnItemSelectedListener(this);
-
-
-
-                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle(R.string.change_command);
+                        final CharSequence[] items={getString(R.string.touch), getString(R.string.accelerometer), getString(R.string.gamepad)};
+                        builder.setItems(items, new DialogInterface.OnClickListener() {
                             @Override
-                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                // Get the spinner selected item text
-
-                                // Display the selected item into the TextView
-                              switch(i){
-                                  case 0:
-                                      game.accelerometro = true;
-                                      game.touch = false;
-                                      break;
-                                  case 1:
-                                      game.accelerometro = false;
-                                      game.touch = false;
-                                      break;
-                                  case 2:
-                                      game.accelerometro = false;
-                                      game.touch = true;
-                                      break;
-                              }
-
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (items[i].equals(getString(R.string.touch))) {
+                                    game.touch = true;
+                                    game.accelerometro = false;
+                                    dialogInterface.dismiss();
+                                    Toast.makeText(MainActivity.this, getString(R.string.touch_selected), Toast.LENGTH_SHORT).show();
+                                    onResume();
+                                }else if (items[i].equals(getString(R.string.accelerometer))){
+                                    game.touch = false;
+                                    game.accelerometro = true;
+                                    dialogInterface.dismiss();
+                                    Toast.makeText(MainActivity.this, getString(R.string.accelerometer_selected), Toast.LENGTH_SHORT).show();
+                                    onResume();
+                                }
+                                else if(items[i].equals(getString(R.string.gamepad))){
+                                    game.touch = false;
+                                    game.accelerometro = false;
+                                    dialogInterface.dismiss();
+                                    Toast.makeText(MainActivity.this, getString(R.string.gamepad_selected), Toast.LENGTH_SHORT).show();
+                                    onResume();
+                                }
                             }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> adapterView) {
-                                //Toast.makeText(this,"No selection",Toast.LENGTH_LONG).show();
-                            }
-                        });*/
+                        });
+                        builder.show();
 
                     } else if(items[i].equals(getString(R.string.exit))){
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
