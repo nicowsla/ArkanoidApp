@@ -257,8 +257,8 @@ public class MainActivity extends AppCompatActivity {
         private int classificata;
         private int buttonValue;
 
-        private boolean accelerometro = false;
-        private boolean touch = true;
+        private boolean accelerometro = true;
+        private boolean touch = false;
 
 
         public Game2(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int storia, int classificata) {
