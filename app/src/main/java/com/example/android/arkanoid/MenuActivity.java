@@ -46,9 +46,13 @@ public class MenuActivity extends AppCompatActivity {
                 switch(id){
                     case R.id.profile:
                         startActivity(new Intent(MenuActivity.this, UserProfileActivity.class));
-
-
                              break;
+                    case R.id.rankings:
+                        startActivity(new Intent(MenuActivity.this, UserProfileActivity.class));
+                        break;
+                    case R.id.settings:
+                        startActivity(new Intent(MenuActivity.this, SettingsActivity.class));
+                        break;
                     case R.id.logout:
                         AlertDialog alertDialog = new AlertDialog.Builder( MenuActivity.this ).create();
                         alertDialog.setTitle( R.string.attention );
