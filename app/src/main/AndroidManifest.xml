@@ -9,16 +9,19 @@
         android:roundIcon="@drawable/redball"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
-        <activity android:name=".ResetPasswordActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".MessagesActivity" />
         <activity android:name=".UsersListActivity" />
-        <activity android:name=".SplashActivity" android:theme="@style/SplashTheme">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".CreateLevelActivity" />
         <activity android:name=".MainActivity" />
@@ -26,8 +29,7 @@
         <activity
             android:name=".SignInActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".LoginActivity">
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
 
     </application>
 
