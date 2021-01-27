@@ -62,8 +62,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     private boolean accelerometro = false;
     private boolean touch = false;
-
-
+    
 
     public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int storia, int classificata) {
         super(context);
@@ -337,7 +336,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             gameOver = false;
 
             //LA DIMNSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235
-        }else if(start && !gameOver && !accelerometro) {
+        }else if(start && !gameOver && !accelerometro && touch) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_UP:
                     paddle.setX(event.getRawX());
@@ -366,7 +365,16 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                     }
                     return true;
             }
-        }else {
+        }else if(start && !gameOver && !accelerometro && !touch){
+            float x = event.getRawX();
+            float x_paddle = paddle.getX();
+            if(x<(screenWidth/2) && x_paddle>90){
+                paddle.setX(paddle.getX()-100);
+            }else if(x>(screenWidth/2) && x_paddle<(screenWidth-280)){
+                paddle.setX(paddle.getX()+100);
+            }
+        }
+        else {
             start = true;
         }
         return false;
