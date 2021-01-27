@@ -60,8 +60,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private int classificata;
     private int buttonValue;
 
-    private boolean accelerometro = false;
-    private boolean touch = false;
+    private boolean accelerometro = false; //CON FALSE USO IL TOUCH
+    private boolean touch = true; //CON TRUE USO IL TOUCH
     
 
     public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int storia, int classificata) {
