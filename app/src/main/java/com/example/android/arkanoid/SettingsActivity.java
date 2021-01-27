@@ -61,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
                 String selectedItemText = (String) adapterView.getItemAtPosition(i);
                 // Display the selected item into the TextView
                 TextView stampadiprova = findViewById(R.id.stampadiprova);
-                stampadiprova.setText("Selected : " + selectedItemText);
+                stampadiprova.setText("Selected : " + selectedItemText + i);
             }
 
             @Override
