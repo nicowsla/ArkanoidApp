@@ -145,10 +145,11 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                                 String username = dataSnapshot.child( "username" ).getValue(String.class);
+                                                Integer score = dataSnapshot.child( "bestScore" ).getValue(Integer.class);
                                                 SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                                                 editor.putString( "uid", user.getUid() );
                                                 editor.putString("username", username);
-
+                                                editor.putInt("bestScore", score);
                                                 editor.apply();
                                                 startActivity(new Intent(LoginActivity.this, MenuActivity.class));
 

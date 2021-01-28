@@ -32,6 +32,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
     private UpdateThread myThread;
     private Handler updateHandler;
     Boolean enableTouch;
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private FirebaseUser user;
     Boolean enableAccelerometer;
+    Integer previousScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         enableTouch = pref.getBoolean("touch", true);
         enableAccelerometer = pref.getBoolean("accelerometro", false);
+        previousScore = pref.getInt("bestScore", 0);
+
+        database = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
         //prendo l'id per capire quale tasto è stato scelto
         Bundle b = getIntent().getExtras();
@@ -300,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
                 //In questo modo genero una serie di righe
                 int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
                 //System.out.println(NumeroLivello);
-                for (int i = 3; i < level+3; i++) {
+                for (int i = 3; i < 1+3; i++) {
                     for (int j = 1; j < 10; j++) {
                         list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
                     }
@@ -413,26 +430,30 @@ public class MainActivity extends AppCompatActivity {
             paint.setColor(Color.WHITE);
             paint.setTextSize(50);
 
-            float velocitaX = ball.xSpeed;
+            float velocitaX = ball.getxSpeed();
             float velocitaY = ball.ySpeed;
 
             canvas.drawText("" + lifes, (size.x/4), 100, paint);
             canvas.drawText("" + score, (size.x/4)*2, 100, paint);
             canvas.drawText("" + level,(size.x/4)*3,100, paint );
-          //  canvas.drawText("ballX:"+ball.getX(),50,150, paint );
-          //  canvas.drawText("ballY:"+ball.getY(),50,200, paint );
-         //   canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
-         //   canvas.drawText("xpaddle:"+paddle.getY(),50,300, paint );
-            canvas.drawText("enableaccele:"+enableAccelerometer,50,150, paint );
-            canvas.drawText("enabletouch:"+enableTouch,50,200, paint );
-            canvas.drawText("accele:"+accelerometro,50,250, paint );
-            canvas.drawText("touch:"+touch,50,300, paint );
+            canvas.drawText("ballX:"+ball.getX(),50,150, paint );
+            canvas.drawText("ballY:"+ball.getY(),50,200, paint );
+           canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
+            canvas.drawText("Ypaddle:"+paddle.getY(),50,300, paint );
+
+
 
             //in case of loss draw "Game over!"
             if (gameOver) {
+                if(score>previousScore){
+                    DatabaseReference myRef =  database.getReference("utenti").child(user.getUid()).child("bestScore");
+                    myRef.child( "bestScore" ).setValue( score );
+                }
+
                 paint.setColor(Color.RED);
                 paint.setTextSize(100);
                 canvas.drawText("Game over!", size.x / 3, size.y / 2, paint);
+                level=1;
             }
         }
 
@@ -454,6 +475,7 @@ public class MainActivity extends AppCompatActivity {
             if (lifes == 1) {
                 gameOver = true;
                 start = false;
+                level = 1;
                 invalidate();
             } else {
                 lifes--;

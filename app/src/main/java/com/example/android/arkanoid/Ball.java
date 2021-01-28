@@ -17,8 +17,8 @@ public class Ball {
     protected void createSpeed(int level) {
         int minX = 6;
         int minY = -10;
-        xSpeed = (level/2)+ minX;
-        ySpeed = (level/2)+ minY;
+        xSpeed = (level)+ minX;
+        ySpeed = minY - (level);
     }
 
     // changes direction according to speed
@@ -61,17 +61,36 @@ public class Ball {
 
     // zisti ci je lopticka blizko
     //clean ci is a ball close traduttore di merda che minchia vuol dire
-    private boolean isNear(float ax, float ay, float bx, float by, int screenWidth, int screenHeight) {
-        bx += 2;
-        by += 1;
-        if ((Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
+    private boolean isNear(float xPaddle, float yPaddle, float xBall, float yBall, int screenWidth, int screenHeight) {
+        xBall += 2;
+        yBall += 1;
+
+        if ((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) {
             return true;
-        } else if ((Math.sqrt(Math.pow((ax + 100) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
+        } else if ((Math.sqrt(Math.pow((xPaddle + 100) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 60) {
             return true;
-        } else if ((Math.sqrt(Math.pow((ax + 150) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
+        } else if ((Math.sqrt(Math.pow((xPaddle + 150) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 60) {
             return true;
         }
+
+
+       /*if (((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) && (Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2)) > 58) ) {
+            return true;
+        } else if (((Math.sqrt(Math.pow((xPaddle + 100) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) <60) && ((Math.sqrt(Math.pow((xPaddle + 100) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) >28)) {//DX
+            return true; //la pallina va in loop se continua atrovarsi in una posizione <70 e si blocca
+        } else if (((Math.sqrt(Math.pow((xPaddle + 150) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 60) && ((Math.sqrt(Math.pow((xPaddle + 150) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) >28)) {
+            return true;
+        }*/
+
+       /* if(!(xPaddle<xBall) && (xBall<(xPaddle+200)) && (yPaddle>yBall) && (yBall<(yPaddle+40))){
+            return false;
+        }*/
+        //LA PALLINA VA AVANTI SOLO SE è NELLA POSIZIONE DEL PADDLE BELLISSIMO
+       /* if((xPaddle<xBall) && (xBall<(xPaddle+200)) && (yPaddle>yBall) && (yBall<(yPaddle+40))){
+            return false;
+        }*/
         return false;
+
     }
 
     //find out if the ball is close to a brick
