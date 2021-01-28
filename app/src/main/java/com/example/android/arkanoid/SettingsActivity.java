@@ -23,11 +23,27 @@ import java.util.List;
 public class SettingsActivity extends AppCompatActivity {
 
     private ImageView logo;
+    private Boolean enableTouch;
+    private Boolean enableAccelerometer;
+    private String selezione = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        enableTouch = pref.getBoolean("touch", true);
+        enableAccelerometer = pref.getBoolean("accelerometro", false);
+
+        //in base alle shared impostare lo spinner sul comando attivo
+    /*    if(enableAccelerometer &&  !enableTouch){
+
+        }else if(!enableAccelerometer && enableTouch){
+
+        }else if(!enableAccelerometer && !enableTouch){
+
+        }*/
 
         logo = findViewById(R.id.info);
         logo.setBackgroundResource(R.drawable.ic_baseline_info_24);
@@ -53,6 +69,39 @@ public class SettingsActivity extends AppCompatActivity {
         language_spinner.setAdapter(adapter2);
         //spinner2.setOnItemSelectedListener(this);
 
+
+    /*    commands_spinner.setEndIconOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final String[] stati = getResources().getStringArray( R.array.commands );
+                new MaterialAlertDialogBuilder( SettingsActivity.this )
+                        .setTitle( R.string.settings_select_commands_info )
+                        .setSingleChoiceItems( stati, 0, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                selezione = stati[which];
+                            }
+                        } )
+                        .setPositiveButton( "Conferma", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                statoE.setText( selezione );
+                                dialog.dismiss();
+
+                            }
+                        } )
+                        .setNegativeButton( "Annulla", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        } ).show();
+            }
+
+        } );*/
+
+
         commands_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -61,7 +110,27 @@ public class SettingsActivity extends AppCompatActivity {
                 String selectedItemText = (String) adapterView.getItemAtPosition(i);
                 // Display the selected item into the TextView
                 TextView stampadiprova = findViewById(R.id.stampadiprova);
-                stampadiprova.setText("Selected : " + selectedItemText + i);
+
+                stampadiprova.setText("Selected : " + selectedItemText+i);
+                if(i==0){
+                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                    editor.putBoolean( "accelerometro", true );
+                    editor.putBoolean("touch", false );
+                    editor.apply();
+                    Toast.makeText(SettingsActivity.this, getString(R.string.accelerometer_selected), Toast.LENGTH_SHORT).show();
+                }else if(i==1){
+                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                    editor.putBoolean( "accelerometro", false );
+                    editor.putBoolean("touch", false);
+                    editor.apply();
+                    Toast.makeText(SettingsActivity.this, getString(R.string.gamepad_selected), Toast.LENGTH_SHORT).show();
+                }else if(i==2){
+                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                    editor.putBoolean( "accelerometro", false );
+                    editor.putBoolean("touch", true );
+                    editor.apply();
+                    Toast.makeText(SettingsActivity.this, getString(R.string.touch_selected), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

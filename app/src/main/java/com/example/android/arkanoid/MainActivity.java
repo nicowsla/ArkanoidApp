@@ -1,6 +1,5 @@
 package com.example.android.arkanoid;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,7 +20,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
@@ -29,10 +27,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -45,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private Game2 game;
     private UpdateThread myThread;
     private Handler updateHandler;
+    Boolean enableTouch;
+    Boolean enableAccelerometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         //mantiene il display acceso durante il gioco
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        enableTouch = pref.getBoolean("touch", true);
+        enableAccelerometer = pref.getBoolean("accelerometro", false);
 
         //prendo l'id per capire quale tasto è stato scelto
         Bundle b = getIntent().getExtras();
@@ -142,22 +141,43 @@ public class MainActivity extends AppCompatActivity {
                                 if (items[i].equals(getString(R.string.touch))) {
                                     game.touch = true;
                                     game.accelerometro = false;
+
+                                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                    editor.putBoolean( "accelerometro", false );
+                                    editor.putBoolean("touch", true );
+                                    editor.apply();
+
                                     dialogInterface.dismiss();
-                                    Toast.makeText(MainActivity.this, getString(R.string.touch_selected), Toast.LENGTH_SHORT).show();
                                     onResume();
+                                    Toast.makeText(MainActivity.this, getString(R.string.touch_selected), Toast.LENGTH_SHORT).show();
+
                                 }else if (items[i].equals(getString(R.string.accelerometer))){
                                     game.touch = false;
                                     game.accelerometro = true;
+
+                                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                    editor.putBoolean( "accelerometro", true );
+                                    editor.putBoolean("touch", false );
+                                    editor.apply();
+
                                     dialogInterface.dismiss();
-                                    Toast.makeText(MainActivity.this, getString(R.string.accelerometer_selected), Toast.LENGTH_SHORT).show();
                                     onResume();
+                                    Toast.makeText(MainActivity.this, getString(R.string.accelerometer_selected), Toast.LENGTH_SHORT).show();
+
                                 }
                                 else if(items[i].equals(getString(R.string.gamepad))){
                                     game.touch = false;
                                     game.accelerometro = false;
+
+                                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                    editor.putBoolean( "accelerometro", false );
+                                    editor.putBoolean("touch", false );
+                                    editor.apply();
+
                                     dialogInterface.dismiss();
-                                    Toast.makeText(MainActivity.this, getString(R.string.gamepad_selected), Toast.LENGTH_SHORT).show();
                                     onResume();
+                                    Toast.makeText(MainActivity.this, getString(R.string.gamepad_selected), Toast.LENGTH_SHORT).show();
+
                                 }
                             }
                         });
@@ -208,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
         private RectF r;
 
         private SensorManager sManager;
-        private Sensor accelerometer;
+        private Sensor sensorAccelerometer;
 
         private int lifes;
         private int score;
@@ -223,8 +243,8 @@ public class MainActivity extends AppCompatActivity {
         private int classificata;
         private int buttonValue;
 
-        private boolean accelerometro = true;
-        private boolean touch = false;
+        private boolean accelerometro = enableAccelerometer;
+        private boolean touch = enableTouch;
 
 
         public Game2(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int storia, int classificata) {
@@ -241,14 +261,16 @@ public class MainActivity extends AppCompatActivity {
             this.storia = storia;
             this.classificata = classificata;
 
+
             // start a gameOver to see if the game continues or the player has lost all the lives
             start = false;
             gameOver = false;
 
             readBackground(context);
+
             //creates an accelerometer and a SensorManager
             sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-            accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            sensorAccelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
             // create a bitmap for the ball and paddle
             redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
@@ -397,14 +419,14 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawText("" + lifes, (size.x/4), 100, paint);
             canvas.drawText("" + score, (size.x/4)*2, 100, paint);
             canvas.drawText("" + level,(size.x/4)*3,100, paint );
-            canvas.drawText("ballX:"+ball.getX(),50,150, paint );
-            canvas.drawText("ballY:"+ball.getY(),50,200, paint );
-            canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
-            canvas.drawText("xpaddle:"+paddle.getY(),50,300, paint );
-            //canvas.drawText("size:"+size.x,50,200, paint );
-            //canvas.drawText("size:"+size.y,50,250, paint );
-            //canvas.drawText("size1:"+screenWidth,50,300, paint );
-            //canvas.drawText("size1:"+screenHeight,50,350, paint );
+          //  canvas.drawText("ballX:"+ball.getX(),50,150, paint );
+          //  canvas.drawText("ballY:"+ball.getY(),50,200, paint );
+         //   canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
+         //   canvas.drawText("xpaddle:"+paddle.getY(),50,300, paint );
+            canvas.drawText("enableaccele:"+enableAccelerometer,50,150, paint );
+            canvas.drawText("enabletouch:"+enableTouch,50,200, paint );
+            canvas.drawText("accele:"+accelerometro,50,250, paint );
+            canvas.drawText("touch:"+touch,50,300, paint );
 
             //in case of loss draw "Game over!"
             if (gameOver) {
@@ -465,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void lowerShooting() {
-            sManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+            sManager.registerListener(this, sensorAccelerometer, SensorManager.SENSOR_DELAY_GAME);
         }
 
         //change accelerometer
@@ -499,7 +521,7 @@ public class MainActivity extends AppCompatActivity {
                 gameOver = false;
 
                 //LA DIMNSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235
-            }else if(start && !gameOver && !accelerometro && touch) {
+            }else if(start && !gameOver && !accelerometro && touch) { //flag accelerometro deve essere false e touch true
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
                         paddle.setX(event.getRawX());
@@ -528,7 +550,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         return true;
                 }
-            }else if(start && !gameOver && !accelerometro && !touch){
+            }else if(start && !gameOver && !accelerometro && !touch){ //se entrambi i flag sono false si sta giocando col gamepad
                 float x = event.getRawX();
                 float x_paddle = paddle.getX();
                 if(x<(screenWidth/2) && x_paddle>90){
