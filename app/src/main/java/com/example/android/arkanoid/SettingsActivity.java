@@ -23,16 +23,32 @@ import java.util.List;
 public class SettingsActivity extends AppCompatActivity {
 
     private ImageView logo;
+    private Boolean enableTouch;
+    private Boolean enableAccelerometer;
+    private String selezione = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        enableTouch = pref.getBoolean("touch", true);
+        enableAccelerometer = pref.getBoolean("accelerometro", false);
+
+        //in base alle shared impostare lo spinner sul comando attivo
+    /*    if(enableAccelerometer &&  !enableTouch){
+
+        }else if(!enableAccelerometer && enableTouch){
+
+        }else if(!enableAccelerometer && !enableTouch){
+
+        }*/
+
         logo = findViewById(R.id.info);
         logo.setBackgroundResource(R.drawable.ic_baseline_info_24);
 
-        Spinner spinner = (Spinner) findViewById(R.id.commands_spinner);
+        Spinner commands_spinner = (Spinner) findViewById(R.id.commands_spinner);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -40,20 +56,53 @@ public class SettingsActivity extends AppCompatActivity {
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        commands_spinner.setAdapter(adapter);
         //spinner.setOnItemSelectedListener(this);
 
-        Spinner spinner2 = (Spinner) findViewById(R.id.languages_spinner);
+        Spinner language_spinner = (Spinner) findViewById(R.id.languages_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.languages, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner2.setAdapter(adapter2);
+        language_spinner.setAdapter(adapter2);
         //spinner2.setOnItemSelectedListener(this);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+    /*    commands_spinner.setEndIconOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final String[] stati = getResources().getStringArray( R.array.commands );
+                new MaterialAlertDialogBuilder( SettingsActivity.this )
+                        .setTitle( R.string.settings_select_commands_info )
+                        .setSingleChoiceItems( stati, 0, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                selezione = stati[which];
+                            }
+                        } )
+                        .setPositiveButton( "Conferma", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                statoE.setText( selezione );
+                                dialog.dismiss();
+
+                            }
+                        } )
+                        .setNegativeButton( "Annulla", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        } ).show();
+            }
+
+        } );*/
+
+
+        commands_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -61,7 +110,27 @@ public class SettingsActivity extends AppCompatActivity {
                 String selectedItemText = (String) adapterView.getItemAtPosition(i);
                 // Display the selected item into the TextView
                 TextView stampadiprova = findViewById(R.id.stampadiprova);
-                stampadiprova.setText("Selected : " + selectedItemText + i);
+
+                stampadiprova.setText("Selected : " + selectedItemText+i);
+                if(i==0){
+                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                    editor.putBoolean( "accelerometro", true );
+                    editor.putBoolean("touch", false );
+                    editor.apply();
+                    Toast.makeText(SettingsActivity.this, getString(R.string.accelerometer_selected), Toast.LENGTH_SHORT).show();
+                }else if(i==1){
+                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                    editor.putBoolean( "accelerometro", false );
+                    editor.putBoolean("touch", false);
+                    editor.apply();
+                    Toast.makeText(SettingsActivity.this, getString(R.string.gamepad_selected), Toast.LENGTH_SHORT).show();
+                }else if(i==2){
+                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                    editor.putBoolean( "accelerometro", false );
+                    editor.putBoolean("touch", true );
+                    editor.apply();
+                    Toast.makeText(SettingsActivity.this, getString(R.string.touch_selected), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -70,7 +139,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        language_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

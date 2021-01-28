@@ -66,6 +66,10 @@
         \n\n2. Gamepad: premendo due pulsanti direzionali in sovrimpressione per spostare la barra verso sinistra o destra;
         \n\n3. Touch-screen: spostando la barra in qualsiasi posizione desiderata.
     </string>
+    <string name="change_command">Controlli</string>
+    <string name="touch_selected">Comandi touch attivati</string>
+    <string name="accelerometer_selected">Accelerometro attivato</string>
+    <string name="gamepad_selected">Gamepad attivato</string>
     <string-array name="commands">
         <item>Accelerometro</item>
         <item>Gamepad</item>
