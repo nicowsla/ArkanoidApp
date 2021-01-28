@@ -17,8 +17,8 @@ public class Ball {
     protected void createSpeed(int level) {
         int minX = 6;
         int minY = -10;
-        xSpeed = (level/2)+ minX;
-        ySpeed = (level/2)+ minY;
+        xSpeed = (level)+ minX;
+        ySpeed = minY - (level);
     }
 
     // changes direction according to speed
@@ -62,13 +62,13 @@ public class Ball {
     // zisti ci je lopticka blizko
     //clean ci is a ball close traduttore di merda che minchia vuol dire
     private boolean isNear(float ax, float ay, float bx, float by, int screenWidth, int screenHeight) {
-        bx += 2;
-        by += 1;
-        if ((Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
+        bx += 12;
+        by += 11;
+        if ((Math.sqrt(Math.pow((ax + 20) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
             return true;
-        } else if ((Math.sqrt(Math.pow((ax + 100) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
+        } else if ((Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow(ay - by, 2))) < 70) {
             return true;
-        } else if ((Math.sqrt(Math.pow((ax + 150) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
+        } else if ((Math.sqrt(Math.pow((ax + 130) - bx, 2) + Math.pow(ay - by, 2))) < 70) {
             return true;
         }
         return false;

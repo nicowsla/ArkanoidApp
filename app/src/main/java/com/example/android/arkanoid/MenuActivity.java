@@ -86,9 +86,9 @@ public class MenuActivity extends AppCompatActivity {
 
     public void goToGame(View View){
         switch (View.getId()) {
-            case (R.id.menu_go_to_storia):
+            case (R.id.menu_go_to_tema):
                 Intent i = new Intent(this, MainActivity.class);
-                i.putExtra("S", 1);
+                i.putExtra("T", 1);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_game):
