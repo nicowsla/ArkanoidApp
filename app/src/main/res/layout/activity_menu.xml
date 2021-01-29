@@ -31,7 +31,8 @@
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
-        android:shadowRadius="10"/>
+        android:shadowRadius="10"
+        app:cornerRadius="15dp"/>
 
     <Button
         android:id="@+id/menu_go_to_infinita"
@@ -48,7 +49,8 @@
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
-        android:shadowRadius="10"/>
+        android:shadowRadius="10"
+        app:cornerRadius="15dp"/>
 
     <Button
         android:id="@+id/menu_go_to_classificata"
@@ -65,7 +67,8 @@
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
-        android:shadowRadius="10"/>
+        android:shadowRadius="10"
+        app:cornerRadius="15dp"/>
 
     <Button
         android:id="@+id/menu_go_to_tema"
@@ -82,7 +85,8 @@
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
-        android:shadowRadius="10"/>
+        android:shadowRadius="10"
+        app:cornerRadius="15dp"/>
 
     <Button
         android:id="@+id/menu_go_to_editlevel"
@@ -99,7 +103,8 @@
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
-        android:shadowRadius="10"/>
+        android:shadowRadius="10"
+        app:cornerRadius="15dp"/>
 
     <Button
         android:id="@+id/menu_go_to_user_list"
@@ -116,7 +121,8 @@
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
-        android:shadowRadius="10"/>
+        android:shadowRadius="10"
+        app:cornerRadius="15dp"/>
 
     </LinearLayout>
     </ScrollView>

@@ -114,9 +114,7 @@ public class SettingsActivity extends NavigationMenuActivity {
                 // Get the spinner selected item text
                 String selectedItemText = (String) adapterView.getItemAtPosition(i);
                 // Display the selected item into the TextView
-                TextView stampadiprova = findViewById(R.id.stampadiprova);
 
-                stampadiprova.setText("Selected : " + selectedItemText+i);
                 if(i==0){
                     SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                     editor.putBoolean( "accelerometro", true );
@@ -151,8 +149,6 @@ public class SettingsActivity extends NavigationMenuActivity {
                 // Get the spinner selected item text
                 String selectedItemText = (String) adapterView.getItemAtPosition(i);
                 // Display the selected item into the TextView
-                TextView stampadiprova = findViewById(R.id.stampadiprova2);
-                stampadiprova.setText("Selected : " + selectedItemText);
             }
 
             @Override
