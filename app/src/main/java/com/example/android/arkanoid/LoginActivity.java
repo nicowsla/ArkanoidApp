@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
 
     private boolean error=false;
-    private Context c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        c=this;
         //salvo lo userID per non perdere l'accesso
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         String uid = pref.getString("uid", null);
