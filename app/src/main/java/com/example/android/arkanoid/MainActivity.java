@@ -289,9 +289,14 @@ public class MainActivity extends AppCompatActivity {
         private int buttonValue;
         private boolean boss = false;
         private boolean infinita = false;
+        private boolean tempo = false;
+        private boolean tema = false;
 
         private boolean accelerometro = enableAccelerometer;
         private boolean touch = enableTouch;
+
+        private long startTime = 0;
+        private long difference = 0;
 
 
         public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita_a_tema, int classificata, int arcade, int partita_infinita) {
@@ -353,6 +358,7 @@ public class MainActivity extends AppCompatActivity {
 
             //LIVELLO MOSTRO CLASSIFICATA
             if(button == 2){
+                tempo = true;
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
                         if (Levels.LivelloMOSTRO[i][j] != 0) {
@@ -362,6 +368,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //PARTITE A TEMA
             }else if(button == 1){
+                tema = true;
                 //In questo modo genero una serie di righe
                 //int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
                 //System.out.println(NumeroLivello);
@@ -520,8 +527,8 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawText("" + lifes, (size.x/4), 100, paint);
             canvas.drawText("" + score, (size.x/4)*2, 100, paint);
             canvas.drawText("" + level,(size.x/4)*3,100, paint );
-            //canvas.drawText("ballX:"+ball.getX(),50,150, paint );
-            //canvas.drawText("ballY:"+ball.getY(),50,200, paint );
+            canvas.drawText("Inizio:" + startTime,50,150, paint );
+            canvas.drawText("Fine:" + difference,50,200, paint );
             //canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
             //canvas.drawText("Ypaddle:"+paddle.getY(),50,300, paint );
 
@@ -538,6 +545,8 @@ public class MainActivity extends AppCompatActivity {
                 level = 1;
                 infinita = false;
                 boss = false;
+                startTime = 0;
+                difference = 0;
             }
         }
 
@@ -704,12 +713,55 @@ public class MainActivity extends AppCompatActivity {
                             } );
                     alertDialog.show();
                     start = false;
-
-                }else{
+                }else if(tempo){
+                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                    alertDialog.setTitle( R.string.vittoria_tempo );
+                    alertDialog.setMessage( getString(R.string.messaggio_partita_tempo) );
+                    alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                }
+                            } );
+                    alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                }
+                            } );
+                    alertDialog.show();
+                    start = false;
+                }else if(tema){
+                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                    alertDialog.setTitle( R.string.vittoria_tempo );
+                    alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
+                    alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                }
+                            } );
+                    alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                }
+                            } );
+                    alertDialog.show();
+                    start = false;
+                }
+                else{
                     ++level;
                     resetLevel(level,buttonValue);
                     // ball.increaseSpeed(level);
                     start = false;
+                    difference = System.currentTimeMillis() - startTime;
+                    startTime = startTime/1000;
+                    difference = difference/1000;
                 }
 
             }

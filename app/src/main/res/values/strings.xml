@@ -69,6 +69,12 @@
     <string name="messaggio_vittoria_boss">
         Hai completato la modalità arcade sconfigendo il Boss finale!
     </string>
+    <string name="messaggio_partita_tempo">
+        Bravo, il tuo tempo è stato registrato!
+    </string>
+    <string name="messaggio_partita_tema">
+        Bravo, hai completato tutti il livelli a tema, inseriremo presto nuovi personaggi!
+    </string>
     <string name="change_command">Controlli</string>
     <string name="touch_selected">Comandi touch attivati</string>
     <string name="accelerometer_selected">Accelerometro attivato</string>
@@ -77,6 +83,8 @@
     <string name="play">Sfida!</string>
     <string name="message">Messaggi</string>
     <string name="vittoria">HAI VINTO, BRAVO!</string>
+    <string name="vittoria_tempo">HAI COMPLETATO IL LIVELLO!</string>
+    <string name="vittoria_tema">HAI COMPLETATO IL LIVELLO!</string>
     <string name="Invia">Invia</string>
     <string name="Body">Corpo della mail</string>
     <string name="Subject">Oggetto</string>
