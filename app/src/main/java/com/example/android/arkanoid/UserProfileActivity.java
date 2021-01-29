@@ -4,8 +4,10 @@ package com.example.android.arkanoid;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +17,8 @@ import android.os.Bundle;
 
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -22,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -29,6 +34,8 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationMenu;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,7 +55,7 @@ import java.io.IOException;
 
 import static android.view.View.VISIBLE;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends NavigationMenuActivity {
     private EditText username;
     private TextView email;
     private TextInputLayout usernameLayout;
@@ -59,6 +66,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private FloatingActionButton modifyPicture;
     private FloatingActionButton modifyPassword;
     private FloatingActionMenu menu;
+    private BottomNavigationView bottonMenu;
 
     private Button confirmButton;
     private FirebaseAuth mAuth;
@@ -69,13 +77,17 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private FirebaseUser user;
+    private String currentUser;
+
+    private String profileUser;
+
     private StorageReference mStorageRef;
 
     private final int IMG_REQUEST =1;
     private final int IMG_REQUEST_ALBUM=2;
     private Bitmap bitmap;
     private Uri path;
-    private String image;
+    private String imageString;
     byte[] imgByte;
     private Boolean errore =false;
     private Animation frombottom, fromtop;
@@ -84,12 +96,22 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_user_profile);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_user_profile, null, false);
+        dl.addView(contentView, 0);
+
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+
+        currentUser = user.getUid();
+
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        profileUser = pref.getString("friend", "nessuno");
+
 
         database = FirebaseDatabase.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -108,6 +130,18 @@ public class UserProfileActivity extends AppCompatActivity {
         modifyPicture = findViewById( R.id.mod_picture );
         modifyPassword =   findViewById( R.id.mod_psw );
         menu =  findViewById( R.id.menu );
+        bottonMenu = findViewById(R.id.bottom_navigation);
+        bottonMenu.setOnNavigationItemSelectedListener(navListener);
+
+
+
+        //se il l'id dell'utente che sta usando l'app è uguale all'id del profilo che vuole vedere va al suo profilo, dove può modificare
+        //altrimenti nascondo il menu per modificare poichè non si trova sul suo profilo
+        if(currentUser.equals(profileUser)){
+            bottonMenu.setVisibility(View.GONE);
+        }else{
+            menu.setVisibility(View.GONE);
+        }
 
 
         email.setFocusable( false );
@@ -171,12 +205,38 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         } );
 
-
     }
+
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            // By using switch we can easily get
+            // the selected fragment
+            // by using there id.
+
+            switch (item.getItemId()) {
+                case R.id.levels:
+                    Toast.makeText(UserProfileActivity.this, getString(R.string.send_level),
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.challenge:
+                    Toast.makeText(UserProfileActivity.this, getString(R.string.play),
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.message:
+                    startActivity(new Intent(UserProfileActivity.this, MessagesActivity.class));
+                    break;
+            }
+
+            return true;
+        }
+    };
+
 
     public void showData() {
 
-        DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
+        DatabaseReference myRef = database.getReference("utenti").child(profileUser);
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -197,7 +257,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        StorageReference riversRef = mStorageRef.child(user.getUid()).child("images/profilo.jpg");
+        StorageReference riversRef = mStorageRef.child(profileUser).child("images/profilo.jpg");
         riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -215,11 +275,12 @@ public class UserProfileActivity extends AppCompatActivity {
         insertData();
         checkData();
         if(!errore) {
-            DatabaseReference myRef1 = database.getReference( "utenti" ).child( user.getUid() );
+            DatabaseReference myRef1 = database.getReference( "utenti" ).child( currentUser );
 
             myRef1.child( "username" ).setValue( usernameString );
             SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
             editor.putString("username", usernameString);
+            editor.apply();
 
             username.setFocusable( false );
             username.setFocusableInTouchMode( false );
@@ -245,7 +306,7 @@ public class UserProfileActivity extends AppCompatActivity {
     public void editImg(){
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference riversRef1 = storageRef.child(user.getUid()).child("images/profilo.jpg");
+        StorageReference riversRef1 = storageRef.child(currentUser).child("images/profilo.jpg");
 
         riversRef1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -260,7 +321,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
 
-        StorageReference riversRef = storageRef.child(user.getUid()).child("images/profilo.jpg");
+        StorageReference riversRef = storageRef.child(currentUser).child("images/profilo.jpg");
         riversRef.putBytes(imgByte)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -309,7 +370,10 @@ public class UserProfileActivity extends AppCompatActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), path);
                 photo.setImageBitmap(bitmap);
                 photo.setVisibility(View.VISIBLE);
-                image = imageToString();
+                imageString = imageToString();
+                SharedPreferences.Editor editor1 = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                editor1.putString("photo", imageString);
+                editor1.apply();
             }catch (IOException e){
             }
         } else if(requestCode==IMG_REQUEST && data!=null){
@@ -317,7 +381,10 @@ public class UserProfileActivity extends AppCompatActivity {
             path = data.getData();
             photo.setImageBitmap(bitmap);
             photo.setVisibility(VISIBLE);
-            image = imageToString();
+            imageString = imageToString();
+            SharedPreferences.Editor editor1 = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+            editor1.putString("photo", imageString);
+            editor1.apply();
         }
     }
 

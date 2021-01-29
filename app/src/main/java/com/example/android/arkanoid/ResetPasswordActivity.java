@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,7 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.SignInMethodQueryResult;
 
-public class ResetPasswordActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends NavigationMenuActivity {
 
     private FirebaseAuth mAuth;
     private EditText email;
@@ -28,10 +30,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private Animation frombottom, fromtop;
     private Button b;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_reset_password);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_reset_password, null, false);
+        dl.addView(contentView, 0);
         mAuth = FirebaseAuth.getInstance();
 
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
@@ -89,8 +94,4 @@ public class ResetPasswordActivity extends AppCompatActivity {
         emailString = email.getText().toString();
     }
 
-    @Override
-    public void onBackPressed(){
-        startActivity( new Intent(ResetPasswordActivity.this, LoginActivity.class) );
-    }
 }

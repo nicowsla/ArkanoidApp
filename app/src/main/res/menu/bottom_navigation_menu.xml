@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/levels"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_change_circle_24"
+        android:title="@string/send_level"/>
+    <item
+        android:id="@+id/challenge"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_play_circle_filled_24"
+        android:title="@string/play"/>
+    <item
+        android:id="@+id/message"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_chat_24"
+        android:title="@string/message"/>
+</menu>

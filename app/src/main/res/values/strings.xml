@@ -70,6 +70,16 @@
     <string name="touch_selected">Comandi touch attivati</string>
     <string name="accelerometer_selected">Accelerometro attivato</string>
     <string name="gamepad_selected">Gamepad attivato</string>
+    <string name="send_level">Scambia livelli</string>
+    <string name="play">Sfida!</string>
+    <string name="message">Messaggi</string>
+    <string name="Invia">Invia</string>
+    <string name="Body">Corpo della mail</string>
+    <string name="Subject">Oggetto</string>
+    <string name="email">E-mail</string>
+    <string name="email_contact">arkanoidsms2021@gmail.com</string>
+    <string name="error_contact">Nessuna app supporta questa funzionalità</string>
+    <string name="error_fields">Compilare tutti i campi!</string>
     <string-array name="commands">
         <item>Accelerometro</item>
         <item>Gamepad</item>

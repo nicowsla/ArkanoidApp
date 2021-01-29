@@ -7,80 +7,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 
-public class MenuActivity extends AppCompatActivity {
-    private NavigationView nv;
-    private DrawerLayout dl;
-    private ActionBarDrawerToggle t;
-    private TextView username;
+public class MenuActivity extends NavigationMenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //inserire la navbar
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
-        String usernameString = pref.getString("username", null);
-        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
-        username = findViewById(R.id.username);
-        username.setText(usernameString);
-        nv = (NavigationView)findViewById(R.id.nv);
-        dl = (DrawerLayout) findViewById(R.id.activity_menu);
-        t = new ActionBarDrawerToggle(this, dl,R.string.Open, R.string.Close);
-
-        dl.addDrawerListener(t);
-        t.syncState();
-
-        nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                switch(id){
-                    case R.id.profile:
-                        startActivity(new Intent(MenuActivity.this, UserProfileActivity.class));
-                             break;
-                    case R.id.rankings:
-                        startActivity(new Intent(MenuActivity.this, UserProfileActivity.class));
-                        break;
-                    case R.id.settings:
-                        startActivity(new Intent(MenuActivity.this, SettingsActivity.class));
-                        break;
-                    case R.id.logout:
-                        AlertDialog alertDialog = new AlertDialog.Builder( MenuActivity.this ).create();
-                        alertDialog.setTitle( R.string.attention );
-                        alertDialog.setMessage( getString(R.string.exit_confirm) );
-                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        SharedPreferences.Editor editor = getSharedPreferences( "arkanoid", MODE_PRIVATE ).edit();
-                                        editor.clear();
-                                        editor.apply();
-                                        startActivity( new Intent( MenuActivity.this, LoginActivity.class ) );
-                                    }
-                                } );
-                        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                } );
-                        alertDialog.show();
-                }
-
-
-                return false;
-            }
-        });
-
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_menu, null, false);
+        dl.addView(contentView, 0);
     }
 
 
@@ -118,14 +71,6 @@ public class MenuActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if(t.onOptionsItemSelected(item))
-            return true;
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onBackPressed(){

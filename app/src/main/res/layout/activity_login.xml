@@ -98,4 +98,14 @@
         android:text="@string/recovery_password_quest"
         android:textSize="13dp" />
 
+    <TextView
+        android:id="@+id/contactUs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goToContactUs"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:text="CONTATTACI"
+        android:textSize="13dp" />
+
 </LinearLayout>
