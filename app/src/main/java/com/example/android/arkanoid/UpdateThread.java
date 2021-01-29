@@ -3,11 +3,11 @@ package com.example.android.arkanoid;
 import android.os.Handler;
 
 public class UpdateThread extends Thread {
-    Handler updatovaciHandler; //che cazz vuol dire bo updatedHandler forse
+    Handler updateHandler; //che cazz vuol dire bo updatedHandler forse
 
     public UpdateThread(Handler uh) {
         super();
-        updatovaciHandler = uh;
+        updateHandler = uh;
     }
 
     public void run() {
@@ -16,7 +16,8 @@ public class UpdateThread extends Thread {
                 sleep(32);
             } catch (Exception ex) {
             }
-            updatovaciHandler.sendEmptyMessage(0);
+            updateHandler.sendEmptyMessage(0);
         }
     }
+
 }

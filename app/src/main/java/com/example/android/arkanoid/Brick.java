@@ -21,9 +21,8 @@ public class Brick extends View {
 
     //assigns a random image to the brick
     private void skin(int a) {
-        //int a = (int) (Math.random() * 8);
         switch (a) {
-            case 0:
+            case 15:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua);
                 break;
             case 1:
@@ -61,6 +60,18 @@ public class Brick extends View {
                 break;
             case 12:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_bluscuro);
+                break;
+            case 13:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_carne);
+                break;
+            case 14:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_brown);
+                break;
+            case 16:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_grey);
+                break;
+            case 17:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_lite_grey);
                 break;
         }
     }
