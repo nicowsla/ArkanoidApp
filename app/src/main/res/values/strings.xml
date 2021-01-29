@@ -70,6 +70,9 @@
     <string name="touch_selected">Comandi touch attivati</string>
     <string name="accelerometer_selected">Accelerometro attivato</string>
     <string name="gamepad_selected">Gamepad attivato</string>
+    <string name="send_level">Scambia livelli</string>
+    <string name="play">Sfida!</string>
+    <string name="message">Messaggi</string>
     <string-array name="commands">
         <item>Accelerometro</item>
         <item>Gamepad</item>

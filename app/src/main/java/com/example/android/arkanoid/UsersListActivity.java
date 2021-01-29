@@ -94,7 +94,7 @@ public class UsersListActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                         editor.putString("friend", lista.getId());
                         editor.apply();
-                        startActivity(new Intent( UsersListActivity.this, MessagesActivity.class) );
+                        startActivity(new Intent( UsersListActivity.this, UserProfileActivity.class) );
 
                     }
                 });

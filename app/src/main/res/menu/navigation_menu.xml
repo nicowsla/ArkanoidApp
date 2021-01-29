@@ -3,6 +3,7 @@
 
     <item android:id="@+id/profile"
         android:icon="@drawable/baseline_account_circle_24"
+        android:textStyle="bold"
         android:title="Profilo"/>
     <item android:id="@+id/rankings"
         android:icon="@drawable/ic_ranking"

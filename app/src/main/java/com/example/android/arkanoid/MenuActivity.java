@@ -10,11 +10,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 
 public class MenuActivity extends AppCompatActivity {
@@ -22,6 +28,7 @@ public class MenuActivity extends AppCompatActivity {
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private TextView username;
+    private ImageView photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +36,30 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         String usernameString = pref.getString("username", null);
+        String imageString = pref.getString("photo", "ciao");
+        final String currentUser = pref.getString("uid", null);
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled( true );
         username = findViewById(R.id.username);
         username.setText(usernameString);
+        photo = findViewById(R.id.menu_photo);
+
         nv = (NavigationView)findViewById(R.id.nv);
         dl = (DrawerLayout) findViewById(R.id.activity_menu);
         t = new ActionBarDrawerToggle(this, dl,R.string.Open, R.string.Close);
-
         dl.addDrawerListener(t);
         t.syncState();
+
+
+      if( imageString.equals("ciao")){
+          Toast.makeText(MenuActivity.this, getString(R.string.error),
+                  Toast.LENGTH_SHORT).show();
+        }else{
+          byte[] b = Base64.decode(imageString, Base64.DEFAULT);
+          Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+          photo.setImageBitmap(bitmap);
+      }
 
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -45,6 +67,9 @@ public class MenuActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 switch(id){
                     case R.id.profile:
+                        SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                        editor.putString("friend", currentUser );
+                        editor.apply();
                         startActivity(new Intent(MenuActivity.this, UserProfileActivity.class));
                              break;
                     case R.id.rankings:
