@@ -44,7 +44,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Game2 game;
+    private Game game;
     private UpdateThread myThread;
     private Handler updateHandler;
     Boolean enableTouch;
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // create a new game
-        game = new Game2(this, 3, 0, 1, screenWidth, screenHeight, storia, classificata);
+        game = new Game(this, 3, 0, 1, screenWidth, screenHeight, storia, classificata);
         setContentView(game);
 
         // create an handler and thread
@@ -227,7 +227,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class Game2 extends View implements SensorEventListener, View.OnTouchListener, Levels {
+    @Override
+    public void onBackPressed(){
+    }
+
+    public class Game extends View implements SensorEventListener, View.OnTouchListener, Levels {
 
         private Bitmap background;
         private Bitmap redBall;
@@ -264,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         private boolean touch = enableTouch;
 
 
-        public Game2(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int storia, int classificata) {
+        public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int storia, int classificata) {
             super(context);
             paint = new Paint();
 

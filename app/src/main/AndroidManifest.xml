@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/redball"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
-        <activity android:name=".RankingListActivity"></activity>
+        <activity android:name=".NavigationMenuActivity"></activity>
+        <activity android:name=".RankingListActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".UserProfileActivity" />

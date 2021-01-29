@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class MessagesActivity extends AppCompatActivity {
+public class MessagesActivity extends NavigationMenuActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
@@ -40,10 +41,14 @@ public class MessagesActivity extends AppCompatActivity {
     private FirebaseUser user;
     private Animation frombottom, fromtop;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_messages );
+        super.onCreate(savedInstanceState);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_messages, null, false);
+        dl.addView(contentView, 0);
+
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
 
@@ -156,6 +161,6 @@ public class MessagesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        startActivity( new Intent(MessagesActivity.this, MenuActivity.class) );
+        startActivity( new Intent(MessagesActivity.this, UserProfileActivity.class) );
     }
 }
