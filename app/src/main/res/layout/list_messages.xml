@@ -13,7 +13,8 @@
     android:focusable="true"
     android:orientation="vertical"
     android:padding="16dp"
-    android:outlineAmbientShadowColor="#9ea7aa">
+    android:outlineAmbientShadowColor="#9ea7aa"
+    android:background="@drawable/background_menu">
 
     <TextView
         android:id="@+id/list_title"
