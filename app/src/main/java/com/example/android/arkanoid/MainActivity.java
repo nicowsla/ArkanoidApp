@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
             }else if(button == 3){
                 //In questo modo genero una serie di righe
                 int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
-                if(level == 2) {
+                if(level == 17) {
                     boss = true;
                     if (!gameOver && boss) {
                         Toast.makeText(MainActivity.this, "THE BOSS IS COMING...", Toast.LENGTH_LONG).show();
@@ -670,8 +670,8 @@ public class MainActivity extends AppCompatActivity {
             if (list.isEmpty()) {
                 if(boss){
                     AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
-                    alertDialog.setTitle( R.string.settings_select_commands_info );
-                    alertDialog.setMessage( getString(R.string.commands_info_dialog) );
+                    alertDialog.setTitle( R.string.vittoria );
+                    alertDialog.setMessage( getString(R.string.messaggio_vittoria_boss) );
                     alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {

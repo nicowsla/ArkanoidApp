@@ -66,6 +66,9 @@
         \n\n2. Gamepad: premendo due pulsanti direzionali in sovrimpressione per spostare la barra verso sinistra o destra;
         \n\n3. Touch-screen: spostando la barra in qualsiasi posizione desiderata.
     </string>
+    <string name="messaggio_vittoria_boss">
+        Hai completato la modalità arcade sconfigendo il Boss finale!
+    </string>
     <string name="change_command">Controlli</string>
     <string name="touch_selected">Comandi touch attivati</string>
     <string name="accelerometer_selected">Accelerometro attivato</string>
@@ -73,6 +76,7 @@
     <string name="send_level">Scambia livelli</string>
     <string name="play">Sfida!</string>
     <string name="message">Messaggi</string>
+    <string name="vittoria">HAI VINTO, BRAVO!</string>
     <string name="Invia">Invia</string>
     <string name="Body">Corpo della mail</string>
     <string name="Subject">Oggetto</string>
