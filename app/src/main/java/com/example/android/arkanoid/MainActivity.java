@@ -54,10 +54,14 @@ public class MainActivity extends AppCompatActivity {
         enableAccelerometer = pref.getBoolean("accelerometro", false);
 
         //prendo l'id per capire quale tasto è stato scelto
-        Bundle b = getIntent().getExtras();
-        Bundle a = getIntent().getExtras();
-        int partita_a_tema = b.getInt("T");
-        int classificata = a.getInt("C");
+        Bundle i = getIntent().getExtras();
+        Bundle j = getIntent().getExtras();
+        Bundle k = getIntent().getExtras();
+        Bundle z = getIntent().getExtras();
+        int partita_a_tema = i.getInt("T");
+        int classificata = j.getInt("C");
+        int arcade = k.getInt("A");
+        int partita_infinita = z.getInt("I");
 
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -70,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // create a new game
-        game = new Game2(this, 3, 0, 1, screenWidth, screenHeight, partita_a_tema, classificata);
+        game = new Game2(this, 3, 0, 1, screenWidth, screenHeight, partita_a_tema, classificata, arcade, partita_infinita);
         setContentView(game);
 
         // create an handler and thread
@@ -241,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
         private int screenHeight;
         private int partita_a_tema;
         private int classificata;
+        private int ardade;
+        private int partita_infinita;
         private int buttonValue;
         private boolean boss = false;
         private boolean infinita = false;
@@ -249,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
         private boolean touch = enableTouch;
 
 
-        public Game2(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita_a_tema, int classificata) {
+        public Game2(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita_a_tema, int classificata, int arcade, int partita_infinita) {
             super(context);
             paint = new Paint();
 
@@ -262,6 +268,8 @@ public class MainActivity extends AppCompatActivity {
             this.screenHeight = screenHeight;
             this.partita_a_tema = partita_a_tema;
             this.classificata = classificata;
+            this.ardade = arcade;
+            this.partita_infinita = partita_infinita;
 
 
             // start a gameOver to see if the game continues or the player has lost all the lives
@@ -289,6 +297,12 @@ public class MainActivity extends AppCompatActivity {
             }else if(classificata == 2){
                 buttonValue = 2;
                 generateBricks(context,level,buttonValue);
+            }else if(arcade == 3){
+                buttonValue = 3;
+                generateBricks(context,level,buttonValue);
+            }else if(partita_infinita == 4){
+                buttonValue = 4;
+                generateBricks(context,level,buttonValue);
             }
 
             this.setOnTouchListener(this);
@@ -300,39 +314,14 @@ public class MainActivity extends AppCompatActivity {
 
             //LIVELLO MOSTRO CLASSIFICATA
             if(button == 2){
-                //System.out.println(NumeroLivello);
-                /*for (int i = 3; i < 20; i++) {
+                for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
                         if (Levels.LivelloMOSTRO[i][j] != 0) {
                             list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTRO[i][j]));
                         }
                     }
-                }*/
-                level = 17;
-                int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
-                //System.out.println(NumeroLivello);
-                for (int i = 3; i < level+3; i++) {
-                    for (int j = 1; j < 10; j++) {
-                        list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
-                    }
-                    if(level == 17){
-                        paint.setColor(Color.RED);
-                        paint.setTextSize(100);
-                        Toast.makeText(MainActivity.this,"PARTITA INFINITA...", Toast.LENGTH_LONG).show();
-                        infinita = true;
-                        break;
-                    }
                 }
-                if(infinita) {
-                    ball.increaseSpeed(17);
-                    for (int i = 3; i < 20; i++) {
-                        for (int j = 1; j < 10; j++) {
-                            list.add(new Brick(context, (size.x / 11) * j, (i * 70 * screenHeight) / screenHeight, numero));
-                        }
-                    }
-                }
-
-            //PARTITE A TEMA
+                //PARTITE A TEMA
             }else if(button == 1){
                 //In questo modo genero una serie di righe
                 //int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
@@ -399,50 +388,44 @@ public class MainActivity extends AppCompatActivity {
             }else if(button == 3){
                 //In questo modo genero una serie di righe
                 int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
-                //System.out.println(NumeroLivello);
-                for (int i = 3; i < level+3; i++) {
-                    for (int j = 1; j < 10; j++) {
-                        list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
-                    }
-                    if(level == 17){
-                        paint.setColor(Color.RED);
-                        paint.setTextSize(100);
-                        Toast.makeText(MainActivity.this,"THE BOSS IS COMING...", Toast.LENGTH_LONG).show();
-                        boss = true;
-                        break;
-                    }
-                }
-                if(boss) {
-                    for (int i = 3; i < 20; i++) {
-                        for (int j = 1; j < 10; j++) {
-                            if (Levels.LivelloMOSTRO[i][j] != 0) {
-                                list.add(new Brick(context, (size.x / 11) * j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTRO[i][j]));
+                if(level == 2) {
+                    boss = true;
+                    if (!gameOver && boss) {
+                        Toast.makeText(MainActivity.this, "THE BOSS IS COMING...", Toast.LENGTH_LONG).show();
+                        for (int i = 3; i < 20; i++) {
+                            for (int j = 1; j < 10; j++) {
+                                if (Levels.LivelloMOSTRO[i][j] != 0) {
+                                    list.add(new Brick(context, (size.x / 11) * j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTRO[i][j]));
+                                }
                             }
                         }
                     }
+                }else{
+                    for (int i = 3; i < level+3; i++) {
+                        for (int j = 1; j < 10; j++) {
+                            list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
+                        }
+                    }
                 }
+
                 //MODALITA INFINITA
-            }else{
-                //In questo modo genero una serie di righe
+            }else if(button == 4){
                 int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
                 //System.out.println(NumeroLivello);
-                for (int i = 3; i < level+3; i++) {
-                    for (int j = 1; j < 10; j++) {
-                        list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
-                    }
-                    if(level == 17){
-                        paint.setColor(Color.RED);
-                        paint.setTextSize(100);
-                        Toast.makeText(MainActivity.this,"PARTITA INFINITA...", Toast.LENGTH_LONG).show();
-                        infinita = true;
-                        break;
-                    }
-                }
-                if(infinita) {
-                    ball.increaseSpeed(17);
-                    for (int i = 3; i < 20; i++) {
-                        for (int j = 1; j < 10; j++) {
+                if(level >= 17) {
+                    infinita = true;
+                    if (!gameOver && infinita) {
+                        Toast.makeText(MainActivity.this, "PARTITA INFINITA...", Toast.LENGTH_LONG).show();
+                        for (int i = 3; i < 20; i++) {
+                            for (int j = 1; j < 10; j++) {
                                 list.add(new Brick(context, (size.x / 11) * j, (i * 70 * screenHeight) / screenHeight, numero));
+                            }
+                        }
+                    }
+                }else{
+                    for (int i = 3; i < level+3; i++) {
+                        for (int j = 1; j < 10; j++) {
+                            list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
                         }
                     }
                 }
@@ -511,6 +494,8 @@ public class MainActivity extends AppCompatActivity {
                 paint.setTextSize(100);
                 canvas.drawText("Game over!", size.x / 3, size.y / 2, paint);
                 level = 1;
+                infinita = false;
+                boss = false;
             }
         }
 

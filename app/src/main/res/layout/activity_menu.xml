@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     android:id="@+id/activity_menu"
     tools:context=".MenuActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
@@ -22,7 +25,7 @@
         android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/menu_go_to_game"
+            android:id="@+id/menu_go_to_classificata"
             android:layout_marginTop="100dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
@@ -31,7 +34,27 @@
             android:text="Partita Classificata"
             android:layout_height="wrap_content"/>
 
-    <Button
+        <Button
+            android:id="@+id/menu_go_to_arcade"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_width="match_parent"
+            android:onClick="goToGame"
+            android:text="Arcade"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/menu_go_to_infinita"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_width="match_parent"
+            android:onClick="goToGame"
+            android:text="Partita infinita"
+            android:layout_height="wrap_content"/>
+
+        <Button
         android:id="@+id/menu_go_to_editlevel"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="50dp"
@@ -51,7 +74,7 @@
             android:text="Lista utenti"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-
+    </ScrollView>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nv"
         android:layout_width="wrap_content"

@@ -91,10 +91,20 @@ public class MenuActivity extends AppCompatActivity {
                 i.putExtra("T", 1);
                 startActivity(i);
                 break;
-            case (R.id.menu_go_to_game):
+            case (R.id.menu_go_to_classificata):
                 Intent j = new Intent(this, MainActivity.class);
                 j.putExtra("C", 2);
                 startActivity(j);
+                break;
+            case (R.id.menu_go_to_arcade):
+                Intent k = new Intent(this, MainActivity.class);
+                k.putExtra("A", 3);
+                startActivity(k);
+                break;
+            case (R.id.menu_go_to_infinita):
+                Intent z = new Intent(this, MainActivity.class);
+                z.putExtra("I", 4);
+                startActivity(z);
                 break;
         }
     }
