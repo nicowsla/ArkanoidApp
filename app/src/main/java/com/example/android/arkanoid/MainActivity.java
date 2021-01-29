@@ -229,6 +229,24 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+        alertDialog.setTitle( R.string.attention );
+        alertDialog.setMessage( getString(R.string.exit_confirm) );
+        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                        startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
+                    }
+                } );
+        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                } );
+        alertDialog.show();
     }
 
     public class Game extends View implements SensorEventListener, View.OnTouchListener, Levels {
@@ -440,12 +458,10 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawText("" + lifes, (size.x/4), 100, paint);
             canvas.drawText("" + score, (size.x/4)*2, 100, paint);
             canvas.drawText("" + level,(size.x/4)*3,100, paint );
-            canvas.drawText("ballX:"+ball.getX(),50,150, paint );
-            canvas.drawText("ballY:"+ball.getY(),50,200, paint );
-           canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
-            canvas.drawText("Ypaddle:"+paddle.getY(),50,300, paint );
-
-
+            //canvas.drawText("ballX:"+ball.getX(),50,150, paint );
+            //canvas.drawText("ballY:"+ball.getY(),50,200, paint );
+            //canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
+            //canvas.drawText("Ypaddle:"+paddle.getY(),50,300, paint );
 
             //in case of loss draw "Game over!"
             if (gameOver) {

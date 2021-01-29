@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@drawable/background_menu">
 
     <ImageView
         android:id="@+id/logo"
@@ -24,6 +25,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
+        android:textColorHint="@color/button"
         android:ems="10"
         android:hint="@string/login_email"
         android:inputType="textEmailAddress"
@@ -45,6 +47,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
+        android:textColorHint="@color/button"
         android:ems="10"
         android:hint="@string/login_psw"
         app:errorEnabled="true"
@@ -64,7 +67,14 @@
         android:layout_height="wrap_content"
         android:onClick="login"
         android:layout_centerInParent="true"
-        android:text="@string/login_button" />
+        android:text="@string/login_button"
+        android:backgroundTint="@color/button"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"/>
 
     <TextView
         android:id="@+id/sign_in"
@@ -72,6 +82,7 @@
         android:layout_height="wrap_content"
         android:onClick="signInNewUser"
         android:layout_centerInParent="true"
+        android:textColor="#FEFFDB"
         android:layout_marginTop="10dp"
         android:text="@string/login_to_signin"
         android:textSize="13dp" />
@@ -85,7 +96,15 @@
         android:layout_marginTop="10dp"
         android:onClick="goToResetPassword"
         android:layout_centerInParent="true"
-        android:text="@string/guest_mode" />
+        android:text="@string/guest_mode"
+        android:backgroundTint="@color/button"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        />
 
 
     <TextView
@@ -94,6 +113,7 @@
         android:layout_height="wrap_content"
         android:onClick="goToResetPassword"
         android:layout_centerInParent="true"
+        android:textColor="#FEFFDB"
         android:layout_marginTop="30dp"
         android:text="@string/recovery_password_quest"
         android:textSize="13dp" />
@@ -104,6 +124,7 @@
         android:layout_height="wrap_content"
         android:onClick="goToContactUs"
         android:layout_centerInParent="true"
+        android:textColor="#FEFFDB"
         android:layout_marginTop="30dp"
         android:text="CONTATTACI"
         android:textSize="13dp" />

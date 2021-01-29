@@ -32,7 +32,7 @@
     <string name="Open">Open</string>
     <string name="guest_mode">Gioca come ospite</string>
     <string name="recovery_password_quest">Hai dimenticato la password?</string>
-    <string name="recovery_password">Recupero password</string>
+    <string name="recovery_password">Reset password</string>
     <string name="send_request_recovery_password">Invia richiesta</string>
     <string name="message_hint">Scrivi un messagio</string>
     <string name="send">Invia</string>

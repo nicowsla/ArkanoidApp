@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/activity_menu"
-    tools:context=".MenuActivity">
+    tools:context=".MenuActivity"
+    android:background="@drawable/background_menu"
+    >
 
     <LinearLayout
         android:orientation="vertical"
@@ -19,17 +21,31 @@
         android:layout_width="match_parent"
         android:onClick="goToGame"
         android:text="Modalita Storia"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/button"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"/>
 
         <Button
             android:id="@+id/menu_go_to_game"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:onClick="goToGame"
             android:text="Partita Classificata"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="10"/>
 
     <Button
         android:id="@+id/menu_go_to_editlevel"
@@ -39,7 +55,14 @@
         android:layout_width="match_parent"
         android:onClick="goToCreateLevel"
         android:text="Crea livello"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/button"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"/>
 
         <Button
             android:id="@+id/menu_go_to_user_list"
@@ -49,7 +72,14 @@
             android:layout_width="match_parent"
             android:onClick="goToUserList"
             android:text="Lista utenti"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="10"/>
     </LinearLayout>
 
 
