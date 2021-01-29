@@ -1,10 +1,15 @@
 package com.example.android.arkanoid;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -34,9 +39,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final long ONE_MEGABYTE= 1024 * 1024;
     private FirebaseAuth mAuth;
 
     private ImageView logo;
@@ -55,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
 
     private boolean error=false;
+    private Context c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
-
+        c=this;
         //salvo lo userID per non perdere l'accesso
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         String uid = pref.getString("uid", null);
@@ -139,7 +148,6 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
-                                //Log.d(TAG, "signInWithEmail:success");
                                 final FirebaseUser user = mAuth.getCurrentUser();
 
                                 if (user != null && user.isEmailVerified()) {
@@ -169,19 +177,22 @@ public class LoginActivity extends AppCompatActivity {
                                             // Failed to read value
                                         }
                                     });
-
-                                   /* StorageReference riversRef = mStorageRef.child(user.getUid()).child("images/profilo.jpg");
-                                    riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    //salvo nelle sharedPreferences l'immagine del profilo: scarico l'immagine dallo storage in un array di byte che converto in stringa
+                                    StorageReference riversRef = mStorageRef.child(user.getUid()).child("images/profilo.jpg");
+                                    riversRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                                         @Override
-                                        public void onSuccess(Uri uri) {
-                                            Glide.with(getApplicationContext()).load(uri.toString()).into(photo);
+                                        public void onSuccess(byte[] bytes) {
+                                            String img = Base64.encodeToString(bytes, Base64.DEFAULT);
+                                            SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                            editor.putString( "photo", img );
+                                            editor.apply();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception exception) {
                                             // Handle any errors
                                         }
-                                    });*/
+                                    });
 
                                 } else {
                                     Toast.makeText(LoginActivity.this, getString(R.string.login_verify_mail),

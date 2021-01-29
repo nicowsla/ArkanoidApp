@@ -1,36 +1,45 @@
 package com.example.android.arkanoid;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-public class MessagesActivity extends NavigationMenuActivity {
+import java.util.Objects;
+
+public class MessagesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
@@ -40,29 +49,53 @@ public class MessagesActivity extends NavigationMenuActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private Animation frombottom, fromtop;
+    private TextView actionBarName;
+    private StorageReference mStorageRef;
+    private ImageView photo;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_messages, null, false);
-        dl.addView(contentView, 0);
+        setContentView(R.layout.activity_messages);
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        actionBarName = findViewById(R.id.action_bar_name);
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
 
         recyclerView = findViewById(R.id.list);
         recyclerView.startAnimation( fromtop );
         commento = findViewById( R.id.commenti_scrivi);
+        photo = findViewById(R.id.action_bar_img);
+
         database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         SharedPreferences p = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         friend = p.getString( "friend", null );
+        String friendUsername = p.getString( "friendName", null );
+        actionBarName.setText(friendUsername);
         linearLayoutManager = new LinearLayoutManager(this);
 
         linearLayoutManager.setStackFromEnd(true); //visualizzare messaggi dal più recente
+
+
+        StorageReference riversRef = mStorageRef.child(friend).child("images/profilo.jpg");
+        riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(getApplicationContext()).load(uri.toString()).into(photo);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
@@ -96,8 +129,13 @@ public class MessagesActivity extends NavigationMenuActivity {
 
             @Override
             protected void onBindViewHolder(MessagesActivity.ViewHolder holder, final int position, final Messages lista) {
-                holder.setTxtTitle(lista.getUtente());
                 holder.setTxtDesc(lista.getTesto());
+                if(lista.getUtente().equals(friend)){
+                    holder.itemView.setBackground(getDrawable(R.drawable.round_view_received));
+                }else{
+                    holder.itemView.setBackground(getDrawable(R.drawable.round_view_send));
+                    holder.txtDesc.setTextColor(getResources().getColor(R.color.white));
+                }
             }
         };
         recyclerView.setAdapter(adapter);
@@ -110,12 +148,12 @@ public class MessagesActivity extends NavigationMenuActivity {
             String nomeUtente = pref.getString("username", null);
             DatabaseReference data = database.getReference().child("utenti").child(user.getUid()).child("messaggi").child(friend).push();
             String ckey = data.getKey();
-            Messages messaggio = new Messages(nomeUtente, c, ckey);
+            Messages messaggio = new Messages(user.getUid(), c, ckey);
             data.setValue(messaggio);
 
             DatabaseReference data1 = database.getReference().child("utenti").child(friend).child("messaggi").child(user.getUid()).push();
             String ckey1 = data1.getKey();
-            Messages messaggio1 = new Messages(nomeUtente, c, ckey1);
+            Messages messaggio1 = new Messages(user.getUid(), c, ckey1);
             data1.setValue(messaggio1);
 
             commento.setText("");
@@ -161,6 +199,10 @@ public class MessagesActivity extends NavigationMenuActivity {
 
     @Override
     public void onBackPressed(){
+        startActivity( new Intent(MessagesActivity.this, UserProfileActivity.class) );
+    }
+
+    public void goBackToProfile(View view){
         startActivity( new Intent(MessagesActivity.this, UserProfileActivity.class) );
     }
 }

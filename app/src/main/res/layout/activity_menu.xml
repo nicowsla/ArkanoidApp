@@ -7,9 +7,12 @@
     android:id="@+id/activity_menu"
     tools:context=".MenuActivity"
     android:background="@drawable/background_menu">
+<<<<<<< Updated upstream
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+=======
+>>>>>>> Stashed changes
 
     <LinearLayout
         android:orientation="vertical"

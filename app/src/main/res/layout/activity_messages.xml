@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+<<<<<<< Updated upstream
     android:layout_height="match_parent"
     android:background="@drawable/background_menu">
+=======
+    android:layout_height="match_parent">
+
+>>>>>>> Stashed changes
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:transcriptMode="alwaysScroll"
+
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/rlSend"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
+
     <RelativeLayout
         android:id="@+id/rlSend"
         android:layout_alignParentBottom="true"
@@ -21,30 +28,33 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_height="wrap_content" >
-        <EditText
-            android:id="@+id/commenti_scrivi"
-            android:layout_toLeftOf="@+id/commenti_send"
-            android:layout_alignBottom="@+id/commenti_send"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:hint="@string/message_hint"
-            android:inputType="textShortMessage"
-            android:imeOptions="actionSend"
-            />
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/commenti_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingRight="10dp"
-            android:onClick="send"
-            android:clickable="true"
-            android:layout_alignParentRight="true"
-            android:contentDescription="@string/send"
-            android:src="@drawable/baseline_send_24"
-            android:textSize="18sp"
-            />
+
+            <EditText
+                android:id="@+id/commenti_scrivi"
+                android:layout_toLeftOf="@+id/commenti_send"
+                android:layout_alignBottom="@+id/commenti_send"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="@string/message_hint"
+                android:inputType="textShortMessage"
+                android:imeOptions="actionSend"
+                />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/commenti_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingRight="10dp"
+                android:onClick="send"
+                android:clickable="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/send"
+                android:src="@drawable/baseline_send_24"
+                android:textSize="18sp"
+                />
+
     </RelativeLayout>
 </RelativeLayout>
 

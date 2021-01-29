@@ -182,8 +182,8 @@ public class SignInActivity extends AppCompatActivity {
 
 
     public void verifyCredentials(){
-        if(username == null || username.length()<1){
-            usernameLayout.setError( getString(R.string.signin_username_error) );
+        if(username == null || username.length()<1 || username.length()>18){
+            usernameLayout.setError( getString(R.string.invalid_username) );
             error = true;
         }
 

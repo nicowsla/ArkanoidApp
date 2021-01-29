@@ -6,6 +6,7 @@ public class Messages {
     private String testo;
     private String id;
 
+
     public Messages(String utente, String testo, String id) {
         this.utente = utente;
         this.testo = testo;
@@ -35,4 +36,6 @@ public class Messages {
     public void setId(String id) {
         this.id = id;
     }
+
+
 }
