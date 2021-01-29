@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // create a new game
-        game = new Game2(this, 3, 0, 1, screenWidth, screenHeight, partita_a_tema, classificata, arcade, partita_infinita);
+        game = new Game(this, 3, 0, 1, screenWidth, screenHeight, partita_a_tema, classificata, arcade, partita_infinita);
         setContentView(game);
 
         // create an handler and thread
@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         private boolean touch = enableTouch;
 
 
-        public Game2(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita_a_tema, int classificata, int arcade, int partita_infinita) {
+        public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita_a_tema, int classificata, int arcade, int partita_infinita) {
             super(context);
             paint = new Paint();
 
