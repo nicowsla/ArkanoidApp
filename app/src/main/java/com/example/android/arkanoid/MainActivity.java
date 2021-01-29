@@ -368,10 +368,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //PARTITE A TEMA
             }else if(button == 1){
-                tema = true;
-                //In questo modo genero una serie di righe
-                //int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
-                //System.out.println(NumeroLivello);
                 //Parto da 3 perchè mi abbasso
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
@@ -422,6 +418,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 break;
                             case 10:
+                                tema = true;
                                 if (Levels.Livello10CREEPER[i][j] != 0) {
                                     list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello10CREEPER[i][j]));
                                 }
@@ -759,9 +756,6 @@ public class MainActivity extends AppCompatActivity {
                     resetLevel(level,buttonValue);
                     // ball.increaseSpeed(level);
                     start = false;
-                    difference = System.currentTimeMillis() - startTime;
-                    startTime = startTime/1000;
-                    difference = difference/1000;
                 }
 
             }
