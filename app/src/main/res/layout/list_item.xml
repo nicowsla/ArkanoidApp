@@ -26,26 +26,6 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-<<<<<<< Updated upstream
-            android:layout_height="wrap_content"
-            android:text="Title"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Description"/>
-
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"/>
-=======
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -67,7 +47,6 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
->>>>>>> Stashed changes
 
     </LinearLayout>
 

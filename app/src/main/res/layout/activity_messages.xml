@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-<<<<<<< Updated upstream
     android:layout_height="match_parent"
     android:background="@drawable/background_menu">
-=======
-    android:layout_height="match_parent">
 
->>>>>>> Stashed changes
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:transcriptMode="alwaysScroll"
-
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
