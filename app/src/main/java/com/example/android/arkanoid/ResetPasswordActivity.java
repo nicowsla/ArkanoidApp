@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -47,6 +48,9 @@ public class ResetPasswordActivity extends NavigationMenuActivity {
         b =  findViewById( R.id.reset_psw) ;
         emailLayout.startAnimation( fromtop );
         b.startAnimation( frombottom );
+
+        //nasconde il pannello delle notifiche
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     public  void resetPassword(View view){

@@ -68,6 +68,9 @@ public class CreateLevelActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_level);
 
+        //nasconde il pannello delle notifiche
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         view = findViewById(R.id.matrix);
 
         ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
