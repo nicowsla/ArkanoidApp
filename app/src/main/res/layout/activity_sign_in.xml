@@ -16,6 +16,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
+        android:textColorHint="@color/button"
+        app:boxStrokeColor="@color/button"
         app:errorEnabled="true"
         android:ems="10"
         android:hint="@string/signin_email"
@@ -26,7 +28,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signin_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/button"
+            android:textColorHint="@color/button"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -38,6 +42,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
+        android:textColorHint="@color/button"
+        app:boxStrokeColor="@color/button"
         app:errorEnabled="true"
         android:ems="10"
         android:hint="@string/signin_username"
@@ -48,7 +54,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signin_username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/button"
+            android:textColorHint="@color/button"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -59,6 +67,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
+        android:textColorHint="@color/button"
+        app:boxStrokeColor="@color/button"
         app:errorEnabled="true"
         android:ems="10"
         android:hint="@string/signin_psw"
@@ -69,7 +79,9 @@
             android:inputType="textPassword"
             android:id="@+id/signin_psw"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/button"
+            android:textColorHint="@color/button"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -80,6 +92,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
+        android:textColorHint="@color/button"
+        app:boxStrokeColor="@color/button"
         app:errorEnabled="true"
         android:ems="10"
         android:hint="@string/signin_psw_confirm"
@@ -90,18 +104,26 @@
             android:inputType="textPassword"
             android:id="@+id/signin_psw_conferma"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/button"
+            android:textColorHint="@color/button"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/signin_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:text="@string/signin_button"
+        android:onClick="signin"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/signin_button"
-        android:onClick="signin"/>
-
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/button"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:cornerRadius="15dp"/>
 </LinearLayout>

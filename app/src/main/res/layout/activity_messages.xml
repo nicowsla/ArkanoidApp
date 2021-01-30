@@ -35,8 +35,8 @@
                 android:hint="@string/message_hint"
                 android:inputType="textShortMessage"
                 android:imeOptions="actionSend"
-                android:textColorHint="@color/white"
-                android:textColor="@color/white"
+                android:textColorHint="@color/button"
+                android:textColor="@color/button"
                 android:background="@drawable/round_shape_rectangular"
                 />
 

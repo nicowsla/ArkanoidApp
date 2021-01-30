@@ -38,7 +38,8 @@
             android:layout_marginEnd="30dp"
             android:ems="10"
             android:hint="Username"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/button"
+            app:boxStrokeColor="@color/button"
             android:inputType="text"
             app:errorEnabled="true"
             tools:layout_editor_absoluteX="1dp"
@@ -46,9 +47,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/profile_username"
-                android:textColor="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="@color/button"
+                android:textColorHint="@color/button"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -60,7 +62,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
             android:ems="10"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/button"
+            app:boxStrokeColor="@color/button"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
             app:errorEnabled="true"
@@ -69,7 +72,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/profile_email"
-                android:textColor="@color/white"
+                android:textColor="@color/button"
+                android:textColorHint="@color/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -77,13 +81,21 @@
 
         <Button
             android:id="@+id/confirm"
+            android:text="CONFERMA"
+            android:visibility="invisible"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="100dp"
-            android:text="CONFERMA"
-            android:visibility="invisible" />
+            android:backgroundTint="@color/button"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="10"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:cornerRadius="15dp"/>
 
 
     </LinearLayout>

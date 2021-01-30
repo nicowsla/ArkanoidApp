@@ -10,16 +10,16 @@
         <item name="colorControlNormal">@color/button</item>
         <item name="colorControlActivated">@color/button</item>
         <item name="colorControlHighlight">@color/button</item>
-        
-
     </style>
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_theme</item>
     </style>
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxStrokeColor">#fff</item>
+        <item name="boxStrokeColor">#FEFFDB</item>
         <item name="boxStrokeWidth">2dp</item>
+        <item name="android:textColor">#FEFFDB</item>
+        <item name="android:textColorHint">#FEFFDB</item>
     </style>
 
 </resources>

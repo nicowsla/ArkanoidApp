@@ -51,6 +51,9 @@ public class ContactUsActivity extends AppCompatActivity {
         BodyLayout.startAnimation(fromtop);
         buttonSend.startAnimation(frombottom);
 
+        email.setFocusable( false );
+        email.setFocusableInTouchMode( false );
+
         email.setOnFocusChangeListener( new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
