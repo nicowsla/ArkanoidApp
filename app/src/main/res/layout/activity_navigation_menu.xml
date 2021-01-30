@@ -11,7 +11,7 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nv"
-        android:background="@drawable/white_bricks_vertical"
+        android:background="@drawable/navbar_bottom"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

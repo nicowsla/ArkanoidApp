@@ -3,31 +3,24 @@ package com.example.android.arkanoid;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import android.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
+
 import android.os.Bundle;
-import android.text.Html;
+
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,13 +32,15 @@ import com.google.firebase.storage.StorageReference;
 public class UsersListActivity extends NavigationMenuActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private FirebaseRecyclerAdapter adapter;
+    private UsersListAdapter adapter;
     private FirebaseDatabase database;
     private FirebaseUser user;
     private FirebaseAuth mAuth;
     private String userID;
     private Animation frombottom, fromtop;
     private StorageReference mStorageRef;
+    Context context;
+    private SearchView bar;
 
 
     @Override
@@ -56,7 +51,9 @@ public class UsersListActivity extends NavigationMenuActivity {
         dl.addView(contentView, 0);
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
+        bar = findViewById(R.id.search_bar);
 
+        context = this;
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         userID = user.getUid();
@@ -68,6 +65,20 @@ public class UsersListActivity extends NavigationMenuActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.startAnimation( fromtop );
         fetch();
+
+        bar.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.setFilter(newText);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        } );
     }
 
     private void fetch() {
@@ -86,78 +97,12 @@ public class UsersListActivity extends NavigationMenuActivity {
                         })
                         .build();
 
-        adapter = new FirebaseRecyclerAdapter<User, ViewHolder>(options) {
-            @Override
-            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item, parent, false);
-
-                return new ViewHolder(view);
-            }
-
-
-            @Override
-            protected void onBindViewHolder(final ViewHolder holder, final int position, final User lista) {
-                holder.setTxtTitle(lista.getUsername());
-                StorageReference riversRef = mStorageRef.child(lista.getId()).child("images/profilo.jpg");
-                riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                    holder.setImg(uri);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
-
-
-
-                holder.root.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                        editor.putString("friend", lista.getId());
-                        editor.putString("friendName", lista.getUsername());
-                        editor.apply();
-                        startActivity(new Intent( UsersListActivity.this, UserProfileActivity.class) );
-
-                    }
-                });
-            }
-
-        };
+        adapter = new UsersListAdapter(options, "", getApplicationContext());
         recyclerView.setAdapter(adapter);
     }
 
 
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout root;
-        public TextView txtTitle;
-        public ImageView img;
-
-
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            root = itemView.findViewById(R.id.list_root);
-            txtTitle = itemView.findViewById(R.id.list_title);
-            img = itemView.findViewById(R.id.card_view_img);
-
-
-        }
-
-        public void setTxtTitle(String string) {
-            txtTitle.setText(string);
-        }
-
-        public void setImg(Uri uri){
-            Glide.with(getApplicationContext()).load(uri.toString()).into(img);
-        }
-    }
 
     @Override
     protected void onStart() {

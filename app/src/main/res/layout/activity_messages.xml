@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:background="@drawable/backgroud">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/backgroud">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
@@ -29,26 +30,30 @@
                 android:layout_toLeftOf="@+id/commenti_send"
                 android:layout_alignBottom="@+id/commenti_send"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:gravity="top"
                 android:hint="@string/message_hint"
                 android:inputType="textShortMessage"
                 android:imeOptions="actionSend"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:background="@drawable/round_shape_rectangular"
                 />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/commenti_send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingRight="10dp"
-                android:onClick="send"
-                android:clickable="true"
-                android:layout_alignParentRight="true"
-                android:contentDescription="@string/send"
-                android:src="@drawable/baseline_send_24"
-                android:textSize="18sp"
-                />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/commenti_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:contentDescription="@string/send"
+            android:gravity="center"
+            android:onClick="send"
+            android:paddingRight="10dp"
+            android:src="@drawable/baseline_send_24"
+            android:textSize="18sp"
+            app:backgroundTint="#92289E"
+            app:rippleColor="#673AB7" />
 
     </RelativeLayout>
 </RelativeLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserProfileActivity"
-    android:background="@drawable/background_menu">
+    android:background="@drawable/backgroud">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -38,6 +38,7 @@
             android:layout_marginEnd="30dp"
             android:ems="10"
             android:hint="Username"
+            android:textColorHint="@color/white"
             android:inputType="text"
             app:errorEnabled="true"
             tools:layout_editor_absoluteX="1dp"
@@ -45,6 +46,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/profile_username"
+                android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -58,6 +60,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
             android:ems="10"
+            android:textColorHint="@color/white"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
             app:errorEnabled="true"
@@ -66,6 +69,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/profile_email"
+                android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -107,16 +111,16 @@
             app:menu_animationDelayPerItem="50"
             app:menu_backgroundColor="@android:color/transparent"
             app:menu_buttonSpacing="0dp"
-            app:menu_colorNormal="#000"
-            app:menu_colorPressed="#000"
-            app:menu_colorRipple="#000"
+            app:menu_colorNormal="@color/violet"
+            app:menu_colorPressed="@color/violet"
+            app:menu_colorRipple="@color/violet"
             app:menu_fab_hide_animation="@anim/hide_to_bottom"
             app:menu_fab_show_animation="@anim/show_from_bottom"
             app:menu_fab_size="normal"
             app:menu_icon="@drawable/fab_add"
-            app:menu_labels_colorNormal="#333333"
-            app:menu_labels_colorPressed="#444444"
-            app:menu_labels_colorRipple="#66FFFFFF"
+            app:menu_labels_colorNormal="@color/semiTransparentColor"
+            app:menu_labels_colorPressed="@color/semiTransparentColor"
+            app:menu_labels_colorRipple="@color/semiTransparentColor"
             app:menu_labels_cornerRadius="3dp"
             app:menu_labels_ellipsize="none"
             app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
@@ -146,7 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_person_white_24"
-                app:fab_colorNormal="#000"
+                app:fab_colorNormal="@color/violet"
                 app:fab_label="Modifica profilo"
                 app:fab_size="mini"
                 app:menu_colorPressed="#00030747" />
@@ -156,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_add_a_photo_24"
-                app:fab_colorNormal="#000"
+                app:fab_colorNormal="@color/violet"
                 app:fab_label="Modifica immagine profilo"
                 app:fab_size="mini"
                 app:menu_colorPressed="#00030747" />
@@ -166,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_lock_24"
-                app:fab_colorNormal="#000"
+                app:fab_colorNormal="@color/violet"
                 app:fab_label="Modifica password"
                 app:fab_size="mini"
                 app:menu_colorPressed="#00030747" />

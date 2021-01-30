@@ -8,6 +8,16 @@
     tools:context="com.example.android.arkanoid.UsersListActivity"
     android:background="@drawable/backgroud">
 
+    <SearchView
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/round_shape_rectangular">
+    </SearchView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
