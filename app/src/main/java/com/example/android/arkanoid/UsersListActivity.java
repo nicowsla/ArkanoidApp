@@ -71,7 +71,8 @@ public class UsersListActivity extends NavigationMenuActivity {
     }
 
     private void fetch() {
-        final Query query = database.getReference().child("utenti");
+        //query di tutti gli utenti ordinati per username
+        final Query query = database.getReference().child("utenti").orderByChild("username");
 
         FirebaseRecyclerOptions<User> options =
                 new FirebaseRecyclerOptions.Builder<User>()
