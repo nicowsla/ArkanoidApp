@@ -667,9 +667,9 @@ public class MainActivity extends AppCompatActivity {
 
                 //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
                 if(x<(screenWidth/2) && x_paddle>0){ //90
-                    paddle.setX(paddle.getX()-50); //100
+                    paddle.setX(paddle.getX()-50); //100, è il valore di quanto si sposta la barra
                 }else if(x>(screenWidth/2) && x_paddle<(screenWidth-200)){ //280
-                    paddle.setX(paddle.getX()+50); //100
+                    paddle.setX(paddle.getX()+50); //100, è il valore di quanto si sposta la barra
                 }
             }
             else {
