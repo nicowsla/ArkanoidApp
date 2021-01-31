@@ -602,14 +602,16 @@ public class MainActivity extends AppCompatActivity {
         //change accelerometer
         @Override
         public void onSensorChanged(SensorEvent event) {
+
             if(accelerometro) { //se il flag accelerometro è true vuol dire che si sta giocando con l'accereometro
                 if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                     paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
 
-                    if (paddle.getX() + event.values[0] > size.x - (235*screenWidth)/1080) {
-                        paddle.setX(size.x - (235*screenWidth)/1080);
-                    } else if (paddle.getX() - event.values[0] <= (35*screenWidth)/1080) {
-                        paddle.setX((35*screenWidth)/1080);
+                    //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
+                    if (paddle.getX() + event.values[0] > size.x - (200*screenWidth)/1080) {
+                        paddle.setX(size.x - (200*screenWidth)/1080);
+                    } else if (paddle.getX() - event.values[0] <= (0*screenWidth)/1080) {
+                        paddle.setX((0*screenWidth)/1080);
                     }
                 }
             }
@@ -629,43 +631,45 @@ public class MainActivity extends AppCompatActivity {
                 resetLevel(level,buttonValue);
                 gameOver = false;
 
-                //LA DIMNSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235
+                //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
             }else if(start && !gameOver && !accelerometro && touch) { //flag accelerometro deve essere false e touch true
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
                         paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (235*screenWidth)/1080) {
-                            paddle.setX(size.x - (235*screenWidth)/1080);
-                        } else if (event.getRawX() <= (35*screenWidth)/1080) {
-                            paddle.setX((35*screenWidth)/1080);
+                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                            paddle.setX(size.x - (200*screenWidth)/1080);
+                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                            paddle.setX((0*screenWidth)/1080);
                         }
                         invalidate();
                         return true;
                     case MotionEvent.ACTION_MOVE:
                         paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (235*screenWidth)/1080) {
-                            paddle.setX(size.x - (235*screenWidth)/1080);
-                        } else if (event.getRawX() <= (35*screenWidth)/1080) {
-                            paddle.setX((35*screenWidth)/1080);
+                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                            paddle.setX(size.x - (200*screenWidth)/1080);
+                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                            paddle.setX((0*screenWidth)/1080);
                         }
                         invalidate();
                         return true;
                     case MotionEvent.ACTION_DOWN:
                         paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (235*screenWidth)/1080) {
-                            paddle.setX(size.x - (235*screenWidth)/1080);
-                        } else if (event.getRawX() <= (35*screenWidth)/1080) {
-                            paddle.setX((35*screenWidth)/1080);
+                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                            paddle.setX(size.x - (200*screenWidth)/1080);
+                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                            paddle.setX((0*screenWidth)/1080);
                         }
                         return true;
                 }
             }else if(start && !gameOver && !accelerometro && !touch){ //se entrambi i flag sono false si sta giocando col gamepad
                 float x = event.getRawX();
                 float x_paddle = paddle.getX();
-                if(x<(screenWidth/2) && x_paddle>90){
-                    paddle.setX(paddle.getX()-100);
-                }else if(x>(screenWidth/2) && x_paddle<(screenWidth-280)){
-                    paddle.setX(paddle.getX()+100);
+
+                //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
+                if(x<(screenWidth/2) && x_paddle>0){ //90
+                    paddle.setX(paddle.getX()-50); //100
+                }else if(x>(screenWidth/2) && x_paddle<(screenWidth-200)){ //280
+                    paddle.setX(paddle.getX()+50); //100
                 }
             }
             else {
