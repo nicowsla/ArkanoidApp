@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     Boolean enableAccelerometer;
     Integer previousScore;
+    private SoundPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
         //mantiene il display acceso durante il gioco
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        //introduce il suono
+        soundPlayer = new SoundPlayer(this);
 
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -613,6 +617,7 @@ public class MainActivity extends AppCompatActivity {
                     Brick b = list.get(i);
                     if (ball.suddentlyBrick(b.getX(), b.getY(),screenWidth,screenHeight)) {
                         list.remove(i);
+                        soundPlayer.playHitSound();
                         score = score + 80;
                     }
                 }
@@ -798,6 +803,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     ++level;
+                    soundPlayer.playOverSound();
                     resetLevel(level,buttonValue);
                     // ball.increaseSpeed(level);
                     start = false;
