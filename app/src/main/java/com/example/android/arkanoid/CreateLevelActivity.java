@@ -1,127 +1,75 @@
-
 package com.example.android.arkanoid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-
-public class CreateLevelActivity extends AppCompatActivity{
-    private View view;
-    private int width;
-    private int height;
-    private int x;
-    private int y;
-    private int i;
-    private int j;
-    private EditLevel game;
-
-    private ArrayList<Brick> list = new ArrayList<Brick>();
-    int screenWidth;
-    int screenHeight;
-
-    Context contex = this;
-    private UpdateThread myThread;
-    private Handler updateHandler;
-    private TextView livello;
-    private TextView velocita;
-
-
-
-    private int[][] editableMatrix= new int[][]{{0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},};
-    private Canvas canvas;
-    Paint paint = new Paint();
-    private Bitmap stretchedOut;
+public class CreateLevelActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private FirebaseUser user;
+    private SeekBar seekBar;
+    private TextView progress;
+    String matrixString;
+    int speed = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_level);
+        setContentView(R.layout.activity_create_level2);
+        seekBar = findViewById(R.id.seekBar);
+        progress = findViewById(R.id.progress);
 
-        view = findViewById(R.id.matrix);
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
 
-        ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
-        if (viewTreeObserver.isAlive()) {
-            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    width = view.getWidth();
-                    height = view.getHeight();
+        progress.setText("Speed: "+speed+"/"+seekBar.getMax());
 
-                }
-            });
-        }
-
-        //non so se servano davvero
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
-        wm.getDefaultDisplay().getMetrics(displayMetrics);
-        screenWidth = displayMetrics.widthPixels;
-        screenHeight = displayMetrics.heightPixels;
-        view.setOnTouchListener( handleTouch);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        matrixString = pref.getString("matrixString", null);
 
 
+        // perform seek bar change listener event used for getting the progress value
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                speed = progress;
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                progress.setText("Speed: "+speed+"/"+seekBar.getMax());
+            }
+        });
     }
 
-    //funzione trasforma il tocco (x,y) (pixel) in coordinate (i,j)
-    private  View.OnTouchListener handleTouch = new View.OnTouchListener() {
 
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            //prendo coordinate del tocco
-            x = (int) event.getX();
-            y = (int) event.getY();
-            float deltaWidth = width /9;
-            j = (int) (x/deltaWidth);
-            float deltaHeight = height /16;
-            i = (int) (y/deltaHeight);
-            editableMatrix[i][j] = 5; //qui va messo il numero corrispondente al colore delmattone desiderato
-           // game = new EditLevel(contex, screenWidth, screenHeight, i, j);
-            setContentView(game);
-            System.out.println("coordinate: I="+i+"    J="+j );
-
-            for(int a=0; a<16; a++){
-                for(int b=0; b<9; b++){
-
-                }
-            }
-            return true;
+    public void saveLevel(View view) {
+        if(!matrixString.isEmpty()){
+            DatabaseReference myRef = database.getReference("utenti").child(user.getUid()).child("livelliPersonali").push();
+            String key = myRef.getKey();
+            myRef.setValue(new Level(key, matrixString, speed));
         }
-    };
-
-    //fare una funzione attivata dal bottone di conferma che salva la matrice nel db!!!
-
+        //creare un pop up che conferma il salvataggio del livello e poi uscire
+        startActivity(new Intent(CreateLevelActivity.this, MenuActivity.class));
+    }
 
 }

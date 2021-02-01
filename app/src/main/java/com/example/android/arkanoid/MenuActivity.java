@@ -63,7 +63,7 @@ public class MenuActivity extends NavigationMenuActivity {
     }
 
     public void goToCreateLevel(View View){
-        startActivity(new Intent(MenuActivity.this, CreateLevelActivity.class));
+        startActivity(new Intent(MenuActivity.this, CreateLevel.class));
     }
 
     public void goToUserList(View View){

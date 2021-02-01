@@ -57,7 +57,7 @@
     <string name="commands_selector"> Comandi</string>
     <string name="languages_selector"> Lingua</string>
     <string name="settings_select_commands_info">Tipologia comandi di gioco</string>
-    <string name="commands_confirm"> </string>
+    <string name="commands_confirm"></string>
     <string name="commands_not_confirm">OK</string>
     <string name="commands_info_dialog">
         È possibile controllare la barra in tre modalità differenti, mediante: \n
@@ -83,6 +83,26 @@
     <string name="email_contact">arkanoidsms2021@gmail.com</string>
     <string name="error_contact">Nessuna app supporta questa funzionalità</string>
     <string name="error_fields">Compilare tutti i campi!</string>
+    <string name="blue_chosen">Colore scelto: blu</string>
+    <string name="green_chosen">Colore scelto: verde</string>
+    <string name="orange_chosen">Colore scelto: arancione</string>
+    <string name="pink_chosen">Colore scelto: rosa</string>
+    <string name="purple_chosen">Colore scelto: porpora</string>
+    <string name="red_chosen">Colore scelto: rosso</string>
+    <string name="yellow_chosen">Colore scelto: giallo</string>
+    <string name="black_chosen">Colore scelto: nero</string>
+    <string name="dark_red_chosen">Colore scelto: rosso scuro</string>
+    <string name="dark_grey_chosen">Colore scelto: grigio scuro</string>
+    <string name="white_chosen">Colore scelto: bianco</string>
+    <string name="dark_blue_chosen">Colore scelto: blu scuro</string>
+    <string name="skin_chosen">Colore scelto: rosa carne</string>
+    <string name="brown_chosen">Colore scelto: marrone</string>
+    <string name="aqua_chosen">Colore scelto: aqua</string>
+    <string name="grey_chosen">Colore scelto: grigio</string>
+    <string name="lite_grey_chosen">Colore scelto: grigio chiaro</string>
+    <string name="choose_speed">Scegli la velocità della pallina!</string>
+    <string name="ereaser_chosen">Gomma selezionata!</string>
+    <string name="confirm">Conferma</string>
     <string-array name="commands">
         <item>Accelerometro</item>
         <item>Gamepad</item>

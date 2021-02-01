@@ -9,7 +9,9 @@
         android:roundIcon="@drawable/redball"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
-        <activity android:name=".ContactUsActivity"></activity>
+        <activity android:name=".PersonalLevelsActivity"></activity>
+        <activity android:name=".CreateLevelActivity" />
+        <activity android:name=".ContactUsActivity" />
         <activity android:name=".NavigationMenuActivity" />
         <activity android:name=".RankingListActivity" />
         <activity android:name=".SettingsActivity" />
@@ -26,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateLevelActivity" />
+        <activity android:name=".CreateLevel" />
         <activity android:name=".MainActivity" />
         <activity android:name=".MenuActivity" />
         <activity
