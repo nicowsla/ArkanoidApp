@@ -299,11 +299,11 @@ public class MainActivity extends AppCompatActivity {
 
         private long startTime;
         private long difference;
-        private double minuti;
-        private double secondi;
-        private double decimi;
-        private double centesimi;
-        private double millesimi;
+        private long minuti;
+        private long secondi;
+        private long decimi;
+        private long centesimi;
+        private long millesimi;
 
 
 
@@ -579,16 +579,16 @@ public class MainActivity extends AppCompatActivity {
                 level = 1;
                 if(tempo){
                     difference = System.currentTimeMillis() - startTime;
-                    double min = difference / (1000 * 60);
-                    minuti = Math.floor(min);
-                    double sec = (difference - (minuti*60000)) / 1000;
-                    secondi = Math.floor(sec);
-                    double dec = (sec - secondi)*10;
-                    decimi = Math.floor(dec);
-                    double cen = (dec - decimi)*10;
-                    centesimi = Math.floor(cen);
-                    double mill = (cen - centesimi)*10;
-                    millesimi = Math.floor(mill);
+                    long min = difference / (1000 * 60);
+                    minuti = min;
+                    long sec = (difference - (min*60000)) / 1000;
+                    secondi = sec;
+                    long dec = (difference - (min*60000) - (sec*1000)) / 100;
+                    decimi = dec;
+                    long cen = (difference - (min*60000) - (sec*1000) - (dec*100))/10;
+                    centesimi = cen;
+                    long mill = (difference - (min*60000) - (sec*1000) - (dec*100) - (cen*10));
+                    millesimi = mill;
                 }
                 invalidate();
             } else {
@@ -740,16 +740,16 @@ public class MainActivity extends AppCompatActivity {
                     start = false;
                 }else if(tempo){
                     difference = System.currentTimeMillis() - startTime;
-                    double min = difference / (1000 * 60);
-                    minuti = Math.floor(min);
-                    double sec = (difference - (minuti*60000)) / 1000;
-                    secondi = Math.floor(sec);
-                    double dec = (sec - secondi)*10;
-                    decimi = Math.floor(dec);
-                    double cen = (dec - decimi)*10;
-                    centesimi = Math.floor(cen);
-                    double mill = (cen - centesimi)*10;
-                    millesimi = Math.floor(mill);
+                    long min = difference / (1000 * 60);
+                    minuti = min;
+                    long sec = (difference - (min*60000)) / 1000;
+                    secondi = sec;
+                    long dec = (difference - (min*60000) - (sec*1000)) / 100;
+                    decimi = dec;
+                    long cen = (difference - (min*60000) - (sec*1000) - (dec*100))/10;
+                    centesimi = cen;
+                    long mill = (difference - (min*60000) - (sec*1000) - (dec*100) - (cen*10));
+                    millesimi = mill;
                     AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                     alertDialog.setTitle( R.string.vittoria_tempo );
                     alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + ":" + secondi + ":" + decimi + ":" + centesimi + ":" + millesimi);
