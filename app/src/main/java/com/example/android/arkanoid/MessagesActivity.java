@@ -132,9 +132,10 @@ public class MessagesActivity extends AppCompatActivity {
                 holder.setTxtDesc(lista.getTesto());
                 if(lista.getUtente().equals(friend)){
                     holder.itemView.setBackground(getDrawable(R.drawable.round_view_received));
+                    holder.txtDesc.setTextColor(getResources().getColor(R.color.purple_dark));
                 }else{
                     holder.itemView.setBackground(getDrawable(R.drawable.round_view_send));
-                    holder.txtDesc.setTextColor(getResources().getColor(R.color.white));
+                    holder.txtDesc.setTextColor(getResources().getColor(R.color.button));
                 }
             }
         };

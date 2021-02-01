@@ -18,8 +18,11 @@
     </style>
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxStrokeColor">#fff</item>
-        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeColor">@color/button</item>
+        <item name="boxStrokeWidth">@color/button</item>
+        <item name="colorControlNormal">@color/button</item>
+        <item name="colorControlActivated">@color/button</item>
+        <item name="colorControlHighlight">@color/button</item>
     </style>
 
 </resources>

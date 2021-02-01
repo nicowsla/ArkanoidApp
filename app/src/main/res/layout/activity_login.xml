@@ -25,18 +25,24 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
-        android:textColorHint="@color/button"
         android:ems="10"
         android:hint="@string/login_email"
         android:inputType="textEmailAddress"
+        android:textColorHint="@color/button"
+        app:boxStrokeColor="#FFFFFF"
         app:errorEnabled="true"
+        app:helperTextTextAppearance="@color/button"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="235dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/button"
+            android:textColorHighlight="@color/button"
+            android:textColorHint="@color/button"
+            android:textColorLink="@color/button" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -47,10 +53,13 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
-        android:textColorHint="@color/button"
         android:ems="10"
         android:hint="@string/login_psw"
+        android:textColorHint="@color/button"
+        app:boxStrokeColor="@color/button"
         app:errorEnabled="true"
+        app:passwordToggleTint="#FFFFFF"
+        android:textColorLink="@color/button"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="235dp">
 
@@ -58,7 +67,11 @@
             android:id="@+id/login_psw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="@color/button"
+            android:textColorHighlight="@color/button"
+            android:textColorHint="@color/button"
+            android:textColorLink="@color/button" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

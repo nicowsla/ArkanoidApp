@@ -10,9 +10,9 @@
     <color name="purple_dark">#38006b</color>
     <color name="semiTransparentColor">#9138006b</color>
     <color name="orange">#ffc107</color>
-    <color name="semiTransparentOrange">#91ffecb3</color>
+    <color name="semiTransparentOrange">#91FEFFDB</color>
     <color name="violet">#9c27b0</color>
     <color name="trasparent_violet">#99d05ce3</color>
 
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/button</color>
 </resources>

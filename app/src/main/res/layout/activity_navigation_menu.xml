@@ -26,8 +26,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginLeft="50dp"
             app:civ_border_width="2dp"
-            app:civ_border_color="@color/white"
-            android:minHeight="200dp"/>
+            app:civ_border_color="@color/button" />
 
         <TextView
             android:id="@+id/username"
@@ -36,7 +35,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="205dp"
             android:text="Username"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/button"
             android:textSize="18sp"
             android:textStyle="bold" />
 

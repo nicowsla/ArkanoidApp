@@ -89,9 +89,6 @@ public class CreateLevelActivity extends AppCompatActivity{
         wm.getDefaultDisplay().getMetrics(displayMetrics);
         screenWidth = displayMetrics.widthPixels;
         screenHeight = displayMetrics.heightPixels;
-
-
-
         view.setOnTouchListener( handleTouch);
 
 
