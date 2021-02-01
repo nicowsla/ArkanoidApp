@@ -25,6 +25,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
+        android:textColorHint="@color/button"
+        app:boxStrokeColor="@color/button"
         android:ems="10"
         android:hint="@string/login_email"
         android:inputType="textEmailAddress"
@@ -40,9 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/button"
-            android:textColorHighlight="@color/button"
             android:textColorHint="@color/button"
-            android:textColorLink="@color/button" />
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -53,6 +54,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
+        android:textColorHint="@color/button"
+        app:boxStrokeColor="@color/button"
         android:ems="10"
         android:hint="@string/login_psw"
         android:textColorHint="@color/button"
@@ -69,9 +72,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:textColor="@color/button"
-            android:textColorHighlight="@color/button"
-            android:textColorHint="@color/button"
-            android:textColorLink="@color/button" />
+            android:textColorHint="@color/button"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

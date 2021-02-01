@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -38,6 +39,9 @@ public class ContactUsActivity extends AppCompatActivity {
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
 
+        //nasconde il pannello delle notifiche
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         emailLayout = findViewById((R.id.etTo));
         email=(EditText)findViewById(R.id.email);
         subjectLayout=findViewById(R.id.etSubject);
@@ -50,6 +54,9 @@ public class ContactUsActivity extends AppCompatActivity {
         subjectLayout.startAnimation(fromtop);
         BodyLayout.startAnimation(fromtop);
         buttonSend.startAnimation(frombottom);
+
+        email.setFocusable( false );
+        email.setFocusableInTouchMode( false );
 
         email.setOnFocusChangeListener( new View.OnFocusChangeListener() {
             @Override

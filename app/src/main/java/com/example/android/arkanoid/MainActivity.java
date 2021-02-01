@@ -40,6 +40,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     Boolean enableAccelerometer;
     Integer previousScore;
+    private SoundPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
         //mantiene il display acceso durante il gioco
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        //introduce il suono
+        soundPlayer = new SoundPlayer(this);
+
+        //nasconde il pannello delle notifiche
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         enableTouch = pref.getBoolean("touch", true);
@@ -289,9 +297,21 @@ public class MainActivity extends AppCompatActivity {
         private int buttonValue;
         private boolean boss = false;
         private boolean infinita = false;
+        private boolean tempo = false;
+        private boolean tema = false;
+        private boolean attivato = false;
 
         private boolean accelerometro = enableAccelerometer;
         private boolean touch = enableTouch;
+
+        private long startTime;
+        private long difference;
+        private long minuti;
+        private long secondi;
+        private long decimi;
+        private long centesimi;
+        private long millesimi;
+
 
 
         public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita_a_tema, int classificata, int arcade, int partita_infinita) {
@@ -314,6 +334,8 @@ public class MainActivity extends AppCompatActivity {
             // start a gameOver to see if the game continues or the player has lost all the lives
             start = false;
             gameOver = false;
+            startTime = 0;
+            difference = 0;
 
             readBackground(context);
 
@@ -353,6 +375,7 @@ public class MainActivity extends AppCompatActivity {
 
             //LIVELLO MOSTRO CLASSIFICATA
             if(button == 2){
+                tempo = true;
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
                         if (Levels.LivelloMOSTRO[i][j] != 0) {
@@ -362,9 +385,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //PARTITE A TEMA
             }else if(button == 1){
-                //In questo modo genero una serie di righe
-                //int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
-                //System.out.println(NumeroLivello);
                 //Parto da 3 perchè mi abbasso
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
@@ -415,6 +435,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 break;
                             case 10:
+                                tema = true;
                                 if (Levels.Livello10CREEPER[i][j] != 0) {
                                     list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello10CREEPER[i][j]));
                                 }
@@ -520,9 +541,8 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawText("" + lifes, (size.x/4), 100, paint);
             canvas.drawText("" + score, (size.x/4)*2, 100, paint);
             canvas.drawText("" + level,(size.x/4)*3,100, paint );
-            //canvas.drawText("ballX:"+ball.getX(),50,150, paint );
-            //canvas.drawText("ballY:"+ball.getY(),50,200, paint );
-            //canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
+
+            //canvas.drawText("xpaddle:"+ getTime(),50,250, paint );
             //canvas.drawText("Ypaddle:"+paddle.getY(),50,300, paint );
 
             //in case of loss draw "Game over!"
@@ -538,6 +558,9 @@ public class MainActivity extends AppCompatActivity {
                 level = 1;
                 infinita = false;
                 boss = false;
+                startTime = 0;
+                //difference = 0;
+                attivato = false;
             }
         }
 
@@ -560,6 +583,19 @@ public class MainActivity extends AppCompatActivity {
                 gameOver = true;
                 start = false;
                 level = 1;
+                if(tempo){
+                    difference = System.currentTimeMillis() - startTime;
+                    long min = difference / (1000 * 60);
+                    minuti = min;
+                    long sec = (difference - (min*60000)) / 1000;
+                    secondi = sec;
+                    long dec = (difference - (min*60000) - (sec*1000)) / 100;
+                    decimi = dec;
+                    long cen = (difference - (min*60000) - (sec*1000) - (dec*100))/10;
+                    centesimi = cen;
+                    long mill = (difference - (min*60000) - (sec*1000) - (dec*100) - (cen*10));
+                    millesimi = mill;
+                }
                 invalidate();
             } else {
                 lifes--;
@@ -581,6 +617,7 @@ public class MainActivity extends AppCompatActivity {
                     Brick b = list.get(i);
                     if (ball.suddentlyBrick(b.getX(), b.getY(),screenWidth,screenHeight)) {
                         list.remove(i);
+                        soundPlayer.playHitSound();
                         score = score + 80;
                     }
                 }
@@ -599,14 +636,16 @@ public class MainActivity extends AppCompatActivity {
         //change accelerometer
         @Override
         public void onSensorChanged(SensorEvent event) {
+
             if(accelerometro) { //se il flag accelerometro è true vuol dire che si sta giocando con l'accereometro
                 if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                     paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
 
-                    if (paddle.getX() + event.values[0] > size.x - (235*screenWidth)/1080) {
-                        paddle.setX(size.x - (235*screenWidth)/1080);
-                    } else if (paddle.getX() - event.values[0] <= (35*screenWidth)/1080) {
-                        paddle.setX((35*screenWidth)/1080);
+                    //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
+                    if (paddle.getX() + event.values[0] > size.x - (200*screenWidth)/1080) {
+                        paddle.setX(size.x - (200*screenWidth)/1080);
+                    } else if (paddle.getX() - event.values[0] <= (0*screenWidth)/1080) {
+                        paddle.setX((0*screenWidth)/1080);
                     }
                 }
             }
@@ -626,47 +665,54 @@ public class MainActivity extends AppCompatActivity {
                 resetLevel(level,buttonValue);
                 gameOver = false;
 
-                //LA DIMNSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235
+                //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
             }else if(start && !gameOver && !accelerometro && touch) { //flag accelerometro deve essere false e touch true
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
                         paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (235*screenWidth)/1080) {
-                            paddle.setX(size.x - (235*screenWidth)/1080);
-                        } else if (event.getRawX() <= (35*screenWidth)/1080) {
-                            paddle.setX((35*screenWidth)/1080);
+                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                            paddle.setX(size.x - (200*screenWidth)/1080);
+                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                            paddle.setX((0*screenWidth)/1080);
                         }
                         invalidate();
                         return true;
                     case MotionEvent.ACTION_MOVE:
                         paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (235*screenWidth)/1080) {
-                            paddle.setX(size.x - (235*screenWidth)/1080);
-                        } else if (event.getRawX() <= (35*screenWidth)/1080) {
-                            paddle.setX((35*screenWidth)/1080);
+                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                            paddle.setX(size.x - (200*screenWidth)/1080);
+                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                            paddle.setX((0*screenWidth)/1080);
                         }
                         invalidate();
                         return true;
                     case MotionEvent.ACTION_DOWN:
                         paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (235*screenWidth)/1080) {
-                            paddle.setX(size.x - (235*screenWidth)/1080);
-                        } else if (event.getRawX() <= (35*screenWidth)/1080) {
-                            paddle.setX((35*screenWidth)/1080);
+                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                            paddle.setX(size.x - (200*screenWidth)/1080);
+                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                            paddle.setX((0*screenWidth)/1080);
                         }
                         return true;
                 }
             }else if(start && !gameOver && !accelerometro && !touch){ //se entrambi i flag sono false si sta giocando col gamepad
                 float x = event.getRawX();
                 float x_paddle = paddle.getX();
-                if(x<(screenWidth/2) && x_paddle>90){
-                    paddle.setX(paddle.getX()-100);
-                }else if(x>(screenWidth/2) && x_paddle<(screenWidth-280)){
-                    paddle.setX(paddle.getX()+100);
+
+                //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
+                if(x<(screenWidth/2) && x_paddle>0){ //90
+                    paddle.setX(paddle.getX()-50); //100, è il valore di quanto si sposta la barra
+                }else if(x>(screenWidth/2) && x_paddle<(screenWidth-200)){ //280
+                    paddle.setX(paddle.getX()+50); //100, è il valore di quanto si sposta la barra
                 }
             }
             else {
                 start = true;
+                if(!attivato){
+                    startTime = System.currentTimeMillis();
+                    attivato = true;
+                    difference = 0;
+                }
             }
             return false;
         }
@@ -679,7 +725,6 @@ public class MainActivity extends AppCompatActivity {
             list = new ArrayList<Brick>();
             generateBricks(context,level,buttonValue);
         }
-
 
         // find out if the player won or not
         private void win() {
@@ -704,9 +749,61 @@ public class MainActivity extends AppCompatActivity {
                             } );
                     alertDialog.show();
                     start = false;
-
-                }else{
+                }else if(tempo){
+                    difference = System.currentTimeMillis() - startTime;
+                    long min = difference / (1000 * 60);
+                    minuti = min;
+                    long sec = (difference - (min*60000)) / 1000;
+                    secondi = sec;
+                    long dec = (difference - (min*60000) - (sec*1000)) / 100;
+                    decimi = dec;
+                    long cen = (difference - (min*60000) - (sec*1000) - (dec*100))/10;
+                    centesimi = cen;
+                    long mill = (difference - (min*60000) - (sec*1000) - (dec*100) - (cen*10));
+                    millesimi = mill;
+                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                    alertDialog.setTitle( R.string.vittoria_tempo );
+                    alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
+                    alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                }
+                            } );
+                    alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                }
+                            } );
+                    alertDialog.show();
+                    start = false;
+                }else if(tema){
+                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                    alertDialog.setTitle( R.string.vittoria_tempo );
+                    alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
+                    alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                }
+                            } );
+                    alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                }
+                            } );
+                    alertDialog.show();
+                    start = false;
+                }
+                else{
                     ++level;
+                    soundPlayer.playOverSound();
                     resetLevel(level,buttonValue);
                     // ball.increaseSpeed(level);
                     start = false;
