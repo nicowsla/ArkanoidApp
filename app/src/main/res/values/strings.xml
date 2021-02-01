@@ -69,7 +69,7 @@
         Hai completato la modalità arcade sconfigendo il Boss finale!
     </string>
     <string name="messaggio_partita_tempo">
-        Bravo, il tuo tempo è stato registrato!
+        Bravo, il tuo tempo è stato registrato!\n
     </string>
     <string name="messaggio_partita_tema">
         Bravo, hai completato tutti il livelli a tema, inseriremo presto nuovi personaggi!

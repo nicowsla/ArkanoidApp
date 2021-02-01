@@ -537,8 +537,7 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawText("" + lifes, (size.x/4), 100, paint);
             canvas.drawText("" + score, (size.x/4)*2, 100, paint);
             canvas.drawText("" + level,(size.x/4)*3,100, paint );
-            canvas.drawText("Inizio:" + startTime,50,150, paint );
-            canvas.drawText("Fine:" + minuti + ":" +  secondi + ":" + decimi+ ":" + centesimi + ":" + millesimi,50,200, paint );
+
             //canvas.drawText("xpaddle:"+ getTime(),50,250, paint );
             //canvas.drawText("Ypaddle:"+paddle.getY(),50,300, paint );
 
@@ -759,7 +758,7 @@ public class MainActivity extends AppCompatActivity {
                     millesimi = mill;
                     AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                     alertDialog.setTitle( R.string.vittoria_tempo );
-                    alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + ":" + secondi + ":" + decimi + ":" + centesimi + ":" + millesimi);
+                    alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
                     alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
