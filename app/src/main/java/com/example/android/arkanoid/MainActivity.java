@@ -40,6 +40,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -291,12 +292,19 @@ public class MainActivity extends AppCompatActivity {
         private boolean infinita = false;
         private boolean tempo = false;
         private boolean tema = false;
+        private boolean attivato = false;
 
         private boolean accelerometro = enableAccelerometer;
         private boolean touch = enableTouch;
 
-        private long startTime = 0;
-        private long difference = 0;
+        private long startTime;
+        private long difference;
+        private double minuti;
+        private double secondi;
+        private double decimi;
+        private double centesimi;
+        private double millesimi;
+
 
 
         public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita_a_tema, int classificata, int arcade, int partita_infinita) {
@@ -319,6 +327,8 @@ public class MainActivity extends AppCompatActivity {
             // start a gameOver to see if the game continues or the player has lost all the lives
             start = false;
             gameOver = false;
+            startTime = 0;
+            difference = 0;
 
             readBackground(context);
 
@@ -525,8 +535,8 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawText("" + score, (size.x/4)*2, 100, paint);
             canvas.drawText("" + level,(size.x/4)*3,100, paint );
             canvas.drawText("Inizio:" + startTime,50,150, paint );
-            canvas.drawText("Fine:" + difference,50,200, paint );
-            //canvas.drawText("xpaddle:"+paddle.getX(),50,250, paint );
+            canvas.drawText("Fine:" + minuti + ":" +  secondi + ":" + decimi+ ":" + centesimi + ":" + millesimi,50,200, paint );
+            //canvas.drawText("xpaddle:"+ getTime(),50,250, paint );
             //canvas.drawText("Ypaddle:"+paddle.getY(),50,300, paint );
 
             //in case of loss draw "Game over!"
@@ -543,7 +553,8 @@ public class MainActivity extends AppCompatActivity {
                 infinita = false;
                 boss = false;
                 startTime = 0;
-                difference = 0;
+                //difference = 0;
+                attivato = false;
             }
         }
 
@@ -566,6 +577,19 @@ public class MainActivity extends AppCompatActivity {
                 gameOver = true;
                 start = false;
                 level = 1;
+                if(tempo){
+                    difference = System.currentTimeMillis() - startTime;
+                    double min = difference / (1000 * 60);
+                    minuti = Math.floor(min);
+                    double sec = (difference - (minuti*60000)) / 1000;
+                    secondi = Math.floor(sec);
+                    double dec = (sec - secondi)*10;
+                    decimi = Math.floor(dec);
+                    double cen = (dec - decimi)*10;
+                    centesimi = Math.floor(cen);
+                    double mill = (cen - centesimi)*10;
+                    millesimi = Math.floor(mill);
+                }
                 invalidate();
             } else {
                 lifes--;
@@ -673,6 +697,11 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 start = true;
+                if(!attivato){
+                    startTime = System.currentTimeMillis();
+                    attivato = true;
+                    difference = 0;
+                }
             }
             return false;
         }
@@ -685,7 +714,6 @@ public class MainActivity extends AppCompatActivity {
             list = new ArrayList<Brick>();
             generateBricks(context,level,buttonValue);
         }
-
 
         // find out if the player won or not
         private void win() {
@@ -711,9 +739,20 @@ public class MainActivity extends AppCompatActivity {
                     alertDialog.show();
                     start = false;
                 }else if(tempo){
+                    difference = System.currentTimeMillis() - startTime;
+                    double min = difference / (1000 * 60);
+                    minuti = Math.floor(min);
+                    double sec = (difference - (minuti*60000)) / 1000;
+                    secondi = Math.floor(sec);
+                    double dec = (sec - secondi)*10;
+                    decimi = Math.floor(dec);
+                    double cen = (dec - decimi)*10;
+                    centesimi = Math.floor(cen);
+                    double mill = (cen - centesimi)*10;
+                    millesimi = Math.floor(mill);
                     AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                     alertDialog.setTitle( R.string.vittoria_tempo );
-                    alertDialog.setMessage( getString(R.string.messaggio_partita_tempo) );
+                    alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + ":" + secondi + ":" + decimi + ":" + centesimi + ":" + millesimi);
                     alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
