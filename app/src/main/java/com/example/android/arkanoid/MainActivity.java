@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        onPause();
         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
         alertDialog.setTitle( R.string.attention );
         alertDialog.setMessage( getString(R.string.exit_confirm) );
@@ -265,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-
                         startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
                     }
                 } );
@@ -273,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        onResume();
                     }
                 } );
         alertDialog.show();
