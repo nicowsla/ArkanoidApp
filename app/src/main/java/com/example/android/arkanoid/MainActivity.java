@@ -520,8 +520,6 @@ public class MainActivity extends AppCompatActivity {
             paint.setColor(Color.RED);
             canvas.drawBitmap(redBall, ball.getX(), ball.getY(), paint);
 
-            // draw fell
-
             // draw fell, disegna rettangolo cioè barra
             paint.setColor(Color.WHITE);
             //La riga sotto era +200 + 40
@@ -706,10 +704,10 @@ public class MainActivity extends AppCompatActivity {
                 float x_paddle = paddle.getX();
 
                 //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
-                if(x<(screenWidth/2) && x_paddle>0){ //90
-                    paddle.setX(paddle.getX()-50); //100, è il valore di quanto si sposta la barra
-                }else if(x>(screenWidth/2) && x_paddle<(screenWidth-200)){ //280
-                    paddle.setX(paddle.getX()+50); //100, è il valore di quanto si sposta la barra
+                if(x < (screenWidth/2) && x_paddle > 0){ //90
+                    paddle.setX(paddle.getX() - ((50*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((200*screenWidth)/1080))){ //280
+                    paddle.setX(paddle.getX() + ((50*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
                 }
             }
             else {
