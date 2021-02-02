@@ -696,28 +696,28 @@ public class MainActivity extends AppCompatActivity {
             }else if(start && !gameOver && !accelerometro && touch) { //flag accelerometro deve essere false e touch true
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
-                        paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                        paddle.setX(event.getRawX() - (100*screenWidth)/1080);
+                        if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
                             paddle.setX(size.x - (200*screenWidth)/1080);
-                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                        } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
                             paddle.setX((0*screenWidth)/1080);
                         }
                         invalidate();
                         return true;
                     case MotionEvent.ACTION_MOVE:
-                        paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                        paddle.setX(event.getRawX() - (100*screenWidth)/1080);
+                        if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
                             paddle.setX(size.x - (200*screenWidth)/1080);
-                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                        } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
                             paddle.setX((0*screenWidth)/1080);
                         }
                         invalidate();
                         return true;
                     case MotionEvent.ACTION_DOWN:
-                        paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                        paddle.setX(event.getRawX() - (100*screenWidth)/1080);
+                        if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
                             paddle.setX(size.x - (200*screenWidth)/1080);
-                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                        } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
                             paddle.setX((0*screenWidth)/1080);
                         }
                         return true;
@@ -728,9 +728,15 @@ public class MainActivity extends AppCompatActivity {
 
                 //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
                 if(x < (screenWidth/2) && x_paddle > 0){ //90
-                    paddle.setX(paddle.getX() - ((50*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                    paddle.setX(paddle.getX() - ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                    if(x > size.x - (200*screenWidth)/1080){
+                        x_paddle += (50*screenWidth)/1080;
+                    }
                 }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((200*screenWidth)/1080))){ //280
-                    paddle.setX(paddle.getX() + ((50*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                    paddle.setX(paddle.getX() + ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                    if(x > size.x - (200*screenWidth)/1080){
+                        x_paddle -= (50*screenWidth)/1080;
+                    }
                 }
             }
             else {
