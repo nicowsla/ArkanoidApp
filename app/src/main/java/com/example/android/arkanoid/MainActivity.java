@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -529,6 +530,14 @@ public class MainActivity extends AppCompatActivity {
             display.getSize(size);
         }
 
+        public Bitmap scaleDown(Bitmap realImage, float maxImageSize, boolean filter) {
+            float ratio = Math.min((float) maxImageSize / realImage.getWidth(), (float) maxImageSize / realImage.getHeight());
+            int width = Math.round((float) ratio * realImage.getWidth());
+            int height = Math.round((float) ratio * realImage.getHeight());
+            Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width, height, filter);
+            return newBitmap;
+        }
+
         protected void onDraw(Canvas canvas) {
             // creates a background only once
             if (stretchedOut == null) {
@@ -563,12 +572,27 @@ public class MainActivity extends AppCompatActivity {
             float velocitaX = ball.getxSpeed();
             float velocitaY = ball.ySpeed;
 
-            canvas.drawText("" + lifes, (size.x/4), 100, paint);
-            canvas.drawText("" + score, (size.x/4)*2, 100, paint);
-            canvas.drawText("" + level,(size.x/4)*3,100, paint );
+            Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
+            Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
+            Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
 
-            //canvas.drawText("xpaddle:"+ getTime(),50,250, paint );
-            //canvas.drawText("Ypaddle:"+paddle.getY(),50,300, paint );
+            int maxSize = (int) screenWidth/18;
+
+            Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
+            Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
+            Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
+
+            canvas.drawBitmap(new_icon_level, (size.x/4) - (maxSize+5), 50, paint);
+            canvas.drawText("" + level,(size.x/4),100, paint );
+
+            canvas.drawBitmap(new_icon_lives, (size.x/4)*2 - (maxSize+5), 50, paint);
+            canvas.drawText("" + lifes, (size.x/4)*2, 100, paint);
+
+            canvas.drawBitmap(new_icon_score, (size.x/4)*3 - (maxSize+5), 50, paint);
+            canvas.drawText("" + score, (size.x/4)*3, 100, paint);
+
+            //PROVE ##############################################################
+            canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
 
             //in case of loss draw "Game over!"
             if (gameOver) {
@@ -581,7 +605,7 @@ public class MainActivity extends AppCompatActivity {
 
                 paint.setColor(Color.RED);
                 paint.setTextSize(100);
-                canvas.drawText("Game over!", size.x / 3, size.y / 2, paint);
+                canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
                 level = 1;
                 infinityMode = false;
                 boss = false;
@@ -696,7 +720,7 @@ public class MainActivity extends AppCompatActivity {
             }else if(start && !gameOver && !accelerometro && touch) { //flag accelerometro deve essere false e touch true
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
-                        paddle.setX(event.getRawX() - (100*screenWidth)/1080);
+                        paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
                         if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
                             paddle.setX(size.x - (200*screenWidth)/1080);
                         } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
@@ -705,7 +729,7 @@ public class MainActivity extends AppCompatActivity {
                         invalidate();
                         return true;
                     case MotionEvent.ACTION_MOVE:
-                        paddle.setX(event.getRawX() - (100*screenWidth)/1080);
+                        paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
                         if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
                             paddle.setX(size.x - (200*screenWidth)/1080);
                         } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
@@ -714,7 +738,7 @@ public class MainActivity extends AppCompatActivity {
                         invalidate();
                         return true;
                     case MotionEvent.ACTION_DOWN:
-                        paddle.setX(event.getRawX() - (100*screenWidth)/1080);
+                        paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
                         if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
                             paddle.setX(size.x - (200*screenWidth)/1080);
                         } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
