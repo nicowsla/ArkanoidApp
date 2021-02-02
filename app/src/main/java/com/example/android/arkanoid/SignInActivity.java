@@ -237,6 +237,9 @@ public class SignInActivity extends AppCompatActivity {
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference myRef = database.getReference( "utenti" ).child( user.getUid() );
                             myRef.setValue( new User(user.getUid(),username, email) );
+                            myRef.child("bestScore").setValue(0);
+                            myRef.child("bestTime").setValue(1000000000);
+
 
                             Toast.makeText( getApplicationContext(), R.string.signin_check_mail, Toast.LENGTH_LONG ).show();
                             AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
