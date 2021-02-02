@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -45,7 +44,7 @@ public class MessagesActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
     private FirebaseDatabase database;
-    private EditText commento;
+    private EditText messaggio;
     private String friend;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -71,7 +70,7 @@ public class MessagesActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.list);
         recyclerView.startAnimation( fromtop );
-        commento = findViewById( R.id.commenti_scrivi);
+        messaggio = findViewById( R.id.commenti_scrivi);
         photo = findViewById(R.id.action_bar_img);
 
         database = FirebaseDatabase.getInstance();
@@ -145,7 +144,7 @@ public class MessagesActivity extends AppCompatActivity {
     }
 
     public void send(View view) {
-        String c = commento.getText().toString();
+        String c = messaggio.getText().toString();
         if(c!= null && !c.isEmpty()){
             SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
             String nomeUtente = pref.getString("username", null);
@@ -159,7 +158,7 @@ public class MessagesActivity extends AppCompatActivity {
             Messages messaggio1 = new Messages(user.getUid(), c, ckey1);
             data1.setValue(messaggio1);
 
-            commento.setText("");
+            this.messaggio.setText("");
         }
 
     }
@@ -167,20 +166,15 @@ public class MessagesActivity extends AppCompatActivity {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
-        public TextView txtTitle;
         public TextView txtDesc;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             root = itemView.findViewById(R.id.list_root);
-            txtTitle = itemView.findViewById(R.id.list_title);
-            txtDesc = itemView.findViewById(R.id.list_desc);
+            txtDesc = itemView.findViewById(R.id.text);
         }
 
-        public void setTxtTitle(String string) {
-            txtTitle.setText(string);
-        }
 
 
         public void setTxtDesc(String string) {

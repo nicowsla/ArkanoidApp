@@ -42,6 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -79,14 +80,10 @@ public class MainActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
 
         //prendo l'id per capire quale tasto è stato scelto
+        //Credo basti solo uno
         Bundle i = getIntent().getExtras();
-        Bundle j = getIntent().getExtras();
-        Bundle k = getIntent().getExtras();
-        Bundle z = getIntent().getExtras();
-        int partita_a_tema = i.getInt("T");
-        int classificata = j.getInt("C");
-        int arcade = k.getInt("A");
-        int partita_infinita = z.getInt("I");
+        int partita = i.getInt("M");
+
 
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -99,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // create a new game
-        game = new Game(this, 3, 0, 1, screenWidth, screenHeight, partita_a_tema, classificata, arcade, partita_infinita);
+        game = new Game(this, 3, 0, 1, screenWidth, screenHeight, partita);
         setContentView(game);
 
         // create an handler and thread
@@ -290,10 +287,8 @@ public class MainActivity extends AppCompatActivity {
 
         private int screenWidth;
         private int screenHeight;
-        private int partita_a_tema;
-        private int classificata;
-        private int ardade;
-        private int partita_infinita;
+        private int partita;
+
         private int buttonValue;
         private boolean boss = false;
         private boolean infinita = false;
@@ -314,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita_a_tema, int classificata, int arcade, int partita_infinita) {
+        public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita) {
             super(context);
             paint = new Paint();
 
@@ -325,10 +320,7 @@ public class MainActivity extends AppCompatActivity {
             this.level = level;
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
-            this.partita_a_tema = partita_a_tema;
-            this.classificata = classificata;
-            this.ardade = arcade;
-            this.partita_infinita = partita_infinita;
+            this.partita = partita;
 
 
             // start a gameOver to see if the game continues or the player has lost all the lives
@@ -352,19 +344,9 @@ public class MainActivity extends AppCompatActivity {
             paddle = new Paddle((size.x / 2) - (100*screenWidth)/1080, size.y - (400*screenHeight)/1920);
             list = new ArrayList<Brick>();
 
-            if(partita_a_tema == 1){
-                buttonValue = 1;
-                generateBricks(context,level,buttonValue);
-            }else if(classificata == 2){
-                buttonValue = 2;
-                generateBricks(context,level,buttonValue);
-            }else if(arcade == 3){
-                buttonValue = 3;
-                generateBricks(context,level,buttonValue);
-            }else if(partita_infinita == 4){
-                buttonValue = 4;
-                generateBricks(context,level,buttonValue);
-            }
+
+            buttonValue = partita;
+            generateBricks(context, level, buttonValue);
 
             this.setOnTouchListener(this);
 
@@ -490,7 +472,31 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+            else if(button == 5){
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+                String matrixString = pref.getString("matrixString", null);
+                Integer[][] personalMatrix = convertStringToArray(matrixString);
 
+
+                for (int i = 3; i < 20; i++) {
+                    for (int j = 1; j < 10; j++) {
+                        if (personalMatrix[i][j] != 0) {
+                            list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, personalMatrix[i][j]));
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public Integer[][] convertStringToArray(String matrix){
+            return Arrays.stream(matrix.split(";"))
+                    .map(s ->
+                            Arrays.stream(s.split(","))
+                                    .map(Integer::parseInt)
+                                    .toArray(Integer[]::new)
+                    )
+                    .toArray(Integer[][]::new);
         }
 
         // set background

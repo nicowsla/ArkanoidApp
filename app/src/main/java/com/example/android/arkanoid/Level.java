@@ -4,11 +4,13 @@ public class Level {
     private String id;
     private String matrixString;
     private int speed;
+    private String name;
 
-    public Level(String id, String matrixString, int speed) {
+    public Level(String id, String matrixString, int speed, String name) {
         this.id = id;
         this.matrixString = matrixString;
         this.speed = speed;
+        this.name = name;
     }
 
     public String getId() {
@@ -33,5 +35,13 @@ public class Level {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

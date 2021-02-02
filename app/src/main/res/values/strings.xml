@@ -111,6 +111,8 @@
     <string name="choose_speed">Scegli la velocità della pallina!</string>
     <string name="ereaser_chosen">Gomma selezionata!</string>
     <string name="confirm">Conferma</string>
+    <string name="name_level">Dai un nome al tuo livello!</string>
+    <string name="name_level_error">Attenzione! Dai un nome al tuo livello!</string>
     <string-array name="commands">
         <item>Accelerometro</item>
         <item>Gamepad</item>

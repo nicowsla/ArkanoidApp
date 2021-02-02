@@ -44,22 +44,22 @@ public class MenuActivity extends NavigationMenuActivity {
         switch (View.getId()) {
             case (R.id.menu_go_to_tema):
                 Intent i = new Intent(this, MainActivity.class);
-                i.putExtra("T", 1);
+                i.putExtra("M", 1);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_classificata):
                 Intent j = new Intent(this, MainActivity.class);
-                j.putExtra("C", 2);
+                j.putExtra("M", 2);
                 startActivity(j);
                 break;
             case (R.id.menu_go_to_arcade):
                 Intent k = new Intent(this, MainActivity.class);
-                k.putExtra("A", 3);
+                k.putExtra("M", 3);
                 startActivity(k);
                 break;
             case (R.id.menu_go_to_infinita):
                 Intent z = new Intent(this, MainActivity.class);
-                z.putExtra("I", 4);
+                z.putExtra("M", 4);
                 startActivity(z);
                 break;
         }

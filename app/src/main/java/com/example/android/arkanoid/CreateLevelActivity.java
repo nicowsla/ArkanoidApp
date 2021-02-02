@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,10 +29,20 @@ public class CreateLevelActivity extends AppCompatActivity {
     String matrixString;
     int speed = 0;
 
+    private TextInputLayout nameLayout;
+    private EditText nameET;
+    private String name;
+
+    private boolean error = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_level2);
+
+        nameLayout = findViewById(R.id.level_namec);
+        nameET = findViewById(R.id.level_name);
+
         seekBar = findViewById(R.id.seekBar);
         progress = findViewById(R.id.progress);
 
@@ -59,17 +71,40 @@ public class CreateLevelActivity extends AppCompatActivity {
                 progress.setText("Speed: "+speed+"/"+seekBar.getMax());
             }
         });
+
+        nameET.setOnFocusChangeListener( new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                nameLayout.setError( null );
+                error = false;
+            }
+        } );
+
+        nameET.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nameLayout.setError( null );
+                error = false;
+            }
+        } );
     }
 
 
     public void saveLevel(View view) {
-        if(!matrixString.isEmpty()){
+        name = nameET.getText().toString();
+        if(name.isEmpty() || name.length()<2){
+            nameLayout.setError(getString(R.string.name_level_error));
+            error = true;
+        }
+        if(!matrixString.isEmpty() && !error){
             DatabaseReference myRef = database.getReference("utenti").child(user.getUid()).child("livelliPersonali").push();
             String key = myRef.getKey();
-            myRef.setValue(new Level(key, matrixString, speed));
+            myRef.setValue(new Level(key, matrixString, speed, name));
+
+            startActivity(new Intent(CreateLevelActivity.this, PersonalLevelsActivity.class));
         }
         //creare un pop up che conferma il salvataggio del livello e poi uscire
-        startActivity(new Intent(CreateLevelActivity.this, MenuActivity.class));
+
     }
 
 }

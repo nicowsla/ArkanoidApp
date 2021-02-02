@@ -230,6 +230,7 @@ public class CreateLevel extends Activity {
             }else if (i ==raw || i==raw1){
                 changeColor(i, j);
             }else if(i>raw1+2){
+
                 // converto la matrice in stringa e la metto nelle shared preferences
                 StringBuilder matrixString= new StringBuilder();
                 int j=0;
@@ -374,6 +375,7 @@ public class CreateLevel extends Activity {
         if(i==raw1 && j==8){
             Bitmap box = BitmapFactory.decodeResource(this.getResources(), R.drawable.lilla);
             brick =  Bitmap.createScaledBitmap(box, brick.getWidth(), brick.getHeight(), true);
+            chosenColor = 0;
             Toast.makeText(CreateLevel.this,getString(R.string.ereaser_chosen) , Toast.LENGTH_SHORT).show();
         }
     }
