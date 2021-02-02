@@ -583,14 +583,14 @@ public class MainActivity extends AppCompatActivity {
             Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
             Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
 
-            canvas.drawBitmap(new_icon_level, (size.x/4) - (maxSize+5), 50, paint);
-            canvas.drawText("" + level,(size.x/4),100, paint );
+            canvas.drawBitmap(new_icon_level, (size.x/6) - (maxSize+5), 50, paint);
+            canvas.drawText("" + level,(size.x/6),100, paint );
 
-            canvas.drawBitmap(new_icon_lives, (size.x/4)*2 - (maxSize+5), 50, paint);
-            canvas.drawText("" + lifes, (size.x/4)*2, 100, paint);
+            canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - (maxSize+5), 50, paint);
+            canvas.drawText("" + lifes, (size.x/6)*3, 100, paint);
 
-            canvas.drawBitmap(new_icon_score, (size.x/4)*3 - (maxSize+5), 50, paint);
-            canvas.drawText("" + score, (size.x/4)*3, 100, paint);
+            canvas.drawBitmap(new_icon_score, (size.x/6)*5 - (maxSize+5), 50, paint);
+            canvas.drawText("" + score, (size.x/6)*5, 100, paint);
 
             //PROVE ##############################################################
             canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
@@ -670,7 +670,7 @@ public class MainActivity extends AppCompatActivity {
                     if (ball.suddentlyBrick(b.getX(), b.getY(),screenWidth,screenHeight)) {
                         list.remove(i);
                         soundPlayer.playHitSound();
-                        score = score + 80;
+                        score = score + 50; //PUNTEGGIO SE ROMPI UN MATTONCINO
                     }
                 }
                 ball.hurryUp();
