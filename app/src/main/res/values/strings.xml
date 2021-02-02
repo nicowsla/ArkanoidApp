@@ -120,6 +120,7 @@
     <string name="infinity_mode">Infinity Mode</string>
     <string name="arcade_mode">Arcade Mode</string>
     <string name="level_send">Hai inviato questo livello!</string>
+    <string name="new_level">Crea un nuovo livello!</string>
     <string-array name="commands">
         <item>Accelerometro</item>
         <item>Gamepad</item>

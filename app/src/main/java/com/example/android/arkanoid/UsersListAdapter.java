@@ -45,7 +45,7 @@ public class UsersListAdapter extends FirebaseRecyclerAdapter<User, UsersListVie
     @Override
     protected void onBindViewHolder(@NonNull final UsersListViewHolder holder, int i, @NonNull final User lista) {
         holder.setTxtTitle(lista.getUsername());
-        holder.setTxtTitle(lista.getUsername());
+
 
         StorageReference riversRef = mStorageRef.child(lista.getId()).child("images/profilo.jpg");
         riversRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {

@@ -137,6 +137,9 @@ public class PersonalLevelsActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    public void goToCreateLevel(View view) {
+        startActivity(new Intent(PersonalLevelsActivity.this, CreateLevel.class));
+    }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
