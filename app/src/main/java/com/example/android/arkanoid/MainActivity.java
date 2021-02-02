@@ -450,7 +450,7 @@ public class MainActivity extends AppCompatActivity {
              //PARTITA ARCADE
             }else if(button == 3){
                 //In questo modo genero una serie di righe
-                int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
+                int numero;
                 if(level == 17) {
                     boss = true;
                     if (!gameOver && boss) {
@@ -466,6 +466,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     for (int i = 3; i < level+3; i++) {
                         for (int j = 1; j < 10; j++) {
+                            numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
                             list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
                         }
                     }
