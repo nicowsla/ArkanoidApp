@@ -40,7 +40,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -56,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     Boolean enableAccelerometer;
     Integer previousScore;
     private SoundPlayer soundPlayer;
+
+    private long bestScore = 0;
+    private long bestTime = 0;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         enableTouch = pref.getBoolean("touch", true);
         enableAccelerometer = pref.getBoolean("accelerometro", false);
-        previousScore = pref.getInt("bestScore", 0);
 
         database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -94,6 +96,23 @@ public class MainActivity extends AppCompatActivity {
         wm.getDefaultDisplay().getMetrics(displayMetrics);
         int screenWidth = displayMetrics.widthPixels;
         int screenHeight = displayMetrics.heightPixels;
+
+        DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                bestScore = dataSnapshot.child("bestScore").getValue(Long.class);
+                bestTime =  dataSnapshot.child("bestTime").getValue(Long.class);
+                username = dataSnapshot.child("username").getValue(String.class);
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+            }
+        });
 
         // create a new game
         game = new Game(this, 3, 0, 1, screenWidth, screenHeight, partita);
@@ -279,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
         private Sensor sensorAccelerometer;
 
         private int lifes;
-        private int score;
+        private long score;
         private int level;
         private boolean start;
         private boolean gameOver;
@@ -291,9 +310,9 @@ public class MainActivity extends AppCompatActivity {
 
         private int buttonValue;
         private boolean boss = false;
-        private boolean infinita = false;
-        private boolean tempo = false;
-        private boolean tema = false;
+        private boolean infinityMode = false;
+        private boolean timeMode = false;
+        private boolean themeMode = false;
         private boolean attivato = false;
 
         private boolean accelerometro = enableAccelerometer;
@@ -357,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
 
             //LIVELLO MOSTRO CLASSIFICATA
             if(button == 2){
-                tempo = true;
+                timeMode = true;
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
                         if (Levels.LivelloMOSTRO[i][j] != 0) {
@@ -417,7 +436,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 break;
                             case 10:
-                                tema = true;
+                                themeMode = true;
                                 if (Levels.Livello10CREEPER[i][j] != 0) {
                                     list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, Levels.Livello10CREEPER[i][j]));
                                 }
@@ -452,14 +471,16 @@ public class MainActivity extends AppCompatActivity {
 
                 //MODALITA INFINITA
             }else if(button == 4){
-                int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
+                int numero;
+                infinityMode = true;
                 //System.out.println(NumeroLivello);
                 if(level >= 17) {
-                    infinita = true;
-                    if (!gameOver && infinita) {
+
+                    if (!gameOver && infinityMode) {
                         Toast.makeText(MainActivity.this, "PARTITA INFINITA...", Toast.LENGTH_LONG).show();
                         for (int i = 3; i < 20; i++) {
                             for (int j = 1; j < 10; j++) {
+                                numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
                                 list.add(new Brick(context, (size.x / 11) * j, (i * 70 * screenHeight) / screenHeight, numero));
                             }
                         }
@@ -467,6 +488,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     for (int i = 3; i < level+3; i++) {
                         for (int j = 1; j < 10; j++) {
+                            numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
                             list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
                         }
                     }
@@ -476,7 +498,6 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
                 String matrixString = pref.getString("matrixString", null);
                 Integer[][] personalMatrix = convertStringToArray(matrixString);
-
 
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
@@ -553,16 +574,18 @@ public class MainActivity extends AppCompatActivity {
 
             //in case of loss draw "Game over!"
             if (gameOver) {
-                if(score>previousScore){
-                    DatabaseReference myRef =  database.getReference("utenti").child(user.getUid()).child("bestScore");
-                    myRef.child( "bestScore" ).setValue( score );
+                if(infinityMode && score>bestScore){
+                    database.getReference("utenti").child(user.getUid()).child( "bestScore" ).setValue( score );
+                    database.getReference("punteggi").child(user.getUid()).child("bestScore").setValue(score);
+                    database.getReference("punteggi").child(user.getUid()).child( "username" ).setValue( username );
+                    database.getReference("punteggi").child(user.getUid()).child( "userID" ).setValue( user.getUid() );
                 }
 
                 paint.setColor(Color.RED);
                 paint.setTextSize(100);
                 canvas.drawText("Game over!", size.x / 3, size.y / 2, paint);
                 level = 1;
-                infinita = false;
+                infinityMode = false;
                 boss = false;
                 startTime = 0;
                 //difference = 0;
@@ -589,7 +612,7 @@ public class MainActivity extends AppCompatActivity {
                 gameOver = true;
                 start = false;
                 level = 1;
-                if(tempo){
+                if(timeMode){
                     difference = System.currentTimeMillis() - startTime;
                     long min = difference / (1000 * 60);
                     minuti = min;
@@ -643,7 +666,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent event) {
 
-            if(accelerometro) { //se il flag accelerometro è true vuol dire che si sta giocando con l'accereometro
+            if(accelerometro) {
                 if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                     paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
 
@@ -755,7 +778,7 @@ public class MainActivity extends AppCompatActivity {
                             } );
                     alertDialog.show();
                     start = false;
-                }else if(tempo){
+                }else if(timeMode){
                     difference = System.currentTimeMillis() - startTime;
                     long min = difference / (1000 * 60);
                     minuti = min;
@@ -767,6 +790,13 @@ public class MainActivity extends AppCompatActivity {
                     centesimi = cen;
                     long mill = (difference - (min*60000) - (sec*1000) - (dec*100) - (cen*10));
                     millesimi = mill;
+                    if(difference<bestTime){
+                        database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
+                        database.getReference("punteggi").child(user.getUid()).child( "bestTime" ).setValue( difference );
+                        database.getReference("punteggi").child(user.getUid()).child( "username" ).setValue( username );
+                        database.getReference("punteggi").child(user.getUid()).child( "userID" ).setValue( user.getUid() );
+
+                    }
                     AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                     alertDialog.setTitle( R.string.vittoria_tempo );
                     alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
@@ -786,7 +816,7 @@ public class MainActivity extends AppCompatActivity {
                             } );
                     alertDialog.show();
                     start = false;
-                }else if(tema){
+                }else if(themeMode){
                     AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                     alertDialog.setTitle( R.string.vittoria_tempo );
                     alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
