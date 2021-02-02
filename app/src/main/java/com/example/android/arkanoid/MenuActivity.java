@@ -65,8 +65,11 @@ public class MenuActivity extends NavigationMenuActivity {
         }
     }
 
-    public void goToCreateLevel(View View){
-        startActivity(new Intent(MenuActivity.this, CreateLevel.class));
+    public void goToShowLevels(View View){
+        SharedPreferences.Editor editor = getSharedPreferences( "arkanoid", Context.MODE_PRIVATE ).edit();
+        editor.putBoolean( "exchangeMode", false);
+        editor.apply();
+        startActivity(new Intent(MenuActivity.this, PersonalLevelsActivity.class));
     }
 
     public void goToUserList(View View){

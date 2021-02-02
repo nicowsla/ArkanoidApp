@@ -77,8 +77,6 @@ public class CreateLevel extends Activity {
         //rimpicciolisce in scala le dimensioni del mattoncino
         brick = scaleDown(originalBrick, maxSize, true);
 
-        // System.out.println("w  "+ brick.getWidth()+"   H" + brick.getHeight());
-
     }
 
     public static Bitmap scaleDown(Bitmap realImage, float maxImageSize, boolean filter) {
@@ -96,7 +94,6 @@ public class CreateLevel extends Activity {
         private Paint   mBitmapPaint;
         Context context;
         private Paint paint;
-
 
         public DrawingView(Context c) {
             super(c);
@@ -193,10 +190,6 @@ public class CreateLevel extends Activity {
             Bitmap scaledBrick = Bitmap.createScaledBitmap(originalBrick, brick.getWidth(), brick.getHeight(), true);
             //brick = scaleDown(scaledBrick, maxSize, true);
             disegna(8*dw, raw1*dh, scaledBrick);
-            //Bitmap box = BitmapFactory.decodeResource(this.getResources(), R.drawable.lilla);
-            //brick =  Bitmap.createScaledBitmap(box, brick.getWidth(), brick.getHeight(), true);
-           //prende la gomma per ultimo, cambia!!!
-
         }
 
         @Override

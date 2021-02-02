@@ -223,6 +223,10 @@ public class UserProfileActivity extends NavigationMenuActivity {
                 case R.id.levels:
                     Toast.makeText(UserProfileActivity.this, getString(R.string.send_level),
                             Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor = getSharedPreferences( "arkanoid", Context.MODE_PRIVATE ).edit();
+                    editor.putBoolean( "exchangeMode", true);
+                    editor.apply();
+                    startActivity(new Intent(UserProfileActivity.this, PersonalLevelsActivity.class));
                     break;
                 case R.id.challenge:
                     Toast.makeText(UserProfileActivity.this, getString(R.string.play),

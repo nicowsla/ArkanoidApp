@@ -92,7 +92,7 @@ public class CreateLevelActivity extends AppCompatActivity {
 
     public void saveLevel(View view) {
         name = nameET.getText().toString();
-        if(name.isEmpty() || name.length()<2){
+        if(name.isEmpty() || name.length()<2 || name.length()>15){
             nameLayout.setError(getString(R.string.name_level_error));
             error = true;
         }

@@ -1,7 +1,7 @@
 package com.example.android.arkanoid;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,17 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,10 +28,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.util.Objects;
 
 public class PersonalLevelsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -44,12 +36,18 @@ public class PersonalLevelsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private LinearLayoutManager linearLayoutManager;
+    private Boolean exchangeMode;
+    private String friend;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_levels);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        friend = pref.getString("friend", "nessuno");
+        exchangeMode = pref.getBoolean("exchangeMode", false);
 
         //nasconde il pannello delle notifiche
        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -103,13 +101,32 @@ public class PersonalLevelsActivity extends AppCompatActivity {
                 holder.root.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SharedPreferences.Editor editor = getSharedPreferences( "arkanoid", Context.MODE_PRIVATE ).edit();
-                        editor.putString( "matrixString", lista.getMatrixString());
-                        editor.apply();
 
-                        Intent k = new Intent(PersonalLevelsActivity.this, MainActivity.class);
-                        k.putExtra("M", 5);
-                        startActivity(k);
+                        if(exchangeMode){
+                            DatabaseReference myRef = database.getReference( "utenti" ).child( friend).child("livelliPersonali").child(lista.getId());
+                            myRef.setValue( new Level(lista.getId(),lista.getMatrixString(), lista.getSpeed(), lista.getName()) );
+                            AlertDialog alertDialog = new AlertDialog.Builder( PersonalLevelsActivity.this ).create();
+                            alertDialog.setTitle( R.string.confirm);
+                            alertDialog.setMessage(getString(R.string.level_send));
+                            alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startActivity( new Intent( PersonalLevelsActivity.this, UserProfileActivity.class ) );//qui mettere passaggio per l'altra activity
+                                        }
+                                    } );
+                            alertDialog.show();
+
+                        }else{
+                            SharedPreferences.Editor editor = getSharedPreferences( "arkanoid", Context.MODE_PRIVATE ).edit();
+                            editor.putString( "matrixString", lista.getMatrixString());
+                            editor.apply();
+
+                            Intent k = new Intent(PersonalLevelsActivity.this, MainActivity.class);
+                            k.putExtra("M", 5);
+                            startActivity(k);
+                        }
+
                     }
                 } );
 
