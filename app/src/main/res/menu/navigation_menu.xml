@@ -3,19 +3,22 @@
 
     <item android:id="@+id/show_menu"
         android:icon="@drawable/ic_baseline_apps_24"
-        android:title="Menu"/>
+        android:title="@string/menu"/>
 
     <item android:id="@+id/profile"
         android:icon="@drawable/baseline_account_circle_24"
-        android:title="Profilo"/>
+        android:title="@string/profile"/>
+
     <item android:id="@+id/rankings"
         android:icon="@drawable/ic_ranking"
-        android:title="Classifiche"/>
+        android:title="@string/rankings"/>
+
     <item android:id="@+id/settings"
         android:icon="@drawable/ic_settings"
-        android:title="Impostazioni"/>
+        android:title="@string/settings"/>
+
     <item android:id="@+id/logout"
         android:icon="@drawable/baseline_login_24"
-        android:title="Logout"/>
+        android:title="@string/logout"/>
 
 </menu>

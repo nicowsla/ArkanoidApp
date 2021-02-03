@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/score_ranking"
+        android:enabled="true"
+        android:icon="@drawable/ic_ranking"
+        android:title="@string/score_ranking"/>
+
+    <item
+        android:id="@+id/time_ranking"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_timer_24"
+        android:title="@string/time_ranking"/>
+</menu>

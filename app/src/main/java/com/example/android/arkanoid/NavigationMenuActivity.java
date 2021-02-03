@@ -61,19 +61,22 @@ public class NavigationMenuActivity extends AppCompatActivity {
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                 int id = item.getItemId();
                 switch(id){
                     case R.id.show_menu:
                         startActivity(new Intent(NavigationMenuActivity.this, MenuActivity.class));
                         break;
                     case R.id.profile:
-                        SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                         editor.putString("friend", currentUser );
                         editor.apply();
                         startActivity(new Intent(NavigationMenuActivity.this, UserProfileActivity.class));
                         break;
                     case R.id.rankings:
-                        startActivity(new Intent(NavigationMenuActivity.this, UserProfileActivity.class));
+                        editor.putBoolean("score", true );
+                        editor.putBoolean("time", false );
+                        editor.apply();
+                        startActivity(new Intent(NavigationMenuActivity.this, UsersListActivity.class));
                         break;
                     case R.id.settings:
                         startActivity(new Intent(NavigationMenuActivity.this, SettingsActivity.class));
