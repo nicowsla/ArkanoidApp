@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
             new_paddle = Bitmap.createScaledBitmap(paddle_p,(200*screenWidth)/1080,(40*screenHeight)/1920,true);
 
             // creates a new ball, paddle, and list of bricks
-            ball = new Ball((size.x / 2) - (30*screenWidth)/1080, size.y - (470*screenHeight)/1920, level);
+            ball = new Ball(size.x / 2, size.y - (470*screenHeight)/1920, level);
             paddle = new Paddle((size.x / 2) - (100*screenWidth)/1080, size.y - (400*screenHeight)/1920);
             list = new ArrayList<Brick>();
 
@@ -551,13 +551,13 @@ public class MainActivity extends AppCompatActivity {
 
             // draw the ball
             paint.setColor(Color.RED);
-            canvas.drawBitmap(redBall, ball.getX(), ball.getY(), paint);
+            canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
 
             // draw fell, disegna rettangolo cioè barra
             paint.setColor(Color.WHITE);
             //La riga sotto era +200 + 40
-            r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + new_paddle.getWidth(), paddle.getY() + new_paddle.getHeight());
-            canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
+            //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
+            canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920, paint);
 
             // draw bricks
             paint.setColor(Color.GREEN);
@@ -596,8 +596,8 @@ public class MainActivity extends AppCompatActivity {
 
             //PROVE ##############################################################
             canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
-            canvas.drawText("paddle width:" + paddle_p.getWidth(),50,300,paint);
-            canvas.drawText("paddle height:" + paddle_p.getHeight(),50,350,paint);
+            canvas.drawText("paddle width:" + new_paddle.getWidth(),50,300,paint);
+            canvas.drawText("paddle height:" + new_paddle.getHeight(),50,350,paint);
             canvas.drawText("left:" + r.left,50,400,paint);
             canvas.drawText("top:" + r.top,50,450,paint);
             canvas.drawText("right:" + r.right,50,500,paint);
@@ -624,13 +624,13 @@ public class MainActivity extends AppCompatActivity {
 
         //check that the ball has not touched the edge
         private void chechEdges() {
-            if (ball.getX() + ball.getxSpeed() >= size.x - (60*screenWidth)/1080) {
+            if (ball.getX() + ball.getxSpeed() >= size.x - 30) {
                 ball.changeDirection("rights");
-            } else if (ball.getX() + ball.getxSpeed() <= (0*screenWidth)/1080) {
+            } else if (ball.getX() + ball.getxSpeed() <= 30) {
                 ball.changeDirection("left");
-            } else if (ball.getY() + ball.getySpeed() <= (150*screenHeight)/1920) {
+            } else if (ball.getY() + ball.getySpeed() <= 180) {
                 ball.changeDirection("up");
-            } else if (ball.getY() + ball.getySpeed() >= size.y - (200*screenHeight)/1920) {
+            } else if (ball.getY() + ball.getySpeed() >= size.y - 200) {
                 checkLives();
             }
         }

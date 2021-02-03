@@ -62,16 +62,29 @@ public class Ball {
     // zisti ci je lopticka blizko
     //clean ci is a ball close traduttore di merda che minchia vuol dire
     private boolean isNear(float xPaddle, float yPaddle, float xBall, float yBall, int screenWidth, int screenHeight) {
-        xBall += 12;
-        yBall += 11;
+        //xBall += 2;
+        //yBall += 1;
 
-        if ((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) {
+        float distX = Math.abs(xBall - xPaddle-(xPaddle + (200*screenWidth)/1080)/2);
+        float distY = Math.abs(yBall - yPaddle-(yPaddle + (40*screenWidth)/1920)/2);
+
+        if (distX > ((xPaddle + (200*screenWidth)/1080)/2 + 30)) { return false; }
+        if (distY > ((yPaddle + (40*screenWidth)/1920)/2 + 30)) { return false; }
+
+        if (distX <= ((xPaddle + (200*screenWidth)/1080)/2)) { return true; }
+        if (distY <= ((yPaddle + (40*screenWidth)/1920)/2)) { return true; }
+
+        float dx=distX-(xPaddle + (200*screenWidth)/1080)/2;
+        float dy=distY-(yPaddle + (40*screenWidth)/1920)/2;
+        return (dx*dx+dy*dy<=(30*30));
+
+        /*if ((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) {
             return true;
         } else if ((Math.sqrt(Math.pow((xPaddle + 100) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 60) {
             return true;
         } else if ((Math.sqrt(Math.pow((xPaddle + 150) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 60) {
             return true;
-        }
+        }*/
 
 
        /*if (((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) && (Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2)) > 58) ) {
@@ -89,7 +102,6 @@ public class Ball {
        /* if((xPaddle<xBall) && (xBall<(xPaddle+200)) && (yPaddle>yBall) && (yBall<(yPaddle+40))){
             return false;
         }*/
-        return false;
 
     }
 
