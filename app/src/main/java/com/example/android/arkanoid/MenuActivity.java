@@ -41,26 +41,23 @@ public class MenuActivity extends NavigationMenuActivity {
 
 
     public void goToGame(View View){
+        Intent i = new Intent(this, MainActivity.class);
         switch (View.getId()) {
             case (R.id.menu_go_to_tema):
-                Intent i = new Intent(this, MainActivity.class);
                 i.putExtra("M", 1);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_classificata):
-                Intent j = new Intent(this, MainActivity.class);
-                j.putExtra("M", 2);
-                startActivity(j);
+                i.putExtra("M", 2);
+                startActivity(i);
                 break;
             case (R.id.menu_go_to_arcade):
-                Intent k = new Intent(this, MainActivity.class);
-                k.putExtra("M", 3);
-                startActivity(k);
+                i.putExtra("M", 3);
+                startActivity(i);
                 break;
             case (R.id.menu_go_to_infinita):
-                Intent z = new Intent(this, MainActivity.class);
-                z.putExtra("M", 4);
-                startActivity(z);
+                i.putExtra("M", 4);
+                startActivity(i);
                 break;
         }
     }
@@ -73,6 +70,10 @@ public class MenuActivity extends NavigationMenuActivity {
     }
 
     public void goToUserList(View View){
+        SharedPreferences.Editor editor = getSharedPreferences( "arkanoid", Context.MODE_PRIVATE ).edit();
+        editor.putBoolean("score", false );
+        editor.putBoolean("time", false );
+        editor.apply();
         startActivity(new Intent(MenuActivity.this, UsersListActivity.class));
     }
 

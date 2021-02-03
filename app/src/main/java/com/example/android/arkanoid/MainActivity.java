@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -257,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        onPause();
         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
         alertDialog.setTitle( R.string.attention );
         alertDialog.setMessage( getString(R.string.exit_confirm) );
@@ -264,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-
                         startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
                     }
                 } );
@@ -272,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        onResume();
                     }
                 } );
         alertDialog.show();
@@ -448,7 +450,7 @@ public class MainActivity extends AppCompatActivity {
              //PARTITA ARCADE
             }else if(button == 3){
                 //In questo modo genero una serie di righe
-                int numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
+                int numero;
                 if(level == 17) {
                     boss = true;
                     if (!gameOver && boss) {
@@ -464,6 +466,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     for (int i = 3; i < level+3; i++) {
                         for (int j = 1; j < 10; j++) {
+                            numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
                             list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
                         }
                     }
@@ -529,6 +532,14 @@ public class MainActivity extends AppCompatActivity {
             display.getSize(size);
         }
 
+        public Bitmap scaleDown(Bitmap realImage, float maxImageSize, boolean filter) {
+            float ratio = Math.min((float) maxImageSize / realImage.getWidth(), (float) maxImageSize / realImage.getHeight());
+            int width = Math.round((float) ratio * realImage.getWidth());
+            int height = Math.round((float) ratio * realImage.getHeight());
+            Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width, height, filter);
+            return newBitmap;
+        }
+
         protected void onDraw(Canvas canvas) {
             // creates a background only once
             if (stretchedOut == null) {
@@ -540,8 +551,6 @@ public class MainActivity extends AppCompatActivity {
             // draw the ball
             paint.setColor(Color.RED);
             canvas.drawBitmap(redBall, ball.getX(), ball.getY(), paint);
-
-            // draw fell
 
             // draw fell, disegna rettangolo cioè barra
             paint.setColor(Color.WHITE);
@@ -565,12 +574,27 @@ public class MainActivity extends AppCompatActivity {
             float velocitaX = ball.getxSpeed();
             float velocitaY = ball.ySpeed;
 
-            canvas.drawText("" + lifes, (size.x/4), 100, paint);
-            canvas.drawText("" + score, (size.x/4)*2, 100, paint);
-            canvas.drawText("" + level,(size.x/4)*3,100, paint );
+            Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
+            Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
+            Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
 
-            //canvas.drawText("xpaddle:"+ getTime(),50,250, paint );
-            //canvas.drawText("Ypaddle:"+paddle.getY(),50,300, paint );
+            int maxSize = (int) screenWidth/18;
+
+            Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
+            Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
+            Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
+
+            canvas.drawBitmap(new_icon_level, (size.x/6) - (maxSize+5), 50, paint);
+            canvas.drawText("" + level,(size.x/6),100, paint );
+
+            canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - (maxSize+5), 50, paint);
+            canvas.drawText("" + lifes, (size.x/6)*3, 100, paint);
+
+            canvas.drawBitmap(new_icon_score, (size.x/6)*5 - (maxSize+5), 50, paint);
+            canvas.drawText("" + score, (size.x/6)*5, 100, paint);
+
+            //PROVE ##############################################################
+            canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
 
             //in case of loss draw "Game over!"
             if (gameOver) {
@@ -578,12 +602,13 @@ public class MainActivity extends AppCompatActivity {
                     database.getReference("utenti").child(user.getUid()).child( "bestScore" ).setValue( score );
                     database.getReference("punteggi").child(user.getUid()).child("bestScore").setValue(score);
                     database.getReference("punteggi").child(user.getUid()).child( "username" ).setValue( username );
-                    database.getReference("punteggi").child(user.getUid()).child( "userID" ).setValue( user.getUid() );
+                    database.getReference("punteggi").child(user.getUid()).child( "id" ).setValue( user.getUid() );
+                    database.getReference("punteggi").child(user.getUid()).child( "email" ).setValue( user.getEmail() );
                 }
 
                 paint.setColor(Color.RED);
                 paint.setTextSize(100);
-                canvas.drawText("Game over!", size.x / 3, size.y / 2, paint);
+                canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
                 level = 1;
                 infinityMode = false;
                 boss = false;
@@ -647,7 +672,7 @@ public class MainActivity extends AppCompatActivity {
                     if (ball.suddentlyBrick(b.getX(), b.getY(),screenWidth,screenHeight)) {
                         list.remove(i);
                         soundPlayer.playHitSound();
-                        score = score + 80;
+                        score = score + 50; //PUNTEGGIO SE ROMPI UN MATTONCINO
                     }
                 }
                 ball.hurryUp();
@@ -698,28 +723,28 @@ public class MainActivity extends AppCompatActivity {
             }else if(start && !gameOver && !accelerometro && touch) { //flag accelerometro deve essere false e touch true
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
-                        paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                        paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                        if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
                             paddle.setX(size.x - (200*screenWidth)/1080);
-                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                        } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
                             paddle.setX((0*screenWidth)/1080);
                         }
                         invalidate();
                         return true;
                     case MotionEvent.ACTION_MOVE:
-                        paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                        paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                        if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
                             paddle.setX(size.x - (200*screenWidth)/1080);
-                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                        } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
                             paddle.setX((0*screenWidth)/1080);
                         }
                         invalidate();
                         return true;
                     case MotionEvent.ACTION_DOWN:
-                        paddle.setX(event.getRawX());
-                        if (event.getRawX() > size.x - (200*screenWidth)/1080) {
+                        paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                        if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
                             paddle.setX(size.x - (200*screenWidth)/1080);
-                        } else if (event.getRawX() <= (0*screenWidth)/1080) {
+                        } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
                             paddle.setX((0*screenWidth)/1080);
                         }
                         return true;
@@ -729,10 +754,16 @@ public class MainActivity extends AppCompatActivity {
                 float x_paddle = paddle.getX();
 
                 //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
-                if(x<(screenWidth/2) && x_paddle>0){ //90
-                    paddle.setX(paddle.getX()-50); //100, è il valore di quanto si sposta la barra
-                }else if(x>(screenWidth/2) && x_paddle<(screenWidth-200)){ //280
-                    paddle.setX(paddle.getX()+50); //100, è il valore di quanto si sposta la barra
+                if(x < (screenWidth/2) && x_paddle > 0){ //90
+                    paddle.setX(paddle.getX() - ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                    if(x > size.x - (200*screenWidth)/1080){
+                        x_paddle += (50*screenWidth)/1080;
+                    }
+                }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((200*screenWidth)/1080))){ //280
+                    paddle.setX(paddle.getX() + ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                    if(x > size.x - (200*screenWidth)/1080){
+                        x_paddle -= (50*screenWidth)/1080;
+                    }
                 }
             }
             else {
@@ -794,7 +825,8 @@ public class MainActivity extends AppCompatActivity {
                         database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
                         database.getReference("punteggi").child(user.getUid()).child( "bestTime" ).setValue( difference );
                         database.getReference("punteggi").child(user.getUid()).child( "username" ).setValue( username );
-                        database.getReference("punteggi").child(user.getUid()).child( "userID" ).setValue( user.getUid() );
+                        database.getReference("punteggi").child(user.getUid()).child( "id" ).setValue( user.getUid() );
+                        database.getReference("punteggi").child(user.getUid()).child( "email" ).setValue( user.getEmail() );
 
                     }
                     AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();

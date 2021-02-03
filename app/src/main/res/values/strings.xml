@@ -130,6 +130,16 @@
         <item id="1">Italiano</item>
         <item id="2">English</item>
     </string-array>
+    <string name="title_activity_ranking">MainActivity</string>
+    <string name="score_ranking">Classifica Punteggi</string>
+    <string name="time_ranking">Classifica tempi</string>
+    <string name="title_home">okok</string>
+    <string name="menu">Menu</string>
+    <string name="profile">Profilo</string>
+    <string name="rankings">Classifiche</string>
+    <string name="logout">Logout</string>
+    <string name="ranking_score">Classifica Infinity Mode</string>
+    <string name="ranking_time">Classifica Time Mode</string>
 
 
 </resources>

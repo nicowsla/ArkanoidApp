@@ -215,9 +215,6 @@ public class UserProfileActivity extends NavigationMenuActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            // By using switch we can easily get
-            // the selected fragment
-            // by using there id.
 
             switch (item.getItemId()) {
                 case R.id.levels:
