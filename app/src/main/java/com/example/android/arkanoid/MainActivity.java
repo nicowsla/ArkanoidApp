@@ -600,10 +600,7 @@ public class MainActivity extends AppCompatActivity {
             if (gameOver) {
                 if(infinityMode && score>bestScore){
                     database.getReference("utenti").child(user.getUid()).child( "bestScore" ).setValue( score );
-                    database.getReference("punteggi").child(user.getUid()).child("bestScore").setValue(score);
-                    database.getReference("punteggi").child(user.getUid()).child( "username" ).setValue( username );
-                    database.getReference("punteggi").child(user.getUid()).child( "id" ).setValue( user.getUid() );
-                    database.getReference("punteggi").child(user.getUid()).child( "email" ).setValue( user.getEmail() );
+                    database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime));
                 }
 
                 paint.setColor(Color.RED);
@@ -823,10 +820,7 @@ public class MainActivity extends AppCompatActivity {
                     millesimi = mill;
                     if(difference<bestTime){
                         database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
-                        database.getReference("punteggi").child(user.getUid()).child( "bestTime" ).setValue( difference );
-                        database.getReference("punteggi").child(user.getUid()).child( "username" ).setValue( username );
-                        database.getReference("punteggi").child(user.getUid()).child( "id" ).setValue( user.getUid() );
-                        database.getReference("punteggi").child(user.getUid()).child( "email" ).setValue( user.getEmail() );
+                        database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestTime, difference));
 
                     }
                     AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
