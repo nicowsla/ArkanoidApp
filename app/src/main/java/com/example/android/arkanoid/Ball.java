@@ -1,5 +1,9 @@
 package com.example.android.arkanoid;
 
+import android.graphics.RectF;
+
+import androidx.constraintlayout.solver.widgets.Rectangle;
+
 public class Ball {
 
     protected float xSpeed;
@@ -62,16 +66,56 @@ public class Ball {
     // zisti ci je lopticka blizko
     //clean ci is a ball close traduttore di merda che minchia vuol dire
     private boolean isNear(float xPaddle, float yPaddle, float xBall, float yBall, int screenWidth, int screenHeight) {
-        xBall += 12;
-        yBall += 11;
+        //xBall += 2;
+        //yBall += 1;
 
-        if ((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) {
+        int raggio = 30;
+        float rect_width = (200*screenWidth)/1080;
+        float rect_height = (40*screenHeight)/1920;
+        //float circle_width = 60;
+        //float circle_height = 60;
+
+        /*float distX = Math.abs(getX() - xPaddle - rect_width/2);
+        float distY = Math.abs(getY() - yPaddle - rect_height/2);
+
+        if (distX > (rect_width/2 + raggio)) { return false; }
+        if (distY > (rect_height/2 + raggio)) { return false; }
+
+        if (distX <= ( rect_width/2)) { return true; }
+        if (distY <= rect_height/2 && distY > (rect_height/2-7) ) { return true; }
+
+        float dx = distX-rect_width/2;
+        float dy = distY-rect_height/2;
+        return (dx*dx+dy*dy<=(raggio*raggio));*/
+
+        // temporary variables to set edges for testing
+        float testX = xBall;
+        float testY = yBall;
+
+        // which edge is closest?
+        if (xBall < xPaddle) {testX = xPaddle;}      // test left edge
+        else if (xBall > xPaddle+rect_width) {testX = xPaddle+rect_width;}   // right edge
+        if (yBall < yPaddle) {testY = yPaddle;}      // top edge
+        else if (yBall > yPaddle+rect_height) {testY = yPaddle+rect_height;}   // bottom edge
+
+        // get distance from closest edges
+        float distX = xBall-testX;
+        float distY = yBall-testY;
+        double distance = Math.sqrt((distX*distX) + (distY*distY));
+
+        // if the distance is less than the radius, collision!
+        if (distance <= raggio) {
+            return true;
+        }
+        return false;
+
+        /*if ((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) {
             return true;
         } else if ((Math.sqrt(Math.pow((xPaddle + 100) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 60) {
             return true;
         } else if ((Math.sqrt(Math.pow((xPaddle + 150) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 60) {
             return true;
-        }
+        }*/
 
 
        /*if (((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) && (Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2)) > 58) ) {
@@ -89,7 +133,6 @@ public class Ball {
        /* if((xPaddle<xBall) && (xBall<(xPaddle+200)) && (yPaddle>yBall) && (yBall<(yPaddle+40))){
             return false;
         }*/
-        return false;
 
     }
 
