@@ -69,9 +69,6 @@ public class Ball {
         //xBall += 2;
         //yBall += 1;
 
-        int raggio = 30;
-        float rect_width = (200*screenWidth)/1080;
-        float rect_height = (40*screenHeight)/1920;
         //float circle_width = 60;
         //float circle_height = 60;
 
@@ -89,6 +86,9 @@ public class Ball {
         return (dx*dx+dy*dy<=(raggio*raggio));*/
 
         // temporary variables to set edges for testing
+        int raggio = 30;
+        float rect_width = (200*screenWidth)/1080;
+        float rect_height = (40*screenHeight)/1920;
         float testX = xBall;
         float testY = yBall;
 
@@ -138,10 +138,32 @@ public class Ball {
 
     //find out if the ball is close to a brick
     private boolean isCloseToBrick(float ax, float ay, float bx, float by, int screenWidth, int screenHeight) {
-        bx += 2;
+        /*bx += 2;
         by += 1;
         double d = Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow((ay + 40) - by, 2));
-        return d < 80;
+        return d < 80;*/
+        int raggio = 30;
+        float rect_width = (100*screenWidth)/1080;
+        float rect_height = (70*screenHeight)/1920;
+        float testX = bx;
+        float testY = by;
+
+        // which edge is closest?
+        if (bx < ax) {testX = ax;}      // test left edge
+        else if (bx > ax+rect_width) {testX = ax+rect_width;}   // right edge
+        if (by < ay) {testY = ay;}      // top edge
+        else if (by > ay+rect_height) {testY = ay+rect_height;}   // bottom edge
+
+        // get distance from closest edges
+        float distX = bx-testX;
+        float distY = by-testY;
+        double distance = Math.sqrt((distX*distX) + (distY*distY));
+
+        // if the distance is less than the radius, collision!
+        if (distance <= raggio) {
+            return true;
+        }
+        return false;
     }
 
     //if the ball collides with the fall, it will change direction
