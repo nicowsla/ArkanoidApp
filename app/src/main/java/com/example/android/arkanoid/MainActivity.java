@@ -285,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
         private Bitmap redBall;
         private Bitmap stretchedOut;
         private Bitmap paddle_p;
+        private Bitmap new_paddle;
 
         private Display display;
         private Point size;
@@ -359,12 +360,12 @@ public class MainActivity extends AppCompatActivity {
             // create a bitmap for the ball and paddle
             redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
             paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
+            new_paddle = Bitmap.createScaledBitmap(paddle_p,(200*screenWidth)/1080,(40*screenHeight)/1920,true);
 
             // creates a new ball, paddle, and list of bricks
             ball = new Ball((size.x / 2) - (30*screenWidth)/1080, size.y - (470*screenHeight)/1920, level);
             paddle = new Paddle((size.x / 2) - (100*screenWidth)/1080, size.y - (400*screenHeight)/1920);
             list = new ArrayList<Brick>();
-
 
             buttonValue = partita;
             generateBricks(context, level, buttonValue);
@@ -555,8 +556,8 @@ public class MainActivity extends AppCompatActivity {
             // draw fell, disegna rettangolo cioè barra
             paint.setColor(Color.WHITE);
             //La riga sotto era +200 + 40
-            r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
-            canvas.drawBitmap(paddle_p, null, r, paint);
+            r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + new_paddle.getWidth(), paddle.getY() + new_paddle.getHeight());
+            canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
 
             // draw bricks
             paint.setColor(Color.GREEN);
@@ -595,6 +596,12 @@ public class MainActivity extends AppCompatActivity {
 
             //PROVE ##############################################################
             canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
+            canvas.drawText("paddle width:" + paddle_p.getWidth(),50,300,paint);
+            canvas.drawText("paddle height:" + paddle_p.getHeight(),50,350,paint);
+            canvas.drawText("left:" + r.left,50,400,paint);
+            canvas.drawText("top:" + r.top,50,450,paint);
+            canvas.drawText("right:" + r.right,50,500,paint);
+            canvas.drawText("bottom:" + r.bottom,50,550,paint);
 
             //in case of loss draw "Game over!"
             if (gameOver) {
@@ -636,16 +643,11 @@ public class MainActivity extends AppCompatActivity {
                 level = 1;
                 if(timeMode){
                     difference = System.currentTimeMillis() - startTime;
-                    long min = difference / (1000 * 60);
-                    minuti = min;
-                    long sec = (difference - (min*60000)) / 1000;
-                    secondi = sec;
-                    long dec = (difference - (min*60000) - (sec*1000)) / 100;
-                    decimi = dec;
-                    long cen = (difference - (min*60000) - (sec*1000) - (dec*100))/10;
-                    centesimi = cen;
-                    long mill = (difference - (min*60000) - (sec*1000) - (dec*100) - (cen*10));
-                    millesimi = mill;
+                    minuti = difference / (1000 * 60);
+                    secondi = (difference - (minuti*60000)) / 1000;
+                    decimi = (difference - (minuti*60000) - (secondi*1000)) / 100;
+                    centesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100))/10;
+                    millesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100) - (centesimi*10));
                 }
                 invalidate();
             } else {
@@ -808,16 +810,11 @@ public class MainActivity extends AppCompatActivity {
                     start = false;
                 }else if(timeMode){
                     difference = System.currentTimeMillis() - startTime;
-                    long min = difference / (1000 * 60);
-                    minuti = min;
-                    long sec = (difference - (min*60000)) / 1000;
-                    secondi = sec;
-                    long dec = (difference - (min*60000) - (sec*1000)) / 100;
-                    decimi = dec;
-                    long cen = (difference - (min*60000) - (sec*1000) - (dec*100))/10;
-                    centesimi = cen;
-                    long mill = (difference - (min*60000) - (sec*1000) - (dec*100) - (cen*10));
-                    millesimi = mill;
+                    minuti = difference / (1000 * 60);
+                    secondi = (difference - (minuti*60000)) / 1000;
+                    decimi = (difference - (minuti*60000) - (secondi*1000)) / 100;
+                    centesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100))/10;
+                    millesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100) - (centesimi*10));
                     if(difference<bestTime){
                         database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
                         database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestTime, difference));

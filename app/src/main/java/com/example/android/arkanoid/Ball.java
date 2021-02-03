@@ -62,8 +62,8 @@ public class Ball {
     // zisti ci je lopticka blizko
     //clean ci is a ball close traduttore di merda che minchia vuol dire
     private boolean isNear(float xPaddle, float yPaddle, float xBall, float yBall, int screenWidth, int screenHeight) {
-        xBall += 2;
-        yBall += 1;
+        xBall += 12;
+        yBall += 11;
 
         if ((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) {
             return true;
