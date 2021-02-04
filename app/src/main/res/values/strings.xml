@@ -140,6 +140,7 @@
     <string name="logout">Logout</string>
     <string name="ranking_score">Classifica Infinity Mode</string>
     <string name="ranking_time">Classifica Time Mode</string>
+    <string name="boss_coming">IL BOSS STA ARRIVANDO...</string>
 
 
 </resources>
