@@ -27,7 +27,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -281,8 +280,10 @@ public class MainActivity extends AppCompatActivity {
     public class Game extends View implements SensorEventListener, View.OnTouchListener, Levels {
 
         private Bitmap background;
+        private Bitmap backgroundGamepad;
         private Bitmap redBall;
         private Bitmap stretchedOut;
+        private Bitmap stretchedOutGamepad;
         private Bitmap paddle_p;
         private Bitmap new_paddle;
 
@@ -468,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
                 if(level == 17) {
                     boss = true;
                     if (!gameOver && boss) {
-                        Toast.makeText(MainActivity.this, "THE BOSS IS COMING...", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.boss_coming), Toast.LENGTH_LONG).show();
                         for (int i = 3; i < 20; i++) {
                             for (int j = 1; j < 10; j++) {
                                 if (Levels.LivelloMOSTRO[i][j] != 0) {
@@ -537,7 +538,10 @@ public class MainActivity extends AppCompatActivity {
 
         // set background
         private void readBackground(Context context) {
+
+            backgroundGamepad = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score_gamepad));
             background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score));
+
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             display = wm.getDefaultDisplay();
             size = new Point();
@@ -554,11 +558,20 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onDraw(Canvas canvas) {
             // creates a background only once
-            if (stretchedOut == null) {
+            if (stretchedOut == null ) {
                 stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
             }
+            if (stretchedOutGamepad == null ) {
+                stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepad, size.x, size.y, true);
+            }
+
             //Posiziona lo sfondo nello schermo
-            canvas.drawBitmap(stretchedOut, 0, 0, null);
+            if(!accelerometro && !touch){
+                canvas.drawBitmap(stretchedOutGamepad, 0, 0, null);
+            }else {
+                canvas.drawBitmap(stretchedOut, 0, 0, null);
+            }
+
 
             // draw the ball
             paint.setColor(Color.RED);
@@ -569,7 +582,6 @@ public class MainActivity extends AppCompatActivity {
             //La riga sotto era +200 + 40
             //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
             canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920, paint);
-
 
             // draw bricks
             paint.setColor(Color.GREEN);
@@ -740,6 +752,7 @@ public class MainActivity extends AppCompatActivity {
                 //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
             }else if(start && !gameOver && !accelerometro && touch) { //flag accelerometro deve essere false e touch true
                 switch (event.getAction()) {
+                    
                     case MotionEvent.ACTION_UP:
                         paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
                         if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
@@ -768,21 +781,25 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                 }
             }else if(start && !gameOver && !accelerometro && !touch){ //se entrambi i flag sono false si sta giocando col gamepad
-                float x = event.getRawX();
-                float x_paddle = paddle.getX();
+                float y = event.getRawY();
+                if(y>(screenHeight/5)*4){
+                    float x = event.getRawX();
+                    float x_paddle = paddle.getX();
 
-                //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
-                if(x < (screenWidth/2) && x_paddle > 0){ //90
-                    paddle.setX(paddle.getX() - ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
-                    if(x > size.x - (200*screenWidth)/1080){
-                        x_paddle += (50*screenWidth)/1080;
-                    }
-                }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((200*screenWidth)/1080))){ //280
-                    paddle.setX(paddle.getX() + ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
-                    if(x > size.x - (200*screenWidth)/1080){
-                        x_paddle -= (50*screenWidth)/1080;
+                    //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
+                    if(x < (screenWidth/2) && x_paddle > 0){ //90
+                        paddle.setX(paddle.getX() - ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                        if(x > size.x - (200*screenWidth)/1080){
+                            x_paddle += (50*screenWidth)/1080;
+                        }
+                    }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((200*screenWidth)/1080))){ //280
+                        paddle.setX(paddle.getX() + ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                        if(x > size.x - (200*screenWidth)/1080){
+                            x_paddle -= (50*screenWidth)/1080;
+                        }
                     }
                 }
+
             }
             else {
                 start = true;
