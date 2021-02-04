@@ -596,6 +596,7 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawText("" + score, (size.x/6)*5, 100, paint);
 
             //PROVE ##############################################################
+            /*
             canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
             canvas.drawText("paddle width:" + new_paddle.getWidth(),50,300,paint);
             canvas.drawText("paddle height:" + new_paddle.getHeight(),50,350,paint);
@@ -603,6 +604,8 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawText("top:" + r.top,50,450,paint);
             canvas.drawText("right:" + r.right,50,500,paint);
             canvas.drawText("bottom:" + r.bottom,50,550,paint);
+
+             */
 
             //in case of loss draw "Game over!"
             if (gameOver) {
