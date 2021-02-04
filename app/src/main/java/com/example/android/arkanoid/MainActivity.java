@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private FirebaseUser user;
     Boolean enableAccelerometer;
-    Integer previousScore;
     private SoundPlayer soundPlayer;
 
     private long bestScore = 0;
@@ -316,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
         private boolean infinityMode = false;
         private boolean timeMode = false;
         private boolean themeMode = false;
+        private boolean arcadeMode = false;
         private boolean attivato = false;
 
         private boolean accelerometro = enableAccelerometer;
@@ -368,6 +368,20 @@ public class MainActivity extends AppCompatActivity {
             list = new ArrayList<Brick>();
 
             buttonValue = partita;
+            switch(buttonValue){
+                case 1:
+                    themeMode = true;
+                    break;
+                case 2:
+                    timeMode = true;
+                    break;
+                case 3:
+                    arcadeMode = true;
+                    break;
+                case 4:
+                    infinityMode = true;
+                    break;
+            }
             generateBricks(context, level, buttonValue);
 
             this.setOnTouchListener(this);
@@ -379,7 +393,6 @@ public class MainActivity extends AppCompatActivity {
 
             //LIVELLO MOSTRO CLASSIFICATA
             if(button == 2){
-                timeMode = true;
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
                         if (Levels.LivelloMOSTRO[i][j] != 0) {
@@ -476,12 +489,10 @@ public class MainActivity extends AppCompatActivity {
                 //MODALITA INFINITA
             }else if(button == 4){
                 int numero;
-                infinityMode = true;
-                //System.out.println(NumeroLivello);
                 if(level >= 17) {
 
                     if (!gameOver && infinityMode) {
-                        Toast.makeText(MainActivity.this, "PARTITA INFINITA...", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(MainActivity.this, getString(R.string.infinity_mode), Toast.LENGTH_LONG).show();
                         for (int i = 3; i < 20; i++) {
                             for (int j = 1; j < 10; j++) {
                                 numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
@@ -579,12 +590,14 @@ public class MainActivity extends AppCompatActivity {
             Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
             Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
             Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
+            Bitmap icon_time = BitmapFactory.decodeResource(this.getResources(), R.drawable.stopwatch);
 
             int maxSize = (int) screenWidth/18;
 
             Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
             Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
             Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
+            Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
 
             canvas.drawBitmap(new_icon_level, (size.x/6) - (maxSize+5), 50, paint);
             canvas.drawText("" + level,(size.x/6),100, paint );
@@ -592,20 +605,29 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - (maxSize+5), 50, paint);
             canvas.drawText("" + lifes, (size.x/6)*3, 100, paint);
 
-            canvas.drawBitmap(new_icon_score, (size.x/6)*5 - (maxSize+5), 50, paint);
-            canvas.drawText("" + score, (size.x/6)*5, 100, paint);
+            if(timeMode){
+                difference = System.currentTimeMillis() - startTime;
+                minuti = difference / (1000 * 60);
+                secondi = (difference - (minuti*60000)) / 1000;
+                decimi = (difference - (minuti*60000) - (secondi*1000)) / 100;
+                centesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100))/10;
+                millesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100) - (centesimi*10));
+                canvas.drawBitmap(new_icon_time, (size.x/6)*5-40 - (maxSize+5), 50, paint);
+                canvas.drawText( minuti+"'"+secondi+"''"+decimi+centesimi+millesimi, (size.x/6)*5-40, 100, paint);
+            }else{
+                canvas.drawBitmap(new_icon_score, (size.x/6)*5 - (maxSize+5), 50, paint);
+                canvas.drawText("" + score, (size.x/6)*5, 100, paint);
+            }
+
 
             //PROVE ##############################################################
-            /*
-            canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
+           /* canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
             canvas.drawText("paddle width:" + new_paddle.getWidth(),50,300,paint);
             canvas.drawText("paddle height:" + new_paddle.getHeight(),50,350,paint);
             canvas.drawText("left:" + r.left,50,400,paint);
             canvas.drawText("top:" + r.top,50,450,paint);
             canvas.drawText("right:" + r.right,50,500,paint);
-            canvas.drawText("bottom:" + r.bottom,50,550,paint);
-
-             */
+            canvas.drawText("bottom:" + r.bottom,50,550,paint);*/
 
             //in case of loss draw "Game over!"
             if (gameOver) {
@@ -617,11 +639,12 @@ public class MainActivity extends AppCompatActivity {
                 paint.setColor(Color.RED);
                 paint.setTextSize(100);
                 canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
-                level = 1;
-                infinityMode = false;
+                if(!boss){
+                    level = 1;
+                }
+                //infinityMode = false;
                 boss = false;
                 startTime = 0;
-                //difference = 0;
                 attivato = false;
             }
         }
@@ -645,14 +668,6 @@ public class MainActivity extends AppCompatActivity {
                 gameOver = true;
                 start = false;
                 level = 1;
-                if(timeMode){
-                    difference = System.currentTimeMillis() - startTime;
-                    minuti = difference / (1000 * 60);
-                    secondi = (difference - (minuti*60000)) / 1000;
-                    decimi = (difference - (minuti*60000) - (secondi*1000)) / 100;
-                    centesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100))/10;
-                    millesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100) - (centesimi*10));
-                }
                 invalidate();
             } else {
                 lifes--;
