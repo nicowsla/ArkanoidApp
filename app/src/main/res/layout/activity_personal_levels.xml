@@ -16,18 +16,20 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
-        android:layout_width="70dp"
-        android:layout_height="66dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="289dp"
-        android:layout_marginEnd="52dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="50dp"
         android:layout_marginBottom="50dp"
+        app:menu_animationDelayPerItem="50"
+        app:menu_backgroundColor="@android:color/transparent"
         android:backgroundTint="@color/light_purple"
         android:clickable="true"
         android:onClick="goToCreateLevel"
-        app:srcCompat="@drawable/fab_add" />
+        app:srcCompat="@drawable/fab_add"/>
 
 
 </RelativeLayout>
