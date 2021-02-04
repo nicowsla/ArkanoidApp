@@ -63,6 +63,8 @@ public class CreateLevel extends Activity {
         dv = new DrawingView(this);
         setContentView(dv);
 
+        //nasconde il pannello delle notifiche
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
