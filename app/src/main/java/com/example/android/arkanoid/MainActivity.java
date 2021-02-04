@@ -261,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
         alertDialog.setTitle( R.string.attention );
         alertDialog.setMessage( getString(R.string.exit_confirm) );
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -808,9 +809,10 @@ public class MainActivity extends AppCompatActivity {
         private void win() {
             if (list.isEmpty()) {
                 if(boss){
-                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
                     alertDialog.setTitle( R.string.vittoria );
                     alertDialog.setMessage( getString(R.string.messaggio_vittoria_boss) );
+                    alertDialog.setCanceledOnTouchOutside(false);
                     alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -838,9 +840,10 @@ public class MainActivity extends AppCompatActivity {
                         database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
                         database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestTime, difference));
                     }
-                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
                     alertDialog.setTitle( R.string.vittoria_tempo );
                     alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
+                    alertDialog.setCanceledOnTouchOutside(false);
                     alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -861,6 +864,7 @@ public class MainActivity extends AppCompatActivity {
                     AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                     alertDialog.setTitle( R.string.vittoria_tempo );
                     alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
+                    alertDialog.setCanceledOnTouchOutside(false);
                     alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
