@@ -4,7 +4,7 @@ import android.graphics.RectF;
 
 import androidx.constraintlayout.solver.widgets.Rectangle;
 
-public class Ball {
+public class Ball{
 
     protected float xSpeed;
     protected float ySpeed;

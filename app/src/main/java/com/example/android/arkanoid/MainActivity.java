@@ -559,6 +559,7 @@ public class MainActivity extends AppCompatActivity {
             //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
             canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920, paint);
 
+
             // draw bricks
             paint.setColor(Color.GREEN);
             for (int i = 0; i < list.size(); i++) {
@@ -624,13 +625,13 @@ public class MainActivity extends AppCompatActivity {
 
         //check that the ball has not touched the edge
         private void chechEdges() {
-            if (ball.getX() + ball.getxSpeed() >= size.x - 30) {
+            if (ball.getX() + ball.getxSpeed() >= size.x - (30*screenWidth)/1080) {
                 ball.changeDirection("rights");
-            } else if (ball.getX() + ball.getxSpeed() <= 30) {
+            } else if (ball.getX() + ball.getxSpeed() <= (30*screenWidth)/1080) {
                 ball.changeDirection("left");
-            } else if (ball.getY() + ball.getySpeed() <= 180) {
+            } else if (ball.getY() + ball.getySpeed() <= (180*screenHeight)/1920) {
                 ball.changeDirection("up");
-            } else if (ball.getY() + ball.getySpeed() >= size.y - 200) {
+            } else if (ball.getY() + ball.getySpeed() >= size.y - (200*screenHeight)/1920) {
                 checkLives();
             }
         }
