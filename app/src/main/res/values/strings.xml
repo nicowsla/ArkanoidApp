@@ -148,6 +148,9 @@
     <string name="sconfitta_boss">HAI PERSO!</string>
     <string name="messaggio_sconfitta">Il Boss ti ha sconfitto...</string>
     <string name="torna_menu">Torna al menu principale</string>
+    <string name="selection_color">Seleziona il colore cliccando sui mattoncini colorati</string>
+    <string name="disegna_mattoncini">Disegna i mattoncini nell\'area sottostante!</string>
+    <string name="color_touch">Tocca il colore!</string>
 
 
 </resources>
