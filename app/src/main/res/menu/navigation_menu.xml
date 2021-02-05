@@ -9,6 +9,18 @@
         android:icon="@drawable/baseline_account_circle_24"
         android:title="@string/profile"/>
 
+    <item android:id="@+id/received_request"
+        android:icon="@drawable/ic_baseline_videogame_asset_24"
+        android:title="@string/challenge_received"/>
+
+    <item android:id="@+id/sent_request"
+        android:icon="@drawable/ic_baseline_videogame_asset_24"
+        android:title="@string/challeng_request"/>
+
+    <item android:id="@+id/story"
+        android:icon="@drawable/ic_baseline_history_24"
+        android:title="@string/story"/>
+
     <item android:id="@+id/rankings"
         android:icon="@drawable/ic_ranking"
         android:title="@string/rankings"/>

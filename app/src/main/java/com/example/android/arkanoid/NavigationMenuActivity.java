@@ -78,6 +78,24 @@ public class NavigationMenuActivity extends AppCompatActivity {
                         editor.apply();
                         startActivity(new Intent(NavigationMenuActivity.this, UsersListActivity.class));
                         break;
+                    case R.id.received_request:
+                        Intent i = new Intent(NavigationMenuActivity.this, ChallengeListActivity.class);
+                        i.putExtra("R", true);
+                        i.putExtra("S", false);
+                        startActivity(i);
+                        break;
+                    case R.id.sent_request:
+                        Intent i1 = new Intent(NavigationMenuActivity.this, ChallengeListActivity.class);
+                        i1.putExtra("R", false);
+                        i1.putExtra("S", true);
+                        startActivity(i1);
+                        break;
+                    case R.id.story:
+                        Intent i2 = new Intent(NavigationMenuActivity.this, ChallengeListActivity.class);
+                        i2.putExtra("R", false);
+                        i2.putExtra("S", false);
+                        startActivity(i2);
+                        break;
                     case R.id.settings:
                         startActivity(new Intent(NavigationMenuActivity.this, SettingsActivity.class));
                         break;
@@ -85,7 +103,6 @@ public class NavigationMenuActivity extends AppCompatActivity {
                         AlertDialog alertDialog = new AlertDialog.Builder( NavigationMenuActivity.this ).create();
                         alertDialog.setTitle( R.string.attention );
                         alertDialog.setMessage( getString(R.string.exit_confirm) );
-                        alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {

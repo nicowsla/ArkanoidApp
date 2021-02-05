@@ -165,6 +165,7 @@ public class SignInActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
@@ -237,8 +238,9 @@ public class SignInActivity extends AppCompatActivity {
                             DatabaseReference myRef = database.getReference( "utenti" ).child( user.getUid() );
                             myRef.setValue( new User(user.getUid(),username, email, 0, 1000000000) );
 
-                            Toast.makeText( getApplicationContext(), R.string.signin_check_mail, Toast.LENGTH_LONG ).show();
 
+
+                            Toast.makeText( getApplicationContext(), R.string.signin_check_mail, Toast.LENGTH_LONG ).show();
                             AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
                             alertDialog.setTitle( R.string.attention);
                             alertDialog.setMessage(getString(R.string.signin_check_mail));
@@ -264,7 +266,10 @@ public class SignInActivity extends AppCompatActivity {
                                         }
                                     } );
                             alertDialog.show();
+
                         }
+
+                        // ...
                     }
                 });
         }

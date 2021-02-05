@@ -226,6 +226,12 @@ public class UserProfileActivity extends NavigationMenuActivity {
                     startActivity(new Intent(UserProfileActivity.this, PersonalLevelsActivity.class));
                     break;
                 case R.id.challenge:
+                    Intent i = new Intent(UserProfileActivity.this, MainActivity.class);
+                    i.putExtra("MODE", 4);
+                    i.putExtra("Multiplayer", true);
+                    i.putExtra("Sfidante", true);
+                    i.putExtra("Sfidato", false);
+                    startActivity(i);
                     Toast.makeText(UserProfileActivity.this, getString(R.string.play),
                             Toast.LENGTH_SHORT).show();
                     break;

@@ -44,23 +44,27 @@ public class MenuActivity extends NavigationMenuActivity {
         Intent i = new Intent(this, MainActivity.class);
         switch (View.getId()) {
             case (R.id.menu_go_to_tema):
-                i.putExtra("M", 1);
+                i.putExtra("MODE", 1);
+                i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_classificata):
-                i.putExtra("M", 2);
+                i.putExtra("MODE", 2);
+                i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_arcade):
-                i.putExtra("M", 3);
+                i.putExtra("MODE", 3);
+                i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_infinita):
-                i.putExtra("M", 4);
+                i.putExtra("MODE", 4);
+                i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_landscape):
-                i.putExtra("M", 6);
+                i.putExtra("MODE", 6);
                 startActivity(i);
                 break;
         }
@@ -86,10 +90,9 @@ public class MenuActivity extends NavigationMenuActivity {
     @Override
     public void onBackPressed(){
         AlertDialog alertDialog = new AlertDialog.Builder( MenuActivity.this ).create();
-        alertDialog.setTitle(getString(R.string.attention));
-        alertDialog.setMessage(getString(R.string.exit_confirm) );
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
+        alertDialog.setTitle( "ATTENZIONE!" );
+        alertDialog.setMessage( "Sei sicuro di voler uscire?" );
+        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, "SI",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -99,7 +102,7 @@ public class MenuActivity extends NavigationMenuActivity {
                         startActivity( a );
                     }
                 } );
-        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, "NO",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
