@@ -11,11 +11,7 @@
 
     <item android:id="@+id/received_request"
         android:icon="@drawable/ic_baseline_videogame_asset_24"
-        android:title="@string/challenge_received"/>
-
-    <item android:id="@+id/sent_request"
-        android:icon="@drawable/ic_baseline_videogame_asset_24"
-        android:title="@string/challeng_request"/>
+        android:title="@string/challenge"/>
 
     <item android:id="@+id/story"
         android:icon="@drawable/ic_baseline_history_24"

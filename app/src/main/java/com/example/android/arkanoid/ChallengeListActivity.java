@@ -10,11 +10,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -25,7 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class ChallengeListActivity extends AppCompatActivity {
+public class ChallengeListActivity extends NavigationMenuActivity  {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private ChallengeListAdapter adapter;
@@ -37,6 +39,7 @@ public class ChallengeListActivity extends AppCompatActivity {
     private String myUsername;
     private boolean requestReceived;
     private boolean requestSend;
+    private BottomNavigationView bottonMenu;
 
 
 
@@ -45,10 +48,17 @@ public class ChallengeListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_challenge_list);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_challenge_list, null, false);
+        dl.addView(contentView, 0);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         myUsername=  pref.getString("username", null);
+
+        bottonMenu = findViewById(R.id.bottom_navigation_challenge);
+        bottonMenu.setOnNavigationItemSelectedListener(navListener);
+        //nasconde il pannello delle notifiche
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Bundle i = getIntent().getExtras();
         requestSend = i.getBoolean("R");
@@ -71,6 +81,10 @@ public class ChallengeListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.startAnimation( fromtop );
+
+        if(!requestReceived && !requestSend){
+            bottonMenu.setVisibility(View.GONE);
+        }
 
         fetch();
 
@@ -123,4 +137,37 @@ public class ChallengeListActivity extends AppCompatActivity {
     public void onBackPressed(){
         startActivity( new Intent( ChallengeListActivity.this, MenuActivity.class) );
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            switch (item.getItemId()) {
+                case R.id.score_ranking:
+                    if(requestSend){
+                        Toast.makeText(ChallengeListActivity.this, getString(R.string.challenge_received),
+                                Toast.LENGTH_SHORT).show();
+                    }else{
+                       Intent i = new Intent(ChallengeListActivity.this, ChallengeListActivity.class);
+                        i.putExtra("R", true);
+                        i.putExtra("S", false);
+                        startActivity(i);
+                    }
+                    break;
+                case R.id.time_ranking:
+                    if(requestReceived){
+                        Toast.makeText(ChallengeListActivity.this, getString(R.string.challeng_request),
+                                Toast.LENGTH_SHORT).show();
+                    }else{
+                        Intent i = new Intent(ChallengeListActivity.this, ChallengeListActivity.class);
+                        i.putExtra("R", false);
+                        i.putExtra("S", true);
+                        startActivity(i);
+                    }
+                    break;
+            }
+
+            return true;
+        }
+    };
 }

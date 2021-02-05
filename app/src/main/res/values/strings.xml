@@ -146,8 +146,8 @@
     <string name="wait_for_friend">Richieste inviata!</string>
     <string name="wait">Aspetta che il tuo amico giochi!</string>
     <string name="accept">ACCETTA</string>
-    <string name="challenge_received">Sfide</string>
-    <string name="challeng_request">Richieste di sfida</string>
+    <string name="challenge_received">Ricevute</string>
+    <string name="challeng_request">Effettuate</string>
     <string name="winner">VITTORIA!</string>
     <string name="win">Complimenti, hai battuto il tuo amico!</string>
     <string name="loser">Sconfitta</string>
@@ -159,6 +159,7 @@
     <string name="messaggio_sconfitta">Il Boss ti ha sconfitto...</string>
     <string name="torna_menu">Torna al menu principale</string>
     <string name="insert_photo">Inserisci una immagine del profilo!</string>
+    <string name="challenge">Sfide</string>
 
 
 </resources>
