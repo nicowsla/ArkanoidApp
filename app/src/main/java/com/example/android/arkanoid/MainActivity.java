@@ -317,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
         private boolean timeMode = false;
         private boolean themeMode = false;
         private boolean arcadeMode = false;
+        private boolean landscape = false;
         private boolean attivato = false;
 
         private boolean accelerometro = enableAccelerometer;
@@ -329,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
         private long decimi;
         private long centesimi;
         private long millesimi;
+
 
 
 
@@ -381,6 +383,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 4:
                     infinityMode = true;
+                    break;
+                case 6:
+                    landscape = true;
                     break;
             }
             generateBricks(context, level, buttonValue);
@@ -491,7 +496,6 @@ public class MainActivity extends AppCompatActivity {
             }else if(button == 4){
                 int numero;
                 if(level >= 17) {
-
                     if (!gameOver && infinityMode) {
                         //Toast.makeText(MainActivity.this, getString(R.string.infinity_mode), Toast.LENGTH_LONG).show();
                         for (int i = 3; i < 20; i++) {
@@ -509,8 +513,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }
-            else if(button == 5){
+            }else if(button == 5){
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
                 String matrixString = pref.getString("matrixString", null);
                 Integer[][] personalMatrix = convertStringToArray(matrixString);
@@ -519,6 +522,14 @@ public class MainActivity extends AppCompatActivity {
                     for (int j = 1; j < 10; j++) {
                         if (personalMatrix[i][j] != 0) {
                             list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, personalMatrix[i][j]));
+                        }
+                    }
+                }
+            }else if(button == 6){
+                for (int i = 1; i < 10; i++) {
+                    for (int j = 2; j < 16; j++) {
+                        if (Levels.LivelloMOSTROLANDSCAPE[i][j] != 0) {
+                            list.add(new Brick(context, (screenWidth / 22) * j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTROLANDSCAPE[i][j]));
                         }
                     }
                 }
@@ -557,107 +568,178 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onDraw(Canvas canvas) {
-            // creates a background only once
-            if (stretchedOut == null ) {
-                stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
-            }
-            if (stretchedOutGamepad == null ) {
-                stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepad, size.x, size.y, true);
-            }
 
-            //Posiziona lo sfondo nello schermo
-            if(!accelerometro && !touch){
-                canvas.drawBitmap(stretchedOutGamepad, 0, 0, null);
-            }else {
-                canvas.drawBitmap(stretchedOut, 0, 0, null);
-            }
-
-
-            // draw the ball
-            paint.setColor(Color.RED);
-            canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
-
-            // draw fell, disegna rettangolo cioè barra
-            paint.setColor(Color.WHITE);
-            //La riga sotto era +200 + 40
-            //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
-            canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920, paint);
-
-            // draw bricks
-            paint.setColor(Color.GREEN);
-            for (int i = 0; i < list.size(); i++) {
-                Brick b = list.get(i);
-                //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
-                r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1080, b.getY() + (70*screenHeight)/1920) ;
-                canvas.drawBitmap(b.getBrick(), null, r, paint);
-            }
-
-            // draw text
-            paint.setColor(Color.WHITE);
-            paint.setTextSize(50);
-
-            float velocitaX = ball.getxSpeed();
-            float velocitaY = ball.ySpeed;
-
-            Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
-            Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
-            Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
-            Bitmap icon_time = BitmapFactory.decodeResource(this.getResources(), R.drawable.stopwatch);
-
-            int maxSize = (int) screenWidth/18;
-
-            Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
-            Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
-            Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
-            Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
-
-            canvas.drawBitmap(new_icon_level, (size.x/6) - (maxSize+5), 50, paint);
-            canvas.drawText("" + level,(size.x/6),100, paint );
-
-            canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - (maxSize+5), 50, paint);
-            canvas.drawText("" + lifes, (size.x/6)*3, 100, paint);
-
-            if(timeMode){
-                difference = System.currentTimeMillis() - startTime;
-                minuti = difference / (1000 * 60);
-                secondi = (difference - (minuti*60000)) / 1000;
-                decimi = (difference - (minuti*60000) - (secondi*1000)) / 100;
-                centesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100))/10;
-                millesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100) - (centesimi*10));
-                canvas.drawBitmap(new_icon_time, (size.x/6)*5-40 - (maxSize+5), 50, paint);
-                canvas.drawText( minuti+"'"+secondi+"''"+decimi+centesimi+millesimi, (size.x/6)*5-40, 100, paint);
-            }else{
-                canvas.drawBitmap(new_icon_score, (size.x/6)*5 - (maxSize+5), 50, paint);
-                canvas.drawText("" + score, (size.x/6)*5, 100, paint);
-            }
-
-
-            //PROVE ##############################################################
-           /* canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
-            canvas.drawText("paddle width:" + new_paddle.getWidth(),50,300,paint);
-            canvas.drawText("paddle height:" + new_paddle.getHeight(),50,350,paint);
-            canvas.drawText("left:" + r.left,50,400,paint);
-            canvas.drawText("top:" + r.top,50,450,paint);
-            canvas.drawText("right:" + r.right,50,500,paint);
-            canvas.drawText("bottom:" + r.bottom,50,550,paint);*/
-
-            //in case of loss draw "Game over!"
-            if (gameOver) {
-                if(infinityMode && score>bestScore){
-                    database.getReference("utenti").child(user.getUid()).child( "bestScore" ).setValue( score );
-                    database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime));
+            if(landscape){
+                if (stretchedOut == null ) {
+                    stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
+                }
+                if (stretchedOutGamepad == null ) {
+                    stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepad, size.x, size.y, true);
                 }
 
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                int a = screenWidth;
+                screenWidth = screenHeight;
+                screenWidth = a;
+
+                //Posiziona lo sfondo nello schermo
+                if(!accelerometro && !touch){
+                    canvas.drawBitmap(stretchedOutGamepad, 0, 0, null);
+                }else {
+                    canvas.drawBitmap(stretchedOut, 0, 0, null);
+                }
+
+                // draw the ball
                 paint.setColor(Color.RED);
-                paint.setTextSize(100);
-                canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
-                if(!boss){
-                    level = 1;
+                canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
+
+                // draw fell, disegna rettangolo cioè barra
+                paint.setColor(Color.WHITE);
+                //La riga sotto era +200 + 40
+                //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
+                canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920, paint);
+
+                // draw bricks
+                paint.setColor(Color.GREEN);
+                for (int i = 0; i < list.size(); i++) {
+                    Brick b = list.get(i);
+                    //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
+                    r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1080, b.getY() + (70*screenHeight)/1920) ;
+                    canvas.drawBitmap(b.getBrick(), null, r, paint);
                 }
-                //infinityMode = false;
-                boss = false;
-                startTime = 0;
-                attivato = false;
+
+                // draw text
+                paint.setColor(Color.WHITE);
+                paint.setTextSize(50);
+
+                float velocitaX = ball.getxSpeed();
+                float velocitaY = ball.ySpeed;
+
+                Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
+                Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
+                Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
+                Bitmap icon_time = BitmapFactory.decodeResource(this.getResources(), R.drawable.stopwatch);
+
+                int maxSize = (int) screenWidth/36;
+
+                Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
+                Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
+                Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
+                Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
+                canvas.drawBitmap(new_icon_level, (size.x/6) - (maxSize+5) - 45, 50 - 48, paint);
+                canvas.drawText("" + level,(size.x/6) - 50,100 - 50, paint );
+                canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - (maxSize+5) - 10, 50 - 45, paint);
+                canvas.drawText("" + lifes, (size.x/6)*3, 100 - 50, paint);
+                canvas.drawBitmap(new_icon_score, (size.x/6)*5 - (maxSize+5) - 45, 50 - 45, paint);
+                canvas.drawText("" + score, (size.x/6)*5 - 50, 100 - 50, paint);
+
+                //in case of loss draw "Game over!"
+                if (gameOver) {
+                    paint.setColor(Color.RED);
+                    paint.setTextSize(100);
+                    canvas.drawText("Game over!", size.x / 6, size.y / 6, paint);
+                    level = 1;
+                    //infinityMode = false;
+                    startTime = 0;
+                    attivato = false;
+                }
+
+            }else {
+                    //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    if (stretchedOut == null) {
+                        stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
+                    }
+                    if (stretchedOutGamepad == null) {
+                        stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepad, size.x, size.y, true);
+                    }
+
+                    //Posiziona lo sfondo nello schermo
+                    if (!accelerometro && !touch) {
+                        canvas.drawBitmap(stretchedOutGamepad, 0, 0, null);
+                    } else {
+                        canvas.drawBitmap(stretchedOut, 0, 0, null);
+                    }
+
+                    // draw the ball
+                    paint.setColor(Color.RED);
+                    canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
+
+                    // draw fell, disegna rettangolo cioè barra
+                    paint.setColor(Color.WHITE);
+                    //La riga sotto era +200 + 40
+                    //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
+                    canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200 * screenWidth) / 1080, paddle.getY() + (40 * screenHeight) / 1920, paint);
+
+                    // draw bricks
+                    paint.setColor(Color.GREEN);
+                    for (int i = 0; i < list.size(); i++) {
+                        Brick b = list.get(i);
+                        //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
+                        r = new RectF(b.getX(), b.getY(), b.getX() + (100 * screenWidth) / 1080, b.getY() + (70 * screenHeight) / 1920);
+                        canvas.drawBitmap(b.getBrick(), null, r, paint);
+                    }
+
+                    // draw text
+                    paint.setColor(Color.WHITE);
+                    paint.setTextSize(50);
+
+                    float velocitaX = ball.getxSpeed();
+                    float velocitaY = ball.ySpeed;
+
+                    Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
+                    Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
+                    Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
+                    Bitmap icon_time = BitmapFactory.decodeResource(this.getResources(), R.drawable.stopwatch);
+
+                    int maxSize = (int) screenWidth / 18;
+
+                    Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
+                    Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
+                    Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
+                    Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
+                    canvas.drawBitmap(new_icon_level, (size.x / 6) - (maxSize + 5), 50, paint);
+                    canvas.drawText("" + level, (size.x / 6), 100, paint);
+                    canvas.drawBitmap(new_icon_lives, (size.x / 6) * 3 - (maxSize + 5), 50, paint);
+                    canvas.drawText("" + lifes, (size.x / 6) * 3, 100, paint);
+
+                    if (timeMode) {
+                        difference = System.currentTimeMillis() - startTime;
+                        minuti = difference / (1000 * 60);
+                        secondi = (difference - (minuti * 60000)) / 1000;
+                        decimi = (difference - (minuti * 60000) - (secondi * 1000)) / 100;
+                        centesimi = (difference - (minuti * 60000) - (secondi * 1000) - (decimi * 100)) / 10;
+                        millesimi = (difference - (minuti * 60000) - (secondi * 1000) - (decimi * 100) - (centesimi * 10));
+                        canvas.drawBitmap(new_icon_time, (size.x / 6) * 5 - 40 - (maxSize + 5), 50, paint);
+                        canvas.drawText(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi, (size.x / 6) * 5 - 40, 100, paint);
+                    } else {
+                        canvas.drawBitmap(new_icon_score, (size.x / 6) * 5 - (maxSize + 5), 50, paint);
+                        canvas.drawText("" + score, (size.x / 6) * 5, 100, paint);
+                    }
+
+
+                    //PROVE ##############################################################
+                    /* canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
+                    canvas.drawText("paddle width:" + new_paddle.getWidth(),50,300,paint);
+                    canvas.drawText("paddle height:" + new_paddle.getHeight(),50,350,paint);
+                    canvas.drawText("left:" + r.left,50,400,paint);
+                    canvas.drawText("top:" + r.top,50,450,paint);
+                    canvas.drawText("right:" + r.right,50,500,paint);
+                    canvas.drawText("bottom:" + r.bottom,50,550,paint);*/
+
+                    //in case of loss draw "Game over!"
+                    if (gameOver) {
+                        if (infinityMode && score > bestScore) {
+                            database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score);
+                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime));
+                        }
+                        paint.setColor(Color.RED);
+                        paint.setTextSize(100);
+                        canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
+                        level = 1;
+                        //infinityMode = false;
+                        startTime = 0;
+                        attivato = false;
+                    }
             }
         }
 
@@ -896,7 +978,7 @@ public class MainActivity extends AppCompatActivity {
                     start = false;
                 }
                 else{
-                    ++level;
+                    level++;
                     soundPlayer.playOverSound();
                     resetLevel(level,buttonValue);
                     // ball.increaseSpeed(level);
