@@ -109,7 +109,6 @@ public class PersonalLevelsActivity extends AppCompatActivity {
                             AlertDialog alertDialog = new AlertDialog.Builder( PersonalLevelsActivity.this ).create();
                             alertDialog.setTitle( R.string.confirm);
                             alertDialog.setMessage(getString(R.string.level_send));
-                            alertDialog.setCanceledOnTouchOutside(false);
                             alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -125,7 +124,7 @@ public class PersonalLevelsActivity extends AppCompatActivity {
                             editor.apply();
 
                             Intent k = new Intent(PersonalLevelsActivity.this, MainActivity.class);
-                            k.putExtra("M", 5);
+                            k.putExtra("MODE", 5);
                             startActivity(k);
                         }
 

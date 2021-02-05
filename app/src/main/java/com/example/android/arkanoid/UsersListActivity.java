@@ -108,7 +108,7 @@ public class UsersListActivity extends NavigationMenuActivity {
         final Query query;
                 if(rankingScore){
                     //visualizzo i primi 100
-                    query = database.getReference().child("punteggi").orderByChild("bestScore").limitToFirst(100);
+                    query = database.getReference().child("punteggi").orderByChild("bestScore");;
                 }else if(rankingTime){
                     //visualizzo i primi 100
                     query = database.getReference().child("punteggi").orderByChild("bestTime").limitToLast(100);

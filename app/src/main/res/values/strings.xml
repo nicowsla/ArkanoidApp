@@ -143,6 +143,16 @@
     <string name="ranking_score">Classifica Infinity Mode</string>
     <string name="ranking_time">Classifica Time Mode</string>
     <string name="boss_coming">IL BOSS STA ARRIVANDO...</string>
+    <string name="wait_for_friend">Richieste inviata!</string>
+    <string name="wait">Aspetta che il tuo amico giochi!</string>
+    <string name="accept">ACCETTA</string>
+    <string name="challenge_received">Sfide</string>
+    <string name="challeng_request">Richieste di sfida</string>
+    <string name="winner">VITTORIA!</string>
+    <string name="win">Complimenti, hai battuto il tuo amico!</string>
+    <string name="loser">Sconfitta</string>
+    <string name="lost">"Oh no! Hai perso! "</string>
+    <string name="story">Storico Partite</string>
     <string name="italian_selected">Italiano selezionato</string>
     <string name="english_selected">English selected</string>
     <string name="sconfitta_boss">HAI PERSO!</string>
