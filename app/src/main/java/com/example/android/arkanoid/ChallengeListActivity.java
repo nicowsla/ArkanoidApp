@@ -85,7 +85,7 @@ public class ChallengeListActivity extends AppCompatActivity {
         }else if(requestSend){
             query = database.getReference().child("utenti").child(user.getUid()).child("RichiesteSfidaEffettuate");
         }else{
-            query = database.getReference().child("utenti").child(user.getUid()).child("storico");
+            query = database.getReference().child("utenti").child(user.getUid()).child("Storico");
         }
 
         FirebaseRecyclerOptions<Challenge> options =
