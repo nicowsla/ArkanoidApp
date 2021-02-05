@@ -59,6 +59,10 @@ public class MenuActivity extends NavigationMenuActivity {
                 i.putExtra("M", 4);
                 startActivity(i);
                 break;
+            case (R.id.menu_go_to_landscape):
+                i.putExtra("M", 6);
+                startActivity(i);
+                break;
         }
     }
 

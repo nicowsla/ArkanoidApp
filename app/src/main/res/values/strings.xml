@@ -145,6 +145,9 @@
     <string name="boss_coming">IL BOSS STA ARRIVANDO...</string>
     <string name="italian_selected">Italiano selezionato</string>
     <string name="english_selected">English selected</string>
+    <string name="sconfitta_boss">HAI PERSO!</string>
+    <string name="messaggio_sconfitta">Il Boss ti ha sconfitto...</string>
+    <string name="torna_menu">Torna al menu principale</string>
 
 
 </resources>
