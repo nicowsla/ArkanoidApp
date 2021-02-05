@@ -158,6 +158,7 @@
     <string name="sconfitta_boss">HAI PERSO!</string>
     <string name="messaggio_sconfitta">Il Boss ti ha sconfitto...</string>
     <string name="torna_menu">Torna al menu principale</string>
+    <string name="insert_photo">Inserisci una immagine del profilo!</string>
 
 
 </resources>
