@@ -13,9 +13,17 @@
 
 
     </style>
+
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_theme</item>
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/button</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="colorAccent">@android:color/transparent</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
