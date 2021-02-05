@@ -526,10 +526,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }else if(button == 6){
-                for (int i = 1; i < 10; i++) {
-                    for (int j = 2; j < 16; j++) {
+                for (int i = 1; i < 9; i++) {
+                    for (int j = 2; j < 9; j++) {
                         if (Levels.LivelloMOSTROLANDSCAPE[i][j] != 0) {
-                            list.add(new Brick(context, (screenWidth / 22) * j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTROLANDSCAPE[i][j]));
+                            list.add(new Brick(context, (size.x / 11) * j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTROLANDSCAPE[i][j]));
                         }
                     }
                 }
