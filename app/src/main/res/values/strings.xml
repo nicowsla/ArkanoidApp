@@ -57,7 +57,7 @@
     <string name="commands_selector"> Comandi</string>
     <string name="languages_selector"> Lingua</string>
     <string name="settings_select_commands_info">Tipologia comandi di gioco</string>
-    <string name="commands_confirm"></string>
+    <string name="commands_confirm">OK</string>
     <string name="commands_not_confirm">OK</string>
     <string name="commands_info_dialog">
         È possibile controllare la barra in tre modalità differenti, mediante: \n
