@@ -66,6 +66,7 @@ public class ResetPasswordActivity extends NavigationMenuActivity {
                             AlertDialog alertDialog = new AlertDialog.Builder(ResetPasswordActivity.this).create();
                             alertDialog.setTitle(getString(R.string.error));
                             alertDialog.setMessage(getString(R.string.email_nor_registered));
+                            alertDialog.setCanceledOnTouchOutside(false);
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -79,6 +80,7 @@ public class ResetPasswordActivity extends NavigationMenuActivity {
                             AlertDialog alertDialog = new AlertDialog.Builder(ResetPasswordActivity.this).create();
                             alertDialog.setTitle(getString(R.string.reset_psw));
                             alertDialog.setMessage(getString(R.string.check_email));
+                            alertDialog.setCanceledOnTouchOutside(false);
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {

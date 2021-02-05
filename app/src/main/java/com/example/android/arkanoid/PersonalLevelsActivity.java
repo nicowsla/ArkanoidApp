@@ -109,6 +109,7 @@ public class PersonalLevelsActivity extends AppCompatActivity {
                             AlertDialog alertDialog = new AlertDialog.Builder( PersonalLevelsActivity.this ).create();
                             alertDialog.setTitle( R.string.confirm);
                             alertDialog.setMessage(getString(R.string.level_send));
+                            alertDialog.setCanceledOnTouchOutside(false);
                             alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {

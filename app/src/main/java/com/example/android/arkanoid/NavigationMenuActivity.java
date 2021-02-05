@@ -85,6 +85,7 @@ public class NavigationMenuActivity extends AppCompatActivity {
                         AlertDialog alertDialog = new AlertDialog.Builder( NavigationMenuActivity.this ).create();
                         alertDialog.setTitle( R.string.attention );
                         alertDialog.setMessage( getString(R.string.exit_confirm) );
+                        alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
