@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@color/semiTransparentColor"
+    app:cardElevation="0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:id="@+id/list_root"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/list_result"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:textColor="@color/button"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/list_request_name"
+                        android:text="QUYETYUQ"
+                        android:textColor="@color/button"
+                        android:textSize="16dp"
+                        android:layout_gravity="center"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/list_image"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="5dp"
+                        app:civ_border_color="@color/white"
+                        android:layout_gravity="center"
+                        app:civ_border_width="2dp"
+                        android:background="@drawable/ic_baseline_person_white_24" />
+
+                    <TextView
+                        android:id="@+id/list_request_score"
+                        android:text="QUYETYUQ"
+                        android:textColor="@color/button"
+                        android:textSize="14dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/list_request_name2"
+                        android:text="QUYETYUQ"
+                        android:textColor="@color/button"
+                        android:layout_gravity="center"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/list_image2"
+                        android:layout_gravity="center"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="5dp"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="2dp"
+                        android:background="@drawable/ic_baseline_person_white_24" />
+
+                    <TextView
+                        android:id="@+id/list_request_score2"
+                        android:layout_gravity="center"
+                        android:text="QUYETYUQ"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/button"
+                        android:textSize="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/accept"
+            android:text="@string/accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_dark"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
+

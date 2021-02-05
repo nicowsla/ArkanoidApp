@@ -44,19 +44,23 @@ public class MenuActivity extends NavigationMenuActivity {
         Intent i = new Intent(this, MainActivity.class);
         switch (View.getId()) {
             case (R.id.menu_go_to_tema):
-                i.putExtra("M", 1);
+                i.putExtra("MODE", 1);
+                i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_classificata):
-                i.putExtra("M", 2);
+                i.putExtra("MODE", 2);
+                i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_arcade):
-                i.putExtra("M", 3);
+                i.putExtra("MODE", 3);
+                i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_infinita):
-                i.putExtra("M", 4);
+                i.putExtra("MODE", 4);
+                i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
         }

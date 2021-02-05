@@ -45,17 +45,25 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
         holder.setTxtTitle(lista.getUsername());
         if(rankingScore){
             Long s = lista.getBestScore();
-            String s1 = s.toString();
-            holder.setScore(s1);
+            if(s!=0){
+                String s1 = s.toString();
+                holder.setScore(s1);
+            }else{
+                holder.setScore("Non pervenuto");
+            }
+
         }else  if(rankingTime){
             Long msec = lista.getBestTime();
-            long minuti = msec / (1000 * 60);
+            if(msec<10000000){
+                long minuti = msec / (1000 * 60);
+                long secondi = (msec - (minuti*60000)) / 1000;
+                long decimi = (msec - (minuti*60000) - (secondi*1000)) / 100;
+                holder.setScore(minuti + "'" + secondi + "''" + decimi +"'''");
+            }else{
+                holder.setScore("Non pervenuto");
+            }
 
-            long secondi = (msec - (minuti*60000)) / 1000;
 
-            long decimi = (msec - (minuti*60000) - (secondi*1000)) / 100;
-
-            holder.setScore(minuti + "'" + secondi + "''" + decimi +"'''");
         }
 
         StorageReference riversRef = mStorageRef.child(lista.getId()).child("images/profilo.jpg");

@@ -59,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
     private long bestTime = 0;
     private String username;
 
+    private String friend;
+    private String friendUsername;
+    private String idRequest;
+    private Long friendScore;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         enableTouch = pref.getBoolean("touch", true);
         enableAccelerometer = pref.getBoolean("accelerometro", false);
+        friend = pref.getString("friend", null);
+        friendUsername = pref.getString("friendName", null);
+        idRequest = pref.getString("idRichiesta", null);
+        String s = pref.getString("friendScore", null);
+        if(s!=null){
+            friendScore = Long.parseLong(s);
+        }
 
         database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -83,7 +96,10 @@ public class MainActivity extends AppCompatActivity {
         //prendo l'id per capire quale tasto è stato scelto
         //Credo basti solo uno
         Bundle i = getIntent().getExtras();
-        int partita = i.getInt("M");
+        int partita = i.getInt("MODE");
+        Boolean multiplayer = i.getBoolean("Multiplayer");
+        Boolean sfidante = i.getBoolean("Sfidante");
+        Boolean sfidato = i.getBoolean("Sfidato");
 
 
         //sets the screen orientation
@@ -114,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // create a new game
-        game = new Game(this, 3, 0, 1, screenWidth, screenHeight, partita);
+        game = new Game(this, 3, 0, 1, screenWidth, screenHeight, partita, multiplayer, sfidante, sfidato);
         setContentView(game);
 
         // create an handler and thread
@@ -310,6 +326,9 @@ public class MainActivity extends AppCompatActivity {
         private int screenWidth;
         private int screenHeight;
         private int partita;
+        private Boolean multiplayer;
+        private Boolean sfidante;
+        private Boolean sfidato;
 
         private int buttonValue;
         private boolean boss = false;
@@ -332,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita) {
+        public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita, Boolean multiplayer, Boolean sfidante, Boolean sfidato) {
             super(context);
             paint = new Paint();
 
@@ -344,6 +363,9 @@ public class MainActivity extends AppCompatActivity {
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
             this.partita = partita;
+            this.multiplayer = multiplayer;
+            this.sfidante = sfidante;
+            this.sfidato = sfidato;
 
 
             // start a gameOver to see if the game continues or the player has lost all the lives
@@ -647,17 +669,20 @@ public class MainActivity extends AppCompatActivity {
                     database.getReference("utenti").child(user.getUid()).child( "bestScore" ).setValue( score );
                     database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime));
                 }
-
-                paint.setColor(Color.RED);
-                paint.setTextSize(100);
-                canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
-                if(!boss){
-                    level = 1;
+                if(!multiplayer){
+                    paint.setColor(Color.RED);
+                    paint.setTextSize(100);
+                    canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
+                    if(!boss){
+                        level = 1;
+                    }
+                    //infinityMode = false;
+                    boss = false;
+                    startTime = 0;
+                    attivato = false;
                 }
-                //infinityMode = false;
-                boss = false;
-                startTime = 0;
-                attivato = false;
+
+
             }
         }
 
@@ -677,6 +702,70 @@ public class MainActivity extends AppCompatActivity {
         //checks the status of the game. whether my lives or whether the game is over
         private void checkLives() {
             if (lifes == 1) {
+
+                if(multiplayer && sfidante){
+                    onPause();
+                   DatabaseReference myRef = database.getReference("utenti").child(user.getUid()).child("RichiesteSfidaEffettuate").push();
+                    String key = myRef.getKey();
+                    myRef.setValue(new Challenge(key, friend, friendUsername, (long) 0, score, false, false));
+
+                    DatabaseReference myRef1 = database.getReference("utenti").child(friend).child("RichiesteSfidaRicevute").child(key);
+                    myRef1.setValue(new Challenge(key, user.getUid(), username, score, (long) 0, false, false));
+
+                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                    alertDialog.setTitle( R.string.wait_for_friend );
+                    alertDialog.setMessage( getString(R.string.wait) );
+                    alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                }
+                            } );
+                    alertDialog.show();
+                }
+                if(multiplayer && sfidato){
+                    onPause();
+                    DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
+                    myRef.child("RichiesteSfidaRicevute").child(idRequest).removeValue();
+
+                    DatabaseReference myRef1 = database.getReference("utenti").child(friend);
+                    myRef1.child("RichiesteSfidaEffettuate").child(idRequest).removeValue();
+
+
+                    DatabaseReference myRef2 = database.getReference("utenti").child(user.getUid()).child("Storico").push();
+                    String key = myRef2.getKey();
+                    myRef2.setValue(new Challenge(key, friend, friendUsername, friendScore, score, true, false));
+
+                    myRef1.child("Storico").child(key).setValue(new Challenge(key, user.getUid(), username, score, friendScore, true, false));
+
+                    if(score>friendScore){
+                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                        alertDialog.setTitle( R.string.winner );
+                        alertDialog.setMessage( getString(R.string.win) + ":"+score+"-"+friendScore);
+                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                    }
+                                } );
+                        alertDialog.show();
+                    }else{
+                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                        alertDialog.setTitle( R.string.loser );
+                        alertDialog.setMessage( getString(R.string.lost) + ":"+score+"-"+friendScore );
+                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                    }
+                                } );
+                        alertDialog.show();
+                    }
+
+                }
                 gameOver = true;
                 start = false;
                 level = 1;
@@ -686,7 +775,6 @@ public class MainActivity extends AppCompatActivity {
                 ball.setX((size.x / 2) - (30*screenWidth)/1080);
                 ball.setY(size.y - (470*screenHeight)/1920);
                 ball.createSpeed(level);
-                // ball.increaseSpeed(level);
                 start = false;
             }
         }
@@ -845,6 +933,7 @@ public class MainActivity extends AppCompatActivity {
                     alertDialog.show();
                     start = false;
                 }else if(timeMode){
+                    onPause();
                     difference = System.currentTimeMillis() - startTime;
                     minuti = difference / (1000 * 60);
                     secondi = (difference - (minuti*60000)) / 1000;
@@ -859,13 +948,6 @@ public class MainActivity extends AppCompatActivity {
                     alertDialog.setTitle( R.string.vittoria_tempo );
                     alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
                     alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                }
-                            } );
-                    alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
