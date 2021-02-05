@@ -124,7 +124,7 @@ public class PersonalLevelsActivity extends AppCompatActivity {
                             editor.apply();
 
                             Intent k = new Intent(PersonalLevelsActivity.this, MainActivity.class);
-                            k.putExtra("M", 5);
+                            k.putExtra("MODE", 5);
                             startActivity(k);
                         }
 

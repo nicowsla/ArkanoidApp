@@ -63,6 +63,10 @@ public class MenuActivity extends NavigationMenuActivity {
                 i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
+            case (R.id.menu_go_to_landscape):
+                i.putExtra("MODE", 6);
+                startActivity(i);
+                break;
         }
     }
 

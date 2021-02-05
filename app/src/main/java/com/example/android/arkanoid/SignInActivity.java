@@ -244,6 +244,7 @@ public class SignInActivity extends AppCompatActivity {
                             AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
                             alertDialog.setTitle( R.string.attention);
                             alertDialog.setMessage(getString(R.string.signin_check_mail));
+                            alertDialog.setCanceledOnTouchOutside(false);
                             alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -257,6 +258,7 @@ public class SignInActivity extends AppCompatActivity {
                             AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
                             alertDialog.setTitle( R.string.signin_failed );
                             alertDialog.setMessage( getString(R.string.sigin_failure_msg) );
+                            alertDialog.setCanceledOnTouchOutside(false);
                             alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {

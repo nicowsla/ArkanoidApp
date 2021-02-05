@@ -13,9 +13,17 @@
 
 
     </style>
+
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_theme</item>
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/button</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="colorAccent">@color/purple_dark</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
@@ -24,6 +32,10 @@
         <item name="colorControlNormal">@color/button</item>
         <item name="colorControlActivated">@color/button</item>
         <item name="colorControlHighlight">@color/button</item>
+        <item name="hintTextAppearance">@color/button</item>
+        <item name="android:textColorHint">@color/button</item>
+        <item name="android:textSize">15sp</item>
+
     </style>
 
 </resources>

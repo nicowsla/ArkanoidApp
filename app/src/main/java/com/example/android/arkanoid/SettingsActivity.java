@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,6 @@ public class SettingsActivity extends NavigationMenuActivity {
     private Boolean enableTouch;
     private Boolean enableAccelerometer;
     private String selezione = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,19 +119,19 @@ public class SettingsActivity extends NavigationMenuActivity {
                 String selectedItemText = (String) adapterView.getItemAtPosition(i);
                 // Display the selected item into the TextView
 
-                if(i==0){
+                if(i==1){
                     SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                     editor.putBoolean( "accelerometro", true );
                     editor.putBoolean("touch", false );
                     editor.apply();
                     Toast.makeText(SettingsActivity.this, getString(R.string.accelerometer_selected), Toast.LENGTH_SHORT).show();
-                }else if(i==1){
+                }else if(i==2){
                     SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                     editor.putBoolean( "accelerometro", false );
                     editor.putBoolean("touch", false);
                     editor.apply();
                     Toast.makeText(SettingsActivity.this, getString(R.string.gamepad_selected), Toast.LENGTH_SHORT).show();
-                }else if(i==2){
+                }else if(i==3){
                     SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                     editor.putBoolean( "accelerometro", false );
                     editor.putBoolean("touch", true );
@@ -153,6 +153,24 @@ public class SettingsActivity extends NavigationMenuActivity {
                 // Get the spinner selected item text
                 String selectedItemText = (String) adapterView.getItemAtPosition(i);
                 // Display the selected item into the TextView
+
+                if(i==1){
+                    /*
+                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                    editor.putBoolean( "accelerometro", true );
+                    editor.putBoolean("touch", false );
+                    editor.apply();
+                     */
+                    Toast.makeText(SettingsActivity.this, getString(R.string.italian_selected), Toast.LENGTH_SHORT).show();
+                }else if(i==2){
+                    /*
+                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                    editor.putBoolean( "accelerometro", false );
+                    editor.putBoolean("touch", false);
+                    editor.apply();
+                    */
+                    Toast.makeText(SettingsActivity.this, getString(R.string.english_selected), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -170,21 +188,10 @@ public class SettingsActivity extends NavigationMenuActivity {
     }
 
     public void infoCommands(View view) {
-        AlertDialog alertDialog = new AlertDialog.Builder( SettingsActivity.this ).create();
+
+        AlertDialog alertDialog = new AlertDialog.Builder( SettingsActivity.this).create();
         alertDialog.setTitle( R.string.settings_select_commands_info );
         alertDialog.setMessage( getString(R.string.commands_info_dialog) );
-        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                } );
-        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                } );
         alertDialog.show();
     }
 

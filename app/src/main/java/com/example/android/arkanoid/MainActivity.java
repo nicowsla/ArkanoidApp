@@ -247,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                         alertDialog.setTitle( R.string.attention );
                         alertDialog.setMessage( getString(R.string.exit_confirm) );
+                        alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
@@ -276,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
         alertDialog.setTitle( R.string.attention );
         alertDialog.setMessage( getString(R.string.exit_confirm) );
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -336,6 +338,7 @@ public class MainActivity extends AppCompatActivity {
         private boolean timeMode = false;
         private boolean themeMode = false;
         private boolean arcadeMode = false;
+        private boolean landscape = false;
         private boolean attivato = false;
 
         private boolean accelerometro = enableAccelerometer;
@@ -403,6 +406,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 4:
                     infinityMode = true;
+                    break;
+                case 6:
+                    landscape = true;
                     break;
             }
             generateBricks(context, level, buttonValue);
@@ -513,7 +519,6 @@ public class MainActivity extends AppCompatActivity {
             }else if(button == 4){
                 int numero;
                 if(level >= 17) {
-
                     if (!gameOver && infinityMode) {
                         //Toast.makeText(MainActivity.this, getString(R.string.infinity_mode), Toast.LENGTH_LONG).show();
                         for (int i = 3; i < 20; i++) {
@@ -531,16 +536,25 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }
-            else if(button == 5){
+            }else if(button == 5){
+                System.out.println("MAMTTTTTTTTTTTT");
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
                 String matrixString = pref.getString("matrixString", null);
+                System.out.println(matrixString);
                 Integer[][] personalMatrix = convertStringToArray(matrixString);
 
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
                         if (personalMatrix[i][j] != 0) {
                             list.add(new Brick(context, (size.x/11)*j, (i * 70 * screenHeight) / screenHeight, personalMatrix[i][j]));
+                        }
+                    }
+                }
+            }else if(button == 6){
+                for (int i = 1; i < 9; i++) {
+                    for (int j = 2; j < 9; j++) {
+                        if (Levels.LivelloMOSTROLANDSCAPE[i][j] != 0) {
+                            list.add(new Brick(context, (size.x / 11) * j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTROLANDSCAPE[i][j]));
                         }
                     }
                 }
@@ -579,182 +593,216 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onDraw(Canvas canvas) {
-            // creates a background only once
-            if (stretchedOut == null ) {
-                stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
-            }
-            if (stretchedOutGamepad == null ) {
-                stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepad, size.x, size.y, true);
-            }
 
-            //Posiziona lo sfondo nello schermo
-            if(!accelerometro && !touch){
-                canvas.drawBitmap(stretchedOutGamepad, 0, 0, null);
-            }else {
-                canvas.drawBitmap(stretchedOut, 0, 0, null);
-            }
-
-
-            // draw the ball
-            paint.setColor(Color.RED);
-            canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
-
-            // draw fell, disegna rettangolo cioè barra
-            paint.setColor(Color.WHITE);
-            //La riga sotto era +200 + 40
-            //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
-            canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920, paint);
-
-            // draw bricks
-            paint.setColor(Color.GREEN);
-            for (int i = 0; i < list.size(); i++) {
-                Brick b = list.get(i);
-                //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
-                r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1080, b.getY() + (70*screenHeight)/1920) ;
-                canvas.drawBitmap(b.getBrick(), null, r, paint);
-            }
-
-            // draw text
-            paint.setColor(Color.WHITE);
-            paint.setTextSize(50);
-
-            float velocitaX = ball.getxSpeed();
-            float velocitaY = ball.ySpeed;
-
-            Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
-            Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
-            Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
-            Bitmap icon_time = BitmapFactory.decodeResource(this.getResources(), R.drawable.stopwatch);
-
-            int maxSize = (int) screenWidth/18;
-
-            Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
-            Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
-            Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
-            Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
-
-            canvas.drawBitmap(new_icon_level, (size.x/6) - (maxSize+5), 50, paint);
-            canvas.drawText("" + level,(size.x/6),100, paint );
-
-            canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - (maxSize+5), 50, paint);
-            canvas.drawText("" + lifes, (size.x/6)*3, 100, paint);
-
-            if(timeMode){
-                difference = System.currentTimeMillis() - startTime;
-                minuti = difference / (1000 * 60);
-                secondi = (difference - (minuti*60000)) / 1000;
-                decimi = (difference - (minuti*60000) - (secondi*1000)) / 100;
-                centesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100))/10;
-                millesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100) - (centesimi*10));
-                canvas.drawBitmap(new_icon_time, (size.x/6)*5-40 - (maxSize+5), 50, paint);
-                canvas.drawText( minuti+"'"+secondi+"''"+decimi+centesimi+millesimi, (size.x/6)*5-40, 100, paint);
-            }else{
-                canvas.drawBitmap(new_icon_score, (size.x/6)*5 - (maxSize+5), 50, paint);
-                canvas.drawText("" + score, (size.x/6)*5, 100, paint);
-            }
-
-
-            //PROVE ##############################################################
-           /* canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
-            canvas.drawText("paddle width:" + new_paddle.getWidth(),50,300,paint);
-            canvas.drawText("paddle height:" + new_paddle.getHeight(),50,350,paint);
-            canvas.drawText("left:" + r.left,50,400,paint);
-            canvas.drawText("top:" + r.top,50,450,paint);
-            canvas.drawText("right:" + r.right,50,500,paint);
-            canvas.drawText("bottom:" + r.bottom,50,550,paint);*/
-
-            //in case of loss draw "Game over!"
-            if (gameOver) {
-                if(infinityMode && score>bestScore){
-                    database.getReference("utenti").child(user.getUid()).child( "bestScore" ).setValue( score );
-                    database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime));
+            if(landscape){
+                if (stretchedOut == null ) {
+                    stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
                 }
-                if(!multiplayer){
+                if (stretchedOutGamepad == null ) {
+                    stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepad, size.x, size.y, true);
+                }
+
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                int a = screenWidth;
+                screenWidth = screenHeight;
+                screenWidth = a;
+
+                //Posiziona lo sfondo nello schermo
+                if(!accelerometro && !touch){
+                    canvas.drawBitmap(stretchedOutGamepad, 0, 0, null);
+                }else {
+                    canvas.drawBitmap(stretchedOut, 0, 0, null);
+                }
+
+                // draw the ball
+                paint.setColor(Color.RED);
+                canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
+
+                // draw fell, disegna rettangolo cioè barra
+                paint.setColor(Color.WHITE);
+                //La riga sotto era +200 + 40
+                //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
+                canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920, paint);
+
+                // draw bricks
+                paint.setColor(Color.GREEN);
+                for (int i = 0; i < list.size(); i++) {
+                    Brick b = list.get(i);
+                    //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
+                    r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1080, b.getY() + (70*screenHeight)/1920) ;
+                    canvas.drawBitmap(b.getBrick(), null, r, paint);
+                }
+
+                // draw text
+                paint.setColor(Color.WHITE);
+                paint.setTextSize(50);
+
+                float velocitaX = ball.getxSpeed();
+                float velocitaY = ball.ySpeed;
+
+                Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
+                Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
+                Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
+                Bitmap icon_time = BitmapFactory.decodeResource(this.getResources(), R.drawable.stopwatch);
+
+                int maxSize = (int) screenWidth/36;
+
+                Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
+                Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
+                Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
+                Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
+                canvas.drawBitmap(new_icon_level, (size.x/6) - (maxSize+5) - 45, 50 - 48, paint);
+                canvas.drawText("" + level,(size.x/6) - 50,100 - 50, paint );
+                canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - (maxSize+5) - 10, 50 - 45, paint);
+                canvas.drawText("" + lifes, (size.x/6)*3, 100 - 50, paint);
+                canvas.drawBitmap(new_icon_score, (size.x/6)*5 - (maxSize+5) - 45, 50 - 45, paint);
+                canvas.drawText("" + score, (size.x/6)*5 - 50, 100 - 50, paint);
+
+                //in case of loss draw "Game over!"
+                if (gameOver) {
                     paint.setColor(Color.RED);
                     paint.setTextSize(100);
-                    canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
-                    if(!boss){
-                        level = 1;
-                    }
+                    canvas.drawText("Game over!", size.x / 6, size.y / 6, paint);
+                    level = 1;
                     //infinityMode = false;
-                    boss = false;
                     startTime = 0;
                     attivato = false;
                 }
 
+            }else {
+                    //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    if (stretchedOut == null) {
+                        stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
+                    }
+                    if (stretchedOutGamepad == null) {
+                        stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepad, size.x, size.y, true);
+                    }
 
-            }
-        }
+                    //Posiziona lo sfondo nello schermo
+                    if (!accelerometro && !touch) {
+                        canvas.drawBitmap(stretchedOutGamepad, 0, 0, null);
+                    } else {
+                        canvas.drawBitmap(stretchedOut, 0, 0, null);
+                    }
 
-        //check that the ball has not touched the edge
-        private void chechEdges() {
-            if (ball.getX() + ball.getxSpeed() >= size.x - (30*screenWidth)/1080) {
-                ball.changeDirection("rights");
-            } else if (ball.getX() + ball.getxSpeed() <= (30*screenWidth)/1080) {
-                ball.changeDirection("left");
-            } else if (ball.getY() + ball.getySpeed() <= (180*screenHeight)/1920) {
-                ball.changeDirection("up");
-            } else if (ball.getY() + ball.getySpeed() >= size.y - (200*screenHeight)/1920) {
-                checkLives();
-            }
-        }
+                    // draw the ball
+                    paint.setColor(Color.RED);
+                    canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
 
-        //checks the status of the game. whether my lives or whether the game is over
-        private void checkLives() {
-            if (lifes == 1) {
+                    // draw fell, disegna rettangolo cioè barra
+                    paint.setColor(Color.WHITE);
+                    //La riga sotto era +200 + 40
+                    //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
+                    canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200 * screenWidth) / 1080, paddle.getY() + (40 * screenHeight) / 1920, paint);
 
-                if(multiplayer && sfidante){
-                    onPause();
-                   DatabaseReference myRef = database.getReference("utenti").child(user.getUid()).child("RichiesteSfidaEffettuate").push();
-                    String key = myRef.getKey();
-                    myRef.setValue(new Challenge(key, friend, friendUsername, (long) 0, score, false, false));
+                    // draw bricks
+                    paint.setColor(Color.GREEN);
+                    for (int i = 0; i < list.size(); i++) {
+                        Brick b = list.get(i);
+                        //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
+                        r = new RectF(b.getX(), b.getY(), b.getX() + (100 * screenWidth) / 1080, b.getY() + (70 * screenHeight) / 1920);
+                        canvas.drawBitmap(b.getBrick(), null, r, paint);
+                    }
 
-                    DatabaseReference myRef1 = database.getReference("utenti").child(friend).child("RichiesteSfidaRicevute").child(key);
-                    myRef1.setValue(new Challenge(key, user.getUid(), username, score, (long) 0, false, false));
+                    // draw text
+                    paint.setColor(Color.WHITE);
+                    paint.setTextSize(50);
 
-                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
-                    alertDialog.setTitle( R.string.wait_for_friend );
-                    alertDialog.setMessage( getString(R.string.wait) );
-                    alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                }
-                            } );
-                    alertDialog.show();
+                    float velocitaX = ball.getxSpeed();
+                    float velocitaY = ball.ySpeed;
+
+                    Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
+                    Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
+                    Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
+                    Bitmap icon_time = BitmapFactory.decodeResource(this.getResources(), R.drawable.stopwatch);
+
+                    int maxSize = (int) screenWidth / 18;
+
+                    Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
+                    Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
+                    Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
+                    Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
+                    canvas.drawBitmap(new_icon_level, (size.x / 6) - (maxSize + 5), 50, paint);
+                    canvas.drawText("" + level, (size.x / 6), 100, paint);
+                    canvas.drawBitmap(new_icon_lives, (size.x / 6) * 3 - (maxSize + 5), 50, paint);
+                    canvas.drawText("" + lifes, (size.x / 6) * 3, 100, paint);
+
+                    if (timeMode) {
+                        difference = System.currentTimeMillis() - startTime;
+                        minuti = difference / (1000 * 60);
+                        secondi = (difference - (minuti * 60000)) / 1000;
+                        decimi = (difference - (minuti * 60000) - (secondi * 1000)) / 100;
+                        centesimi = (difference - (minuti * 60000) - (secondi * 1000) - (decimi * 100)) / 10;
+                        millesimi = (difference - (minuti * 60000) - (secondi * 1000) - (decimi * 100) - (centesimi * 10));
+                        canvas.drawBitmap(new_icon_time, (size.x / 6) * 5 - 40 - (maxSize + 5), 50, paint);
+                        canvas.drawText(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi, (size.x / 6) * 5 - 40, 100, paint);
+                    } else {
+                        canvas.drawBitmap(new_icon_score, (size.x / 6) * 5 - (maxSize + 5), 50, paint);
+                        canvas.drawText("" + score, (size.x / 6) * 5, 100, paint);
+                    }
+
+
+                    //PROVE ##############################################################
+                    /* canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
+                    canvas.drawText("paddle width:" + new_paddle.getWidth(),50,300,paint);
+                    canvas.drawText("paddle height:" + new_paddle.getHeight(),50,350,paint);
+                    canvas.drawText("left:" + r.left,50,400,paint);
+                    canvas.drawText("top:" + r.top,50,450,paint);
+                    canvas.drawText("right:" + r.right,50,500,paint);
+                    canvas.drawText("bottom:" + r.bottom,50,550,paint);*/
+
+                    //in case of loss draw "Game over!"
+                    if (gameOver) {
+                        if (infinityMode && score > bestScore) {
+                            database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score);
+                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime));
+                        }
+                        if(!multiplayer){
+                            paint.setColor(Color.RED);
+                            paint.setTextSize(100);
+                            canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
+                            if(!boss){
+                                level = 1;
+                            }
+                            //infinityMode = false;
+                            boss = false;
+                            startTime = 0;
+                            attivato = false;
+                        }
+            
+                    }
                 }
-                if(multiplayer && sfidato){
-                    onPause();
-                    DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
-                    myRef.child("RichiesteSfidaRicevute").child(idRequest).removeValue();
-
-                    DatabaseReference myRef1 = database.getReference("utenti").child(friend);
-                    myRef1.child("RichiesteSfidaEffettuate").child(idRequest).removeValue();
-
-
-                    DatabaseReference myRef2 = database.getReference("utenti").child(user.getUid()).child("Storico").push();
-                    String key = myRef2.getKey();
-                    myRef2.setValue(new Challenge(key, friend, friendUsername, friendScore, score, true, false));
-
-                    myRef1.child("Storico").child(key).setValue(new Challenge(key, user.getUid(), username, score, friendScore, true, false));
-
-                    if(score>friendScore){
+            }
+    
+            //check that the ball has not touched the edge
+            private void chechEdges() {
+                if (ball.getX() + ball.getxSpeed() >= size.x - (30*screenWidth)/1080) {
+                    ball.changeDirection("rights");
+                } else if (ball.getX() + ball.getxSpeed() <= (30*screenWidth)/1080) {
+                    ball.changeDirection("left");
+                } else if (ball.getY() + ball.getySpeed() <= (180*screenHeight)/1920) {
+                    ball.changeDirection("up");
+                } else if (ball.getY() + ball.getySpeed() >= size.y - (200*screenHeight)/1920) {
+                    checkLives();
+                }
+            }
+    
+            //checks the status of the game. whether my lives or whether the game is over
+            private void checkLives() {
+                if (lifes == 1) {
+    
+                    if(multiplayer && sfidante){
+                        onPause();
+                       DatabaseReference myRef = database.getReference("utenti").child(user.getUid()).child("RichiesteSfidaEffettuate").push();
+                        String key = myRef.getKey();
+                        myRef.setValue(new Challenge(key, friend, friendUsername, (long) 0, score, false, false));
+    
+                        DatabaseReference myRef1 = database.getReference("utenti").child(friend).child("RichiesteSfidaRicevute").child(key);
+                        myRef1.setValue(new Challenge(key, user.getUid(), username, score, (long) 0, false, false));
+    
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
-                        alertDialog.setTitle( R.string.winner );
-                        alertDialog.setMessage( getString(R.string.win) + ":"+score+"-"+friendScore);
-                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                    }
-                                } );
-                        alertDialog.show();
-                    }else{
-                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
-                        alertDialog.setTitle( R.string.loser );
-                        alertDialog.setMessage( getString(R.string.lost) + ":"+score+"-"+friendScore );
+                        alertDialog.setTitle( R.string.wait_for_friend );
+                        alertDialog.setMessage( getString(R.string.wait) );
                         alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
@@ -764,229 +812,275 @@ public class MainActivity extends AppCompatActivity {
                                 } );
                         alertDialog.show();
                     }
-
+                    if(multiplayer && sfidato){
+                        onPause();
+                        DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
+                        myRef.child("RichiesteSfidaRicevute").child(idRequest).removeValue();
+    
+                        DatabaseReference myRef1 = database.getReference("utenti").child(friend);
+                        myRef1.child("RichiesteSfidaEffettuate").child(idRequest).removeValue();
+    
+    
+                        DatabaseReference myRef2 = database.getReference("utenti").child(user.getUid()).child("Storico").push();
+                        String key = myRef2.getKey();
+                        myRef2.setValue(new Challenge(key, friend, friendUsername, friendScore, score, true, false));
+    
+                        myRef1.child("Storico").child(key).setValue(new Challenge(key, user.getUid(), username, score, friendScore, true, false));
+    
+                        if(score>friendScore){
+                            AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                            alertDialog.setTitle( R.string.winner );
+                            alertDialog.setMessage( getString(R.string.win) + ":"+score+"-"+friendScore);
+                            alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                        }
+                                    } );
+                            alertDialog.show();
+                        }else{
+                            AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                            alertDialog.setTitle( R.string.loser );
+                            alertDialog.setMessage( getString(R.string.lost) + ":"+score+"-"+friendScore );
+                            alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                        }
+                                    } );
+                            alertDialog.show();
+                        }
+    
+                    }
+                    gameOver = true;
+                    start = false;
+                    level = 1;
+                    invalidate();
+                } else {
+                    lifes--;
+                    ball.setX((size.x / 2) - (30*screenWidth)/1080);
+                    ball.setY(size.y - (470*screenHeight)/1920);
+                    ball.createSpeed(level);
+                    start = false;
                 }
-                gameOver = true;
-                start = false;
-                level = 1;
-                invalidate();
-            } else {
-                lifes--;
+            }
+    
+            //each step checks whether there is a collision, a loss or a win, etc.
+            public void update() {
+                if (start) {
+                    win();
+                    chechEdges();
+                    ball.suddentlyPaddle(paddle.getX(), paddle.getY(),screenWidth,screenHeight);
+                    for (int i = 0; i < list.size(); i++) {
+                        Brick b = list.get(i);
+                        if (ball.suddentlyBrick(b.getX(), b.getY(),screenWidth,screenHeight)) {
+                            list.remove(i);
+                            soundPlayer.playHitSound();
+                            score = score + 50; //PUNTEGGIO SE ROMPI UN MATTONCINO
+                        }
+                    }
+                    ball.hurryUp();
+                }
+            }
+    
+            public void flagRemoval() {
+                sManager.unregisterListener(this);
+            }
+    
+            public void lowerShooting() {
+                sManager.registerListener(this, sensorAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+            }
+    
+            //change accelerometer
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+    
+                if(accelerometro) {
+                    if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                        paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
+    
+                        //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
+                        if (paddle.getX() + event.values[0] > size.x - (200*screenWidth)/1080) {
+                            paddle.setX(size.x - (200*screenWidth)/1080);
+                        } else if (paddle.getX() - event.values[0] <= (0*screenWidth)/1080) {
+                            paddle.setX((0*screenWidth)/1080);
+                        }
+                    }
+                }
+    
+            }
+    
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            }
+    
+            //serves to suspend the game in case of a new game
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (gameOver && !start) {
+                    score = 0;
+                    lifes = 3;    //se cambi vite cambia anche qui
+                    resetLevel(level,buttonValue);
+                    gameOver = false;
+    
+                    //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
+                }else if(start && !gameOver && !accelerometro && touch) { //flag accelerometro deve essere false e touch true
+                    switch (event.getAction()) {
+                        
+                        case MotionEvent.ACTION_UP:
+                            paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                            if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
+                                paddle.setX(size.x - (200*screenWidth)/1080);
+                            } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
+                                paddle.setX((0*screenWidth)/1080);
+                            }
+                            invalidate();
+                            return true;
+                        case MotionEvent.ACTION_MOVE:
+                            paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                            if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
+                                paddle.setX(size.x - (200*screenWidth)/1080);
+                            } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
+                                paddle.setX((0*screenWidth)/1080);
+                            }
+                            invalidate();
+                            return true;
+                        case MotionEvent.ACTION_DOWN:
+                            paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                            if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
+                                paddle.setX(size.x - (200*screenWidth)/1080);
+                            } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
+                                paddle.setX((0*screenWidth)/1080);
+                            }
+                            return true;
+                    }
+                }else if(start && !gameOver && !accelerometro && !touch){ //se entrambi i flag sono false si sta giocando col gamepad
+                    float y = event.getRawY();
+                    if(y>(screenHeight/5)*4){
+                        float x = event.getRawX();
+                        float x_paddle = paddle.getX();
+    
+                        //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
+                        if(x < (screenWidth/2) && x_paddle > 0){ //90
+                            paddle.setX(paddle.getX() - ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                            if(x > size.x - (200*screenWidth)/1080){
+                                x_paddle += (50*screenWidth)/1080;
+                            }
+                        }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((200*screenWidth)/1080))){ //280
+                            paddle.setX(paddle.getX() + ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
+                            if(x > size.x - (200*screenWidth)/1080){
+                                x_paddle -= (50*screenWidth)/1080;
+                            }
+                        }
+                    }
+    
+                }
+                else {
+                    start = true;
+                    if(!attivato){
+                        startTime = System.currentTimeMillis();
+                        attivato = true;
+                        difference = 0;
+                    }
+                }
+                return false;
+            }
+    
+            // sets the game to start
+            private void resetLevel(int level, int buttonValue) {
                 ball.setX((size.x / 2) - (30*screenWidth)/1080);
                 ball.setY(size.y - (470*screenHeight)/1920);
                 ball.createSpeed(level);
-                start = false;
+                list = new ArrayList<Brick>();
+                generateBricks(context,level,buttonValue);
             }
-        }
-
-        //each step checks whether there is a collision, a loss or a win, etc.
-        public void update() {
-            if (start) {
-                win();
-                chechEdges();
-                ball.suddentlyPaddle(paddle.getX(), paddle.getY(),screenWidth,screenHeight);
-                for (int i = 0; i < list.size(); i++) {
-                    Brick b = list.get(i);
-                    if (ball.suddentlyBrick(b.getX(), b.getY(),screenWidth,screenHeight)) {
-                        list.remove(i);
-                        soundPlayer.playHitSound();
-                        score = score + 50; //PUNTEGGIO SE ROMPI UN MATTONCINO
+    
+            // find out if the player won or not
+            private void win() {
+                if (list.isEmpty()) {
+                    if(boss){
+                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
+                        alertDialog.setTitle( R.string.vittoria );
+                        alertDialog.setMessage( getString(R.string.messaggio_vittoria_boss) );
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                    }
+                                } );
+                        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                    }
+                                } );
+                        alertDialog.show();
+                        start = false;
+                    }else if(timeMode){
+                        onPause();
+                        difference = System.currentTimeMillis() - startTime;
+                        minuti = difference / (1000 * 60);
+                        secondi = (difference - (minuti*60000)) / 1000;
+                        decimi = (difference - (minuti*60000) - (secondi*1000)) / 100;
+                        centesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100))/10;
+                        millesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100) - (centesimi*10));
+    
+                        if(difference<bestTime){
+                            database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
+                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestTime, difference));
+                        }
+    
+                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
+                        alertDialog.setTitle( R.string.vittoria_tempo );
+                        alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                    }
+                                } );
+                        alertDialog.show();
+                        start = false;
+                    }else if(themeMode){
+                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                        alertDialog.setTitle( R.string.vittoria_tempo );
+                        alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                    }
+                                } );
+                        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                    }
+                                } );
+                        alertDialog.show();
+                        start = false;
                     }
-                }
-                ball.hurryUp();
-            }
-        }
-
-        public void flagRemoval() {
-            sManager.unregisterListener(this);
-        }
-
-        public void lowerShooting() {
-            sManager.registerListener(this, sensorAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-        }
-
-        //change accelerometer
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-
-            if(accelerometro) {
-                if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                    paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
-
-                    //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
-                    if (paddle.getX() + event.values[0] > size.x - (200*screenWidth)/1080) {
-                        paddle.setX(size.x - (200*screenWidth)/1080);
-                    } else if (paddle.getX() - event.values[0] <= (0*screenWidth)/1080) {
-                        paddle.setX((0*screenWidth)/1080);
+                    else{
+                        level++;
+                        soundPlayer.playOverSound();
+                        resetLevel(level,buttonValue);
+                        // ball.increaseSpeed(level);
+                        start = false;
                     }
+    
                 }
             }
-
         }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        }
-
-        //serves to suspend the game in case of a new game
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if (gameOver && !start) {
-                score = 0;
-                lifes = 3;    //se cambi vite cambia anche qui
-                resetLevel(level,buttonValue);
-                gameOver = false;
-
-                //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
-            }else if(start && !gameOver && !accelerometro && touch) { //flag accelerometro deve essere false e touch true
-                switch (event.getAction()) {
-                    
-                    case MotionEvent.ACTION_UP:
-                        paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
-                        if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
-                            paddle.setX(size.x - (200*screenWidth)/1080);
-                        } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
-                            paddle.setX((0*screenWidth)/1080);
-                        }
-                        invalidate();
-                        return true;
-                    case MotionEvent.ACTION_MOVE:
-                        paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
-                        if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
-                            paddle.setX(size.x - (200*screenWidth)/1080);
-                        } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
-                            paddle.setX((0*screenWidth)/1080);
-                        }
-                        invalidate();
-                        return true;
-                    case MotionEvent.ACTION_DOWN:
-                        paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
-                        if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
-                            paddle.setX(size.x - (200*screenWidth)/1080);
-                        } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
-                            paddle.setX((0*screenWidth)/1080);
-                        }
-                        return true;
-                }
-            }else if(start && !gameOver && !accelerometro && !touch){ //se entrambi i flag sono false si sta giocando col gamepad
-                float y = event.getRawY();
-                if(y>(screenHeight/5)*4){
-                    float x = event.getRawX();
-                    float x_paddle = paddle.getX();
-
-                    //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
-                    if(x < (screenWidth/2) && x_paddle > 0){ //90
-                        paddle.setX(paddle.getX() - ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
-                        if(x > size.x - (200*screenWidth)/1080){
-                            x_paddle += (50*screenWidth)/1080;
-                        }
-                    }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((200*screenWidth)/1080))){ //280
-                        paddle.setX(paddle.getX() + ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
-                        if(x > size.x - (200*screenWidth)/1080){
-                            x_paddle -= (50*screenWidth)/1080;
-                        }
-                    }
-                }
-
-            }
-            else {
-                start = true;
-                if(!attivato){
-                    startTime = System.currentTimeMillis();
-                    attivato = true;
-                    difference = 0;
-                }
-            }
-            return false;
-        }
-
-        // sets the game to start
-        private void resetLevel(int level, int buttonValue) {
-            ball.setX((size.x / 2) - (30*screenWidth)/1080);
-            ball.setY(size.y - (470*screenHeight)/1920);
-            ball.createSpeed(level);
-            list = new ArrayList<Brick>();
-            generateBricks(context,level,buttonValue);
-        }
-
-        // find out if the player won or not
-        private void win() {
-            if (list.isEmpty()) {
-                if(boss){
-                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
-                    alertDialog.setTitle( R.string.vittoria );
-                    alertDialog.setMessage( getString(R.string.messaggio_vittoria_boss) );
-                    alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                }
-                            } );
-                    alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                }
-                            } );
-                    alertDialog.show();
-                    start = false;
-                }else if(timeMode){
-                    onPause();
-                    difference = System.currentTimeMillis() - startTime;
-                    minuti = difference / (1000 * 60);
-                    secondi = (difference - (minuti*60000)) / 1000;
-                    decimi = (difference - (minuti*60000) - (secondi*1000)) / 100;
-                    centesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100))/10;
-                    millesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100) - (centesimi*10));
-                    if(difference<bestTime){
-                        database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
-                        database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestTime, difference));
-                    }
-                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
-                    alertDialog.setTitle( R.string.vittoria_tempo );
-                    alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
-                    alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                }
-                            } );
-                    alertDialog.show();
-                    start = false;
-                }else if(themeMode){
-                    AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
-                    alertDialog.setTitle( R.string.vittoria_tempo );
-                    alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
-                    alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                }
-                            } );
-                    alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                }
-                            } );
-                    alertDialog.show();
-                    start = false;
-                }
-                else{
-                    ++level;
-                    soundPlayer.playOverSound();
-                    resetLevel(level,buttonValue);
-                    // ball.increaseSpeed(level);
-                    start = false;
-                }
-
-            }
-        }
+    
     }
-
-}
+      
