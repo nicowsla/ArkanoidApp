@@ -32,6 +32,10 @@
         <item name="colorControlNormal">@color/button</item>
         <item name="colorControlActivated">@color/button</item>
         <item name="colorControlHighlight">@color/button</item>
+        <item name="hintTextAppearance">@color/button</item>
+        <item name="android:textColorHint">@color/button</item>
+        <item name="android:textSize">15sp</item>
+
     </style>
 
 </resources>
