@@ -22,7 +22,7 @@
     <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">@color/button</item>
         <item name="android:windowIsFloating">true</item>
-        <item name="colorAccent">@android:color/transparent</item>
+        <item name="colorAccent">@color/purple_dark</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
 

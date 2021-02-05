@@ -122,11 +122,13 @@
     <string name="level_send">Hai inviato questo livello!</string>
     <string name="new_level">Crea un nuovo livello!</string>
     <string-array name="commands">
+        <item>Seleziona una tipologia di comando</item>
         <item>Accelerometro</item>
         <item>Gamepad</item>
         <item>Touch-screen</item>
     </string-array>
     <string-array name="languages">
+        <item>Seleziona una lingua</item>
         <item id="1">Italiano</item>
         <item id="2">English</item>
     </string-array>
@@ -141,6 +143,8 @@
     <string name="ranking_score">Classifica Infinity Mode</string>
     <string name="ranking_time">Classifica Time Mode</string>
     <string name="boss_coming">IL BOSS STA ARRIVANDO...</string>
+    <string name="italian_selected">Italiano selezionato</string>
+    <string name="english_selected">English selected</string>
 
 
 </resources>

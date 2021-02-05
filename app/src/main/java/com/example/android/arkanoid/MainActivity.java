@@ -853,10 +853,12 @@ public class MainActivity extends AppCompatActivity {
                     decimi = (difference - (minuti*60000) - (secondi*1000)) / 100;
                     centesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100))/10;
                     millesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100) - (centesimi*10));
+
                     if(difference<bestTime){
                         database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
                         database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestTime, difference));
                     }
+
                     AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
                     alertDialog.setTitle( R.string.vittoria_tempo );
                     alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);

@@ -57,7 +57,8 @@
         android:ems="10"
         android:hint="@string/login_psw"
         app:errorEnabled="true"
-        app:passwordToggleTint="#FFFFFF"
+        app:passwordToggleTint="@color/button"
+        app:passwordToggleEnabled="true"
         android:textColorLink="@color/button"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="235dp">
@@ -68,7 +69,8 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:textColor="@color/button"
-            android:textColorHint="@color/button"/>
+            android:textColorHint="@color/button"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
