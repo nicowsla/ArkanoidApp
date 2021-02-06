@@ -2,6 +2,7 @@ package com.example.android.arkanoid;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import java.util.Arrays;
@@ -375,4 +377,29 @@ public class CreateLevel extends Activity {
             Toast.makeText(CreateLevel.this,getString(R.string.ereaser_chosen) , Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        onPause();
+        AlertDialog alertDialog = new AlertDialog.Builder( CreateLevel.this ).create();
+        alertDialog.setTitle( R.string.attention );
+        alertDialog.setMessage( getString(R.string.exit_confirm) );
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startActivity( new Intent( CreateLevel.this, PersonalLevelsActivity.class ) );
+                    }
+                } );
+        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        onResume();
+                    }
+                } );
+        alertDialog.show();
+    }
+
 }
