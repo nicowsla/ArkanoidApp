@@ -61,8 +61,8 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Bundle i = getIntent().getExtras();
-        requestSend = i.getBoolean("R");
-        requestReceived = i.getBoolean("S");
+        requestSend = i.getBoolean("S");
+        requestReceived = i.getBoolean("R");
 
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
 
@@ -143,26 +143,26 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
             switch (item.getItemId()) {
-                case R.id.score_ranking:
+                case R.id.request_sent:
                     if(requestSend){
-                        Toast.makeText(ChallengeListActivity.this, getString(R.string.challenge_received),
-                                Toast.LENGTH_SHORT).show();
-                    }else{
-                       Intent i = new Intent(ChallengeListActivity.this, ChallengeListActivity.class);
-                        i.putExtra("R", true);
-                        i.putExtra("S", false);
-                        startActivity(i);
-                    }
-                    break;
-                case R.id.time_ranking:
-                    if(requestReceived){
                         Toast.makeText(ChallengeListActivity.this, getString(R.string.challeng_request),
                                 Toast.LENGTH_SHORT).show();
                     }else{
-                        Intent i = new Intent(ChallengeListActivity.this, ChallengeListActivity.class);
+                       Intent i = new Intent(ChallengeListActivity.this, ChallengeListActivity.class);
                         i.putExtra("R", false);
                         i.putExtra("S", true);
                         startActivity(i);
+                    }
+                    break;
+                case R.id.request_received:
+                    if(requestReceived){
+                        Toast.makeText(ChallengeListActivity.this, getString(R.string.challenge_received),
+                                Toast.LENGTH_SHORT).show();
+                    }else{
+                        Intent i1 = new Intent(ChallengeListActivity.this, ChallengeListActivity.class);
+                        i1.putExtra("R", true);
+                        i1.putExtra("S", false);
+                        startActivity(i1);
                     }
                     break;
             }
