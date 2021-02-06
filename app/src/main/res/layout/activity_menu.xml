@@ -144,8 +144,6 @@
         android:shadowRadius="10"
         app:cornerRadius="15dp"/>
 
-
-
     </LinearLayout>
     </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>

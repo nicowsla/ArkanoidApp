@@ -3,18 +3,23 @@ package com.example.android.arkanoid;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,6 +28,7 @@ import android.widget.Toast;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SettingsActivity extends NavigationMenuActivity {
 
@@ -34,6 +40,9 @@ public class SettingsActivity extends NavigationMenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        LoadLocale();
+
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_settings, null, false);
         dl.addView(contentView, 0);
@@ -179,13 +188,84 @@ public class SettingsActivity extends NavigationMenuActivity {
             }
         });
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
+        Button contact = (Button) findViewById(R.id.mybuttoncontacts);
+        Button changeLang = (Button) findViewById(R.id.changeMyLanguage);
     }
 
-    public void changeCommands(View view) {
+    //#############################################################################
+
+
+    public void showChangeLanguageDialog(View view)
+    {
+        final String[] listItems={"Italiano", "English"};
+        android.app.AlertDialog.Builder mBuilder=new android.app.AlertDialog.Builder(SettingsActivity.this);
+        mBuilder.setTitle("Scegli la lingua");
+        mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int k)
+            {
+                if(k==0)
+                {
+                    setLocale("it");
+                    recreate();
+                }
+
+                if(k==1)
+                {
+                    setLocale("en");
+                    recreate();
+                }
+
+                dialog.dismiss();
+
+            }
+        });
+
+        android.app.AlertDialog mDialog=mBuilder.create();
+        mDialog.show();
     }
 
-    public void changeLanguage(View view) {
+    private void setLocale(String lang)
+    {
+        Locale locale=new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config=new Configuration();
+        config.locale=locale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor=getSharedPreferences("Settings",MODE_PRIVATE).edit();
+        editor.putString("My_Lang",lang);
+        editor.apply();
     }
+
+    private void LoadLocale()
+    {
+        SharedPreferences preferences=getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language=preferences.getString("My_Lang","");
+        setLocale(language);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
+        // If you don't have res/menu, just create a directory named "menu" inside res
+        getMenuInflater().inflate(R.menu.mymenu_contacts, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.mybuttoncontacts:
+                Intent i=new Intent(this, ContactUsActivity.class);
+                startActivity(i);
+                //finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //#############################################################################
 
     public void infoCommands(View view) {
         AlertDialog alertDialog = new AlertDialog.Builder( SettingsActivity.this).create();

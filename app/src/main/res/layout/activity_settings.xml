@@ -9,7 +9,7 @@
     tools:context=".SettingsActivity">
 
     <TextView
-        android:layout_width="67dp"
+        android:layout_width="80dp"
         android:layout_height="26dp"
         android:layout_centerInParent="true"
         android:shadowColor="#A8A8A8"
@@ -102,5 +102,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.242" />
 
+    <Button
+        android:id="@+id/changeMyLanguage"
+        android:layout_width="264dp"
+        android:layout_height="46dp"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/button"
+        android:onClick="showChangeLanguageDialog"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        android:text="@string/changeLang"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.423" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

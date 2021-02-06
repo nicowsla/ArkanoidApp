@@ -131,10 +131,10 @@ public class CreateLevel extends Activity {
             paint.setColor(color);
             paint.setTextSize(45);
 
-            mCanvas.drawText("Seleziona il colore cliccando sui mattoncini colorati", 30, 2*dh, paint);
-            mCanvas.drawText("Disegna i mattoncini nell'area sottostante!", 30, 3*dh, paint);
-            mCanvas.drawText("Tocca il colore!", 50, (raw -2)*dh, paint);
-            mCanvas.drawText("Tocca qui per continuare...", (screenWidth/2)-100, (raw +4)*dh, paint);
+            mCanvas.drawText(getString(R.string.select_the_color), 30, 2*dh, paint);
+            mCanvas.drawText(getString(R.string.draw_bricks), 30, 3*dh, paint);
+            mCanvas.drawText(getString(R.string.touch_the_color), 50, (raw -2)*dh, paint);
+            mCanvas.drawText(getString(R.string.touch_here_to_continue), (screenWidth/2)-100, (raw +4)*dh, paint);
 
             //gomma da cancellare
             //  Bitmap ereaser = Bitmap.createScaledBitmap(box, brick.getWidth(), brick.getHeight(), true);

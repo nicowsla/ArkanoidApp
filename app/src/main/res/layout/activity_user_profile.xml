@@ -82,7 +82,7 @@
 
         <Button
             android:id="@+id/confirm"
-            android:text="CONFERMA"
+            android:text="@string/confirm"
             android:visibility="invisible"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="50dp"
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_person_white_24"
                 app:fab_colorNormal="@color/violet"
-                app:fab_label="Modifica profilo"
+                app:fab_label="@string/edit_profile"
                 app:fab_size="mini"
                 app:menu_colorPressed="#00030747" />
 
@@ -174,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_add_a_photo_24"
                 app:fab_colorNormal="@color/violet"
-                app:fab_label="Modifica immagine profilo"
+                app:fab_label="@string/edit_profile_picture"
                 app:fab_size="mini"
                 app:menu_colorPressed="#00030747" />
 
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_lock_24"
                 app:fab_colorNormal="@color/violet"
-                app:fab_label="Modifica password"
+                app:fab_label="@string/edit_password"
                 app:fab_size="mini"
                 app:menu_colorPressed="#00030747" />
 

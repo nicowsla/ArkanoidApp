@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Arkanoid</string>
+    <string name="login_email">E-mail</string>
+    <string name="login_psw">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_to_signin">Not registered? Sign In now!</string>
+    <string name="signin_username">Create your username!</string>
+    <string name="signin_email">Insert your mail</string>
+    <string name="signin_psw">Create your password</string>
+    <string name="signin_psw_confirm">Confirm password</string>
+    <string name="signin_button">Sign In</string>
+    <string name="signin_check_mail">Registration completed, check your email!</string>
+    <string name="attention">WARNING</string>
+    <string name="signin_verify_email">To continue check your email!</string>
+    <string name="signin_failed">REGISTRATION FAILED!</string>
+    <string name="sigin_failure_msg">Check that you have entered the data correctly!</string>
+    <string name="empty_field">EMPTY FIELDS</string>
+    <string name="signin_empty_field_msg">Check that you have entered the data correctly!</string>
+    <string name="login_verify_mail">Check your email first.</string>
+    <string name="login_failed_authentication">Failed authentication</string>
+    <string name="login_missing_mail">Insert your mail</string>
+    <string name="login_missing_psw">Insert your password</string>
+    <string name="signin_email_error">Insert a valid mail!</string>
+    <string name="signin_psw_error">Insert a password</string>
+    <string name="signin_psw_lenght_error">The password must have at least 6 characters!</string>
+    <string name="signin_psw_confirm_error">Passwords don\'t match</string>
+    <string name="exit_confirm">Are you sure you want to quit?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="Close">Close</string>
+    <string name="Open">Open</string>
+    <string name="guest_mode">Play as guest</string>
+    <string name="recovery_password_quest">Did you forget your password?</string>
+    <string name="recovery_password">Reset password</string>
+    <string name="send_request_recovery_password">Send request</string>
+    <string name="message_hint">Write a message</string>
+    <string name="send">Send</string>
+    <string name="invalid_username">Insert a valid username! (MAX 18 characters)</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="cancel">Cancel</string>
+    <string name="insert_email_to_reset">Insert your mail address</string>
+    <string name="select_image">Select image</string>
+    <string name="error">Error!</string>
+    <string name="email_nor_registered">This mail is not registered!</string>
+    <string name="reset_psw">Reset password</string>
+    <string name="check_email">Check your inbox</string>
+    <string name="resume">Resume</string>
+    <string name="settings">Settings</string>
+    <string name="exit">Leave</string>
+    <string name="pause">Pause</string>
+    <string name="commands">Controls</string>
+    <string name="touch">Touch</string>
+    <string name="accelerometer">Accelerometer</string>
+    <string name="gamepad">Gamepad</string>
+
+    <string name="commands_selector"> Commands</string>
+    <string name="languages_selector"> Language</string>
+    <string name="settings_select_commands_info">Type of game controls</string>
+    <string name="commands_confirm"></string>
+    <string name="commands_not_confirm">OK</string>
+    <string name="commands_info_dialog">
+        You can control the paddle in three different ways, using: \n
+        \n1. Accelerometer: tilting the smartphone left or right;
+        \n\n2. Gamepad: pressing two superimposed directional buttons to move the bar left or right;
+        \n\n3. Touch-screen: moving the bar to any desired position.
+    </string>
+    <string name="messaggio_vittoria_boss">
+        You completed arcade mode by defeating the final Boss!
+    </string>
+    <string name="messaggio_partita_tempo">
+
+             Well, your time has been recorded!\n
+    </string>
+    <string name="messaggio_partita_tema">
+        Well, you have completed all themed levels, we will be adding new characters soon!
+    </string>
+    <string name="change_command">Controls</string>
+    <string name="touch_selected">Touch commands activated</string>
+    <string name="accelerometer_selected">Accelerometer activated</string>
+    <string name="gamepad_selected">Gamepad activated</string>
+    <string name="send_level">Exchange level</string>
+    <string name="play">Challenge!</string>
+    <string name="message">Messages</string>
+    <string name="vittoria">YOU WIN, WELL!</string>
+    <string name="vittoria_tempo">YOU HAVE COMPLETED THE LEVEL!</string>
+    <string name="vittoria_tema">YOU HAVE COMPLETED THE LEVEL!</string>
+    <string name="Invia">Send</string>
+    <string name="Body">Body of mail</string>
+    <string name="Subject">Object</string>
+    <string name="email">E-mail</string>
+    <string name="email_contact">arkanoidsms2021@gmail.com</string>
+    <string name="error_contact">No apps support this feature</string>
+    <string name="error_fields">Fill in all fields!</string>
+    <string name="blue_chosen">Chosen color: blue</string>
+    <string name="green_chosen">Chosen color: green</string>
+    <string name="orange_chosen">Chosen color: orange</string>
+    <string name="pink_chosen">Chosen color: pink</string>
+    <string name="purple_chosen">Chosen color: purple</string>
+    <string name="red_chosen">Chosen color: red</string>
+    <string name="yellow_chosen">Chosen color: yellow</string>
+    <string name="black_chosen">Chosen color: black</string>
+    <string name="dark_red_chosen">Chosen color: dark red</string>
+    <string name="dark_grey_chosen">Chosen color: dark grey</string>
+    <string name="white_chosen">Chosen color: white</string>
+    <string name="dark_blue_chosen">Chosen color: dark blue</string>
+    <string name="skin_chosen">Chosen color: flesh pink</string>
+    <string name="brown_chosen">Chosen color: brown</string>
+    <string name="aqua_chosen">Chosen color: aqua</string>
+    <string name="grey_chosen">Chosen color: grey</string>
+    <string name="lite_grey_chosen">Chosen color: light grey</string>
+    <string name="choose_speed">Choose the ball speed!</string>
+    <string name="ereaser_chosen">Rubber selected!</string>
+    <string name="confirm">Confirm</string>
+    <string name="name_level">Name your level!</string>
+    <string name="name_level_error">Warning! Name your level!</string>
+    <string name="show_levels">Custom levels</string>
+    <string name="users">Users</string>
+    <string name="theme_match">Themed match</string>
+    <string name="classified_challenge">Ranked match</string>
+    <string name="infinity_mode">Infinity Mode</string>
+    <string name="arcade_mode">Arcade Mode</string>
+    <string name="level_send">You sent this level!</string>
+    <string name="new_level">Create a new level!</string>
+    <string-array name="commands">
+        <item>Select a command type</item>
+        <item>Accelerometer</item>
+        <item>Gamepad</item>
+        <item>Touch-screen</item>
+    </string-array>
+    <string-array name="languages">
+        <item>Select a language</item>
+        <item id="1">Italian</item>
+        <item id="2">English</item>
+    </string-array>
+    <string name="title_activity_ranking">MainActivity</string>
+    <string name="score_ranking">Score ranking</string>
+    <string name="time_ranking">Times ranking</string>
+    <string name="title_home">okok</string>
+    <string name="menu">Menu</string>
+    <string name="profile">Profile</string>
+    <string name="rankings">Rankings</string>
+    <string name="logout">Logout</string>
+    <string name="ranking_score">Infinity Mode Rankings</string>
+    <string name="ranking_time">Time Mode Rankings</string>
+    <string name="changeLang">Change language</string>
+    <string name="boss_coming">THE BOSS IS COMING...</string>
+    <string name="wait_for_friend">Request sent!</string>
+    <string name="wait">Wait for your friend to play!</string>
+    <string name="accept">ACCEPT</string>
+    <string name="challenge_received">Received</string>
+    <string name="challenge_request">Sent</string>
+    <string name="winner">IT\'S A WIN!</string>
+    <string name="win">Great, you beat your friend!</string>
+    <string name="loser">Defeat</string>
+    <string name="lost">"Oh no! You lose! "</string>
+    <string name="story">Match history</string>
+    <string name="italian_selected">Italian selected</string>
+    <string name="english_selected">English selected</string>
+    <string name="sconfitta_boss">YOU LOSE!</string>
+    <string name="messaggio_sconfitta">The Boss has defeated you...</string>
+    <string name="torna_menu">Return to main menu</string>
+    <string name="insert_photo">Insert a profile picture!</string>
+    <string name="challenge">Challenges</string>
+    <string name="landscape_mode">Landscape mode</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="edit_profile_picture">Edit profile picture</string>
+    <string name="edit_password">Edit password</string>
+    <string name="speed_created_level">Speed: </string>
+
+
+    //NON TRADOTTE
+    <string name="win_challenges_list">Victory!</string>
+    <string name="lose_challenges_list">Defeat!</string>
+    <string name="waiting">Waiting</string>
+    <string name="touch_here_to_continue">Tap here to continue...</string>
+    <string name="touch_the_color">Choose the color!</string>
+    <string name="draw_bricks">Draw the bricks in the area below!</string>
+    <string name="select_the_color">Select the color tapping on a brick!</string>
+
+</resources>

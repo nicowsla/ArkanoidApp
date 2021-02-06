@@ -149,7 +149,7 @@
     <string name="challenge_received">Ricevute</string>
     <string name="challenge_request">Effettuate</string>
     <string name="winner">VITTORIA!</string>
-    <string name="win">Complimenti, hai battuto il tuo amico!</string>
+    <string name="win">Fantastico, hai battuto il tuo amico!</string>
     <string name="loser">Sconfitta</string>
     <string name="lost">"Oh no! Hai perso! "</string>
     <string name="story">Storico Partite</string>
@@ -162,5 +162,19 @@
     <string name="challenge">Sfide</string>
     <string name="landscape_mode">Modalità landscape</string>
     <string name="changeLang">CAMBIA LINGUA</string>
+    <string name="edit_profile">Modifica profilo</string>
+    <string name="edit_profile_picture">Modifica immagine profilo</string>
+    <string name="edit_password">Modifica password</string>
+    <string name="speed_created_level">Velocità: </string>
+
+
+    //NON TRADOTTE
+    <string name="win_challenges_list">Vittoria!</string>
+    <string name="lose_challenges_list">Sconfitta!</string>
+    <string name="waiting">in attesa</string>
+    <string name="touch_here_to_continue">Tocca qui per continuare...</string>
+    <string name="touch_the_color">Scegli il colore!</string>
+    <string name="draw_bricks">Disegna i mattoncini nell\'area sottostante!</string>
+    <string name="select_the_color">Seleziona il colore toccando un mattone colorato!</string>
 
 </resources>

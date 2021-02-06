@@ -58,7 +58,7 @@ public class CreateLevelActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
 
-        progress.setText("Speed: "+speed+"/"+seekBar.getMax());
+        progress.setText(getString(R.string.speed_created_level)+speed+"/"+seekBar.getMax());
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         matrixString = pref.getString("matrixString", null);
@@ -76,7 +76,7 @@ public class CreateLevelActivity extends AppCompatActivity {
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                progress.setText("Speed: "+speed+"/"+seekBar.getMax());
+                progress.setText(getString(R.string.speed_created_level)+speed+"/"+seekBar.getMax());
             }
         });
 
