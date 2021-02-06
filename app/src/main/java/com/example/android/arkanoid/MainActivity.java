@@ -790,7 +790,6 @@ public class MainActivity extends AppCompatActivity {
             //checks the status of the game. whether my lives or whether the game is over
             private void checkLives() {
                 if (lifes == 1) {
-    
                     if(multiplayer && sfidante){
                         onPause();
                        DatabaseReference myRef = database.getReference("utenti").child(user.getUid()).child("RichiesteSfidaEffettuate").push();
@@ -1032,7 +1031,7 @@ public class MainActivity extends AppCompatActivity {
     
                         if(difference<bestTime){
                             database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
-                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestTime, difference));
+                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestScore, difference));
                         }
     
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();

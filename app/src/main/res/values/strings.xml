@@ -57,7 +57,7 @@
     <string name="commands_selector"> Comandi</string>
     <string name="languages_selector"> Lingua</string>
     <string name="settings_select_commands_info">Tipologia comandi di gioco</string>
-    <string name="commands_confirm"></string>
+    <string name="commands_confirm">OK</string>
     <string name="commands_not_confirm">OK</string>
     <string name="commands_info_dialog">
         È possibile controllare la barra in tre modalità differenti, mediante: \n
@@ -146,8 +146,8 @@
     <string name="wait_for_friend">Richieste inviata!</string>
     <string name="wait">Aspetta che il tuo amico giochi!</string>
     <string name="accept">ACCETTA</string>
-    <string name="challenge_received">Sfide</string>
-    <string name="challeng_request">Richieste di sfida</string>
+    <string name="challenge_received">Ricevute</string>
+    <string name="challeng_request">Effettuate</string>
     <string name="winner">VITTORIA!</string>
     <string name="win">Complimenti, hai battuto il tuo amico!</string>
     <string name="loser">Sconfitta</string>
@@ -158,9 +158,8 @@
     <string name="sconfitta_boss">HAI PERSO!</string>
     <string name="messaggio_sconfitta">Il Boss ti ha sconfitto...</string>
     <string name="torna_menu">Torna al menu principale</string>
-    <string name="selection_color">Seleziona il colore cliccando sui mattoncini colorati</string>
-    <string name="disegna_mattoncini">Disegna i mattoncini nell\'area sottostante!</string>
-    <string name="color_touch">Tocca il colore!</string>
+    <string name="insert_photo">Inserisci una immagine del profilo!</string>
+    <string name="challenge">Sfide</string>
 
 
 </resources>

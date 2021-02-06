@@ -39,57 +39,49 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
         this.filter = filter;
     }
 
-
     @Override
     protected void onBindViewHolder(@NonNull final UsersListViewHolder holder, int i, @NonNull final User lista) {
-        holder.setTxtTitle(lista.getUsername());
-        if(rankingScore){
-            Long s = lista.getBestScore();
-            if(s!=0){
-                String s1 = s.toString();
-                holder.setScore(s1);
-            }else{
-                holder.setScore("Non pervenuto");
-            }
 
-        }else  if(rankingTime){
-            Long msec = lista.getBestTime();
-            if(msec<10000000){
-                long minuti = msec / (1000 * 60);
-                long secondi = (msec - (minuti*60000)) / 1000;
-                long decimi = (msec - (minuti*60000) - (secondi*1000)) / 100;
-                holder.setScore(minuti + "'" + secondi + "''" + decimi +"'''");
-            }else{
-                holder.setScore("Non pervenuto");
-            }
-
-
-        }
-
-        StorageReference riversRef = mStorageRef.child(lista.getId()).child("images/profilo.jpg");
-        riversRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytes -> {
-            img = Base64.encodeToString(bytes, Base64.DEFAULT);
-            holder.setImg(img);
-        }).addOnFailureListener(exception -> {
-        });
-
-        if(lista.getEmail().toLowerCase().contains( filter) || lista.getUsername().toLowerCase().contains( filter)) {
-
-            holder.show();
-
-            holder.root.setOnClickListener(view -> {
-                SharedPreferences.Editor editor = context.getSharedPreferences( "arkanoid", Context.MODE_PRIVATE ).edit();
-                editor.putString( "friend", lista.getId());
-                editor.putString( "friendName", lista.getUsername());
-                editor.apply();
-                Intent intent = new Intent( context, UserProfileActivity.class  );
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity( intent );
-
-            });
-        } else {
+        if((rankingScore && lista.getBestScore()==0)|| (rankingTime && lista.getBestTime()>=1000000)) {
             holder.hide();
+        }else  {
+            if(rankingScore){
+            Long s = lista.getBestScore();
+            String s1 = s.toString();
+            holder.setScore(s1);
+        }else if(rankingTime){
+            Long msec = lista.getBestTime();
+            long minuti = msec / (1000 * 60);
+            long secondi = (msec - (minuti*60000)) / 1000;
+            long decimi = (msec - (minuti*60000) - (secondi*1000)) / 100;
+            holder.setScore(minuti + "'" + secondi + "''" + decimi +"'''");
         }
+            holder.setTxtTitle(lista.getUsername());
+            StorageReference riversRef = mStorageRef.child(lista.getId()).child("images/profilo.jpg");
+            riversRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytes -> {
+                img = Base64.encodeToString(bytes, Base64.DEFAULT);
+                holder.setImg(img);
+            }).addOnFailureListener(exception -> {
+            });
+            if(lista.getEmail().toLowerCase().contains( filter) || lista.getUsername().toLowerCase().contains( filter)) {
+
+                holder.show();
+
+                holder.root.setOnClickListener(view -> {
+                    SharedPreferences.Editor editor = context.getSharedPreferences( "arkanoid", Context.MODE_PRIVATE ).edit();
+                    editor.putString( "friend", lista.getId());
+                    editor.putString( "friendName", lista.getUsername());
+                    editor.apply();
+                    Intent intent = new Intent( context, UserProfileActivity.class  );
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity( intent );
+
+                });
+            } else {
+                holder.hide();
+            }
+        }
+
     }
 
     @NonNull
