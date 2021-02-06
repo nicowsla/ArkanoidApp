@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LoadLocale();
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -152,7 +151,6 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
-        Button changeLang = (Button) findViewById(R.id.changeMyLanguage);
         Button contact = (Button) findViewById(R.id.mybuttoncontacts);
     }
     /*
@@ -183,55 +181,6 @@ public class LoginActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void showChangeLanguageDialog(View view)
-    {
-        final String[] listItems={"Italiano", "English"};
-        AlertDialog.Builder mBuilder=new AlertDialog.Builder(LoginActivity.this);
-        mBuilder.setTitle("Scegli la lingua");
-        mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int k)
-            {
-                if(k==0)
-                {
-                    setLocale("it");
-                    recreate();
-                }
-
-                if(k==1)
-                {
-                    setLocale("en");
-                    recreate();
-                }
-
-                dialog.dismiss();
-
-            }
-        });
-
-        AlertDialog mDialog=mBuilder.create();
-        mDialog.show();
-    }
-
-    private void setLocale(String lang)
-    {
-        Locale locale=new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration config=new Configuration();
-        config.locale=locale;
-        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
-        SharedPreferences.Editor editor=getSharedPreferences("Settings",MODE_PRIVATE).edit();
-        editor.putString("My_Lang",lang);
-        editor.apply();
-    }
-
-    private void LoadLocale()
-    {
-        SharedPreferences preferences=getSharedPreferences("Settings", Activity.MODE_PRIVATE);
-        String language=preferences.getString("My_Lang","");
-        setLocale(language);
     }
 
     public void login(View view){
@@ -337,6 +286,4 @@ public class LoginActivity extends AppCompatActivity {
     public void goToContactUs(View view){
         startActivity(new Intent(LoginActivity.this, ContactUsActivity.class));
     }
-
-
 }

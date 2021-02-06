@@ -53,7 +53,6 @@
     <string name="touch">Touch</string>
     <string name="accelerometer">Accelerometro</string>
     <string name="gamepad">Gamepad</string>
-
     <string name="commands_selector"> Comandi</string>
     <string name="languages_selector"> Lingua</string>
     <string name="settings_select_commands_info">Tipologia comandi di gioco</string>
@@ -166,9 +165,6 @@
     <string name="edit_profile_picture">Modifica immagine profilo</string>
     <string name="edit_password">Modifica password</string>
     <string name="speed_created_level">Velocità: </string>
-
-
-    //NON TRADOTTE
     <string name="win_challenges_list">Vittoria!</string>
     <string name="lose_challenges_list">Sconfitta!</string>
     <string name="waiting">in attesa</string>
@@ -176,5 +172,6 @@
     <string name="touch_the_color">Scegli il colore!</string>
     <string name="draw_bricks">Disegna i mattoncini nell\'area sottostante!</string>
     <string name="select_the_color">Seleziona il colore toccando un mattone colorato!</string>
+    <string name="select_a_language">Seleziona lingua</string>
 
 </resources>

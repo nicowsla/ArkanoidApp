@@ -54,11 +54,10 @@
     <string name="touch">Touch</string>
     <string name="accelerometer">Accelerometer</string>
     <string name="gamepad">Gamepad</string>
-
     <string name="commands_selector"> Commands</string>
     <string name="languages_selector"> Language</string>
     <string name="settings_select_commands_info">Type of game controls</string>
-    <string name="commands_confirm"></string>
+    <string name="commands_confirm">OK</string>
     <string name="commands_not_confirm">OK</string>
     <string name="commands_info_dialog">
         You can control the paddle in three different ways, using: \n
@@ -168,9 +167,7 @@
     <string name="edit_profile_picture">Edit profile picture</string>
     <string name="edit_password">Edit password</string>
     <string name="speed_created_level">Speed: </string>
-
-
-    //NON TRADOTTE
+    <string name="select_a_language">Select a language</string>
     <string name="win_challenges_list">Victory!</string>
     <string name="lose_challenges_list">Defeat!</string>
     <string name="waiting">Waiting</string>

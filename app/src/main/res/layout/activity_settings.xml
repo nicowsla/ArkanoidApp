@@ -1,73 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_menu"
     android:foregroundTint="@color/button"
+    android:orientation="vertical"
     tools:context=".SettingsActivity">
 
     <TextView
         android:layout_width="80dp"
         android:layout_height="26dp"
-        android:layout_centerInParent="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
         android:shadowRadius="10"
+        android:clickable="true"
+        android:onClick="infoCommands"
         android:text="@string/commands_selector"
         android:textColor="@color/button"
         android:textSize="15dp"
-        app:cornerRadius="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.088" />
+        app:cornerRadius="15dp" />
 
-    <ImageView
-        android:id="@+id/info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@color/button"
-        android:clickable="true"
-        android:onClick="infoCommands"
-        android:shape="oval"
-        android:splitTrack="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.922"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.087"
-        tools:srcCompat="@drawable/ic_baseline_info_24" />
-
-    <Spinner
-        android:id="@+id/commands_spinner"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/settings_commandsc"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:background="@color/button"
-        android:backgroundTint="@color/button"
-        android:clickable="true"
-        android:popupBackground="@color/button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.104" />
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        android:ems="10"
+        android:textColorHint="@color/button"
+        app:boxStrokeColor="@color/button"
+        app:helperTextTextAppearance="@color/button"
+        app:endIconDrawable="@drawable/fab_add"
+        app:endIconMode="custom"
+        android:inputType="text"
+        app:endIconTint="@color/button"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="235dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/settings_commands"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:textColor="@color/button"
+            android:textColorHint="@color/button"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_width="80dp"
+        android:layout_height="26dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
@@ -75,55 +69,38 @@
         android:text="@string/languages_selector"
         android:textColor="@color/button"
         android:textSize="15dp"
-        app:cornerRadius="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.085"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.22" />
+        app:cornerRadius="15dp" />
 
-    <Spinner
-        android:id="@+id/languages_spinner"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/settings_languagec"
+
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:background="@color/button"
-        android:backgroundTint="@color/button"
-        android:clickable="true"
-        android:popupBackground="@color/button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242" />
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        android:ems="10"
+        android:textColorHint="@color/button"
+        app:boxStrokeColor="@color/button"
+        app:helperTextTextAppearance="@color/button"
+        app:endIconDrawable="@drawable/fab_add"
+        app:endIconMode="custom"
+        app:endIconTint="@color/button"
+        android:inputType="text"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="235dp">
 
-    <Button
-        android:id="@+id/changeMyLanguage"
-        android:layout_width="264dp"
-        android:layout_height="46dp"
-        android:layout_centerInParent="true"
-        android:backgroundTint="@color/button"
-        android:onClick="showChangeLanguageDialog"
-        android:shadowColor="#A8A8A8"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="10"
-        android:text="@string/changeLang"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:cornerRadius="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.423" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/settings_language"
+            android:clickable="false"
+            android:textColor="@color/button"
+            android:textColorHint="@color/button"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
+</LinearLayout>
