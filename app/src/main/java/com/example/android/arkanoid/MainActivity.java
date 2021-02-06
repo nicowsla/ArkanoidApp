@@ -352,7 +352,8 @@ public class MainActivity extends AppCompatActivity {
         private long centesimi;
         private long millesimi;
 
-
+        private int paddle_width = 200;
+        private int paddle_height = 40;
 
         public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita, Boolean multiplayer, Boolean sfidante, Boolean sfidato) {
             super(context);
@@ -386,7 +387,8 @@ public class MainActivity extends AppCompatActivity {
             // create a bitmap for the ball and paddle
             redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
             paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
-            new_paddle = Bitmap.createScaledBitmap(paddle_p,(200*screenWidth)/1080,(40*screenHeight)/1920,true);
+
+            new_paddle = Bitmap.createScaledBitmap(paddle_p,(paddle_width*screenWidth)/1080,(paddle_height*screenHeight)/1920,true);
 
             // creates a new ball, paddle, and list of bricks
             ball = new Ball(size.x / 2, size.y - (470*screenHeight)/1920, level);
@@ -537,7 +539,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }else if(button == 5){
-                System.out.println("MAMTTTTTTTTTTTT");
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
                 String matrixString = pref.getString("matrixString", null);
                 System.out.println(matrixString);
@@ -693,7 +694,7 @@ public class MainActivity extends AppCompatActivity {
                     paint.setColor(Color.WHITE);
                     //La riga sotto era +200 + 40
                     //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
-                    canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200 * screenWidth) / 1080, paddle.getY() + (40 * screenHeight) / 1920, paint);
+                    canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (paddle_width * screenWidth) / 1080, paddle.getY() + (paddle_height * screenHeight) / 1920, paint);
 
                     // draw bricks
                     paint.setColor(Color.GREEN);
@@ -753,6 +754,8 @@ public class MainActivity extends AppCompatActivity {
 
                     //in case of loss draw "Game over!"
                     if (gameOver) {
+                        paddle_width = 200;
+
                         if (infinityMode && score > bestScore) {
                             database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score);
                             database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime));
@@ -901,8 +904,8 @@ public class MainActivity extends AppCompatActivity {
                         paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
     
                         //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
-                        if (paddle.getX() + event.values[0] > size.x - (200*screenWidth)/1080) {
-                            paddle.setX(size.x - (200*screenWidth)/1080);
+                        if (paddle.getX() + event.values[0] > size.x - (paddle_width*screenWidth)/1080) {
+                            paddle.setX(size.x - (paddle_width*screenWidth)/1080);
                         } else if (paddle.getX() - event.values[0] <= (0*screenWidth)/1080) {
                             paddle.setX((0*screenWidth)/1080);
                         }
@@ -929,28 +932,28 @@ public class MainActivity extends AppCompatActivity {
                     switch (event.getAction()) {
                         
                         case MotionEvent.ACTION_UP:
-                            paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
-                            if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
-                                paddle.setX(size.x - (200*screenWidth)/1080);
-                            } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
+                            paddle.setX(event.getRawX() - ((paddle_width/2)*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                            if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) > size.x - (paddle_width*screenWidth)/1080) {
+                                paddle.setX(size.x - (paddle_width*screenWidth)/1080);
+                            } else if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) <= (0*screenWidth)/1080) {
                                 paddle.setX((0*screenWidth)/1080);
                             }
                             invalidate();
                             return true;
                         case MotionEvent.ACTION_MOVE:
-                            paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
-                            if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
-                                paddle.setX(size.x - (200*screenWidth)/1080);
-                            } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
+                            paddle.setX(event.getRawX() - ((paddle_width/2)*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                            if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) > size.x - (paddle_width*screenWidth)/1080) {
+                                paddle.setX(size.x - (paddle_width*screenWidth)/1080);
+                            } else if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) <= (0*screenWidth)/1080) {
                                 paddle.setX((0*screenWidth)/1080);
                             }
                             invalidate();
                             return true;
                         case MotionEvent.ACTION_DOWN:
-                            paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
-                            if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
-                                paddle.setX(size.x - (200*screenWidth)/1080);
-                            } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
+                            paddle.setX(event.getRawX() - ((paddle_width/2)*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                            if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) > size.x - (paddle_width*screenWidth)/1080) {
+                                paddle.setX(size.x - (paddle_width*screenWidth)/1080);
+                            } else if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) <= (0*screenWidth)/1080) {
                                 paddle.setX((0*screenWidth)/1080);
                             }
                             return true;
@@ -964,12 +967,12 @@ public class MainActivity extends AppCompatActivity {
                         //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
                         if(x < (screenWidth/2) && x_paddle > 0){ //90
                             paddle.setX(paddle.getX() - ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
-                            if(x > size.x - (200*screenWidth)/1080){
+                            if(x > size.x - (paddle_width*screenWidth)/1080){
                                 x_paddle += (50*screenWidth)/1080;
                             }
-                        }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((200*screenWidth)/1080))){ //280
+                        }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((paddle_width*screenWidth)/1080))){ //280
                             paddle.setX(paddle.getX() + ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
-                            if(x > size.x - (200*screenWidth)/1080){
+                            if(x > size.x - (paddle_width*screenWidth)/1080){
                                 x_paddle -= (50*screenWidth)/1080;
                             }
                         }
@@ -1047,7 +1050,7 @@ public class MainActivity extends AppCompatActivity {
                                 } );
                         alertDialog.show();
                         start = false;
-                    }else if(themeMode){
+                    }else if(themeMode && level==10){
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                         alertDialog.setTitle( R.string.vittoria_tempo );
                         alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
@@ -1059,6 +1062,7 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                     }
                                 } );
+                        /*
                         alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
@@ -1066,13 +1070,15 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                     }
                                 } );
+                         */
                         alertDialog.show();
                         start = false;
                     }
                     else{
                         level++;
-                        if(level%5==0){
-                            lifes++;
+                        if(level%5 == 0 && arcadeMode){         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
+                            lifes++;                            //AGGIUNGE UNA VITA
+                            paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
                         }
                         soundPlayer.playOverSound();
                         resetLevel(level,buttonValue);
