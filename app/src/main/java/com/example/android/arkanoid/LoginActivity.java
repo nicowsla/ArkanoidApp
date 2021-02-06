@@ -1,15 +1,21 @@
 package com.example.android.arkanoid;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -42,6 +48,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
@@ -95,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.login_button);
         TextView signin = findViewById(R.id.sign_in);
+        TextView lostpassword = findViewById(R.id.recovery_password);
         guestButton = findViewById(R.id.guest_button);
 
         /*
@@ -103,7 +111,9 @@ public class LoginActivity extends AppCompatActivity {
         pswLayout.startAnimation(fromtop);
         loginButton.startAnimation(frombottom);
         signin.startAnimation(frombottom);
+        lostpassword.startAnimation(frombottom);
         */
+
         guestButton.startAnimation(frombottom);
 
         emailET.setOnFocusChangeListener( new View.OnFocusChangeListener() {
@@ -138,6 +148,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         } );
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
+        Button contact = (Button) findViewById(R.id.mybuttoncontacts);
     }
     /*
     @Override
@@ -150,31 +164,23 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     */
-    private void hideSystemUI() {
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
+        // If you don't have res/menu, just create a directory named "menu" inside res
+        getMenuInflater().inflate(R.menu.mymenu_contacts, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    // Shows the system bars by removing all the flags
-    // except for the ones that make the content appear under the system bars.
-    private void showSystemUI() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.mybuttoncontacts:
+                Intent i=new Intent(this, ContactUsActivity.class);
+                startActivity(i);
+                //finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void login(View view){
@@ -280,6 +286,4 @@ public class LoginActivity extends AppCompatActivity {
     public void goToContactUs(View view){
         startActivity(new Intent(LoginActivity.this, ContactUsActivity.class));
     }
-
-
 }

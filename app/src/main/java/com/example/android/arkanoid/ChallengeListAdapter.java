@@ -27,7 +27,6 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
     private Boolean received;
     private Boolean sent;
 
-
     public ChallengeListAdapter(@NonNull FirebaseRecyclerOptions<Challenge> options, String myID, String myUsername, Context context, Boolean received, Boolean sent) {
         super( options );
         this.myID = myID;
@@ -38,8 +37,6 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
     }
-
-
 
     @Override
     protected void onBindViewHolder(@NonNull final ChallengeListViewHolder holder, int i, @NonNull final Challenge lista) {
@@ -52,14 +49,14 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
             String s1 = score.toString();
             holder.setScore1(s1);
         }else{
-            holder.setScore1("in attesa");
+            holder.setScore1(context.getString(R.string.waiting));
         }
 
         if(lista.getYourScore()>0){
             String s1 = (lista.getYourScore()).toString();
             holder.setScore2(s1);
         }else{
-            holder.setScore2("in attesa");
+            holder.setScore2(context.getString(R.string.waiting));
         }
 
         StorageReference riversRef = mStorageRef.child(lista.getUserID()).child("images/profilo.jpg");
@@ -80,13 +77,14 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
             holder.button.setVisibility(View.GONE);
         }
         if(received || sent ){
-            holder.setResult("SFIDA!");
+            holder.setResult(context.getString(R.string.play));
         }
+
         if(!sent && !received){
             if(lista.getYourScore()>lista.getScore()){
-                holder.setResult("VITTORIA");
+                holder.setResult(context.getString(R.string.win_challenges_list));
             }else{
-                holder.setResult("SCONFITTA");
+                holder.setResult(context.getString(R.string.lose_challenges_list));
             }
             holder.button.setVisibility(View.GONE);
         }

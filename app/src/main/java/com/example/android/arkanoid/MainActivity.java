@@ -1072,6 +1072,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else{
                         level++;
+                        if(level%5==0){
+                            lifes++;
+                        }
                         soundPlayer.playOverSound();
                         resetLevel(level,buttonValue);
                         // ball.increaseSpeed(level);

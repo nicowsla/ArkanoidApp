@@ -53,7 +53,6 @@
     <string name="touch">Touch</string>
     <string name="accelerometer">Accelerometro</string>
     <string name="gamepad">Gamepad</string>
-
     <string name="commands_selector"> Comandi</string>
     <string name="languages_selector"> Lingua</string>
     <string name="settings_select_commands_info">Tipologia comandi di gioco</string>
@@ -85,7 +84,7 @@
     <string name="vittoria_tempo">HAI COMPLETATO IL LIVELLO!</string>
     <string name="vittoria_tema">HAI COMPLETATO IL LIVELLO!</string>
     <string name="Invia">Invia</string>
-    <string name="Body">Corpo della mail</string>
+    <string name="Body">Testo</string>
     <string name="Subject">Oggetto</string>
     <string name="email">E-mail</string>
     <string name="email_contact">arkanoidsms2021@gmail.com</string>
@@ -113,12 +112,12 @@
     <string name="confirm">Conferma</string>
     <string name="name_level">Dai un nome al tuo livello!</string>
     <string name="name_level_error">Attenzione! Dai un nome al tuo livello!</string>
-    <string name="show_levels">Livelli Personalizzati</string>
-    <string name="users">Utenti</string>
-    <string name="theme_match">Partita a tema</string>
-    <string name="classified_challenga">Partita classificata</string>
-    <string name="infinity_mode">Infinity Mode</string>
-    <string name="arcade_mode">Arcade Mode</string>
+    <string name="show_levels">I miei livelli</string>
+    <string name="users">Giocatori</string>
+    <string name="theme_match">Modalità a tema</string>
+    <string name="classified_challenge">Modalità a tempo</string>
+    <string name="infinity_mode">Modalità infinita</string>
+    <string name="arcade_mode">Modalità arcade</string>
     <string name="level_send">Hai inviato questo livello!</string>
     <string name="new_level">Crea un nuovo livello!</string>
     <string-array name="commands">
@@ -147,9 +146,9 @@
     <string name="wait">Aspetta che il tuo amico giochi!</string>
     <string name="accept">ACCETTA</string>
     <string name="challenge_received">Ricevute</string>
-    <string name="challeng_request">Effettuate</string>
+    <string name="challenge_request">Effettuate</string>
     <string name="winner">VITTORIA!</string>
-    <string name="win">Complimenti, hai battuto il tuo amico!</string>
+    <string name="win">Fantastico, hai battuto il tuo amico!</string>
     <string name="loser">Sconfitta</string>
     <string name="lost">"Oh no! Hai perso! "</string>
     <string name="story">Storico Partite</string>
@@ -160,6 +159,19 @@
     <string name="torna_menu">Torna al menu principale</string>
     <string name="insert_photo">Inserisci una immagine del profilo!</string>
     <string name="challenge">Sfide</string>
-
+    <string name="landscape_mode">Modalità landscape</string>
+    <string name="changeLang">CAMBIA LINGUA</string>
+    <string name="edit_profile">Modifica profilo</string>
+    <string name="edit_profile_picture">Modifica immagine profilo</string>
+    <string name="edit_password">Modifica password</string>
+    <string name="speed_created_level">Velocità: </string>
+    <string name="win_challenges_list">Vittoria!</string>
+    <string name="lose_challenges_list">Sconfitta!</string>
+    <string name="waiting">in attesa</string>
+    <string name="touch_here_to_continue">Tocca qui per continuare...</string>
+    <string name="touch_the_color">Scegli il colore!</string>
+    <string name="draw_bricks">Disegna i mattoncini nell\'area sottostante!</string>
+    <string name="select_the_color">Seleziona il colore toccando un mattone colorato!</string>
+    <string name="select_a_language">Seleziona lingua</string>
 
 </resources>

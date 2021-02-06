@@ -8,6 +8,18 @@
     android:orientation="vertical"
     android:background="@drawable/background_menu">
 
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/signin_photo"
+        android:layout_width="196dp"
+        android:layout_height="196dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_baseline_person_white_24"
+        android:minHeight="200dp"
+        android:onClick="selectImage"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="1dp" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/signin_emailc"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -19,7 +31,7 @@
         android:textColorHint="@color/button"
         app:boxStrokeColor="@color/button"
         app:errorEnabled="true"
-        app:hintTextAppearance="@style/LoginTextInputLayoutStyle"
+        app:hintTextColor="@color/button"
         android:ems="10"
         android:hint="@string/signin_email"
         android:inputType="textEmailAddress"
@@ -46,7 +58,7 @@
         android:textColorHint="@color/button"
         app:boxStrokeColor="@color/button"
         app:errorEnabled="true"
-        app:hintTextAppearance="@style/LoginTextInputLayoutStyle"
+        app:hintTextColor="@color/button"
         android:ems="10"
         android:hint="@string/signin_username"
         android:inputType="text"
@@ -73,7 +85,7 @@
         app:boxStrokeColor="@color/button"
         app:passwordToggleTint="@color/button"
         app:passwordToggleEnabled="true"
-        app:hintTextAppearance="@style/LoginTextInputLayoutStyle"
+        app:hintTextColor="@color/button"
         app:errorEnabled="true"
         android:ems="10"
         android:hint="@string/signin_psw"
@@ -101,7 +113,7 @@
         app:boxStrokeColor="@color/button"
         app:passwordToggleTint="@color/button"
         app:passwordToggleEnabled="true"
-        app:hintTextAppearance="@style/LoginTextInputLayoutStyle"
+        app:hintTextColor="@color/button"
         app:errorEnabled="true"
         android:ems="10"
         android:hint="@string/signin_psw_confirm"
@@ -116,18 +128,6 @@
             android:textColor="@color/button"
             android:textColorHint="@color/button"/>
     </com.google.android.material.textfield.TextInputLayout>
-
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/signin_photo"
-        android:layout_width="196dp"
-        android:layout_height="196dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/ic_baseline_person_white_24"
-        android:minHeight="200dp"
-        android:onClick="selectImage"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="1dp" />
 
     <Button
         android:id="@+id/signin_confirm"

@@ -17,11 +17,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         app:errorEnabled="true"
-        app:hintTextAppearance="@style/LoginTextInputLayoutStyle"
         android:ems="10"
         android:hint="@string/email"
         android:textColorHint="@color/button"
         app:boxStrokeColor="@color/button"
+        app:hintTextColor="@color/button"
         android:inputType="textEmailAddress"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="235dp">
@@ -47,7 +47,7 @@
         android:textColorHint="@color/button"
         app:boxStrokeColor="@color/button"
         app:errorEnabled="true"
-        app:hintTextAppearance="@style/LoginTextInputLayoutStyle"
+        app:hintTextColor="@color/button"
         android:ems="10"
         android:hint="@string/Subject"
         android:inputType="text"
@@ -59,7 +59,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/button"
-            android:textColorHint="@color/button"/>
+            android:textColorHint="@color/button"
+            android:maxLength="31"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -73,7 +74,7 @@
         android:textColorHint="@color/button"
         app:boxStrokeColor="@color/button"
         app:errorEnabled="true"
-        app:hintTextAppearance="@style/LoginTextInputLayoutStyle"
+        app:hintTextColor="@color/button"
         android:ems="10"
         android:hint="@string/Body"
         tools:layout_editor_absoluteX="1dp"
@@ -84,7 +85,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/button"
-            android:textColorHint="@color/button"/>
+            android:textColorHint="@color/button"
+            android:maxLength="496"
+        />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

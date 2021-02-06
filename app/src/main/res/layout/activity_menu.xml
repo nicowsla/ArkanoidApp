@@ -61,7 +61,7 @@
         android:layout_marginRight="50dp"
         android:layout_width="match_parent"
         android:onClick="goToGame"
-        android:text="@string/classified_challenga"
+        android:text="@string/classified_challenge"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/button"
         android:textColor="#000000"
@@ -97,7 +97,7 @@
             android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:onClick="goToGame"
-            android:text="Landscape Mode"
+            android:text="@string/landscape_mode"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/button"
             android:textColor="#000000"
@@ -143,8 +143,6 @@
         android:shadowDy="0"
         android:shadowRadius="10"
         app:cornerRadius="15dp"/>
-
-
 
     </LinearLayout>
     </ScrollView>

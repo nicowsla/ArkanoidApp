@@ -1,10 +1,14 @@
 package com.example.android.arkanoid;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -54,7 +58,7 @@ public class CreateLevelActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
 
-        progress.setText("Speed: "+speed+"/"+seekBar.getMax());
+        progress.setText(getString(R.string.speed_created_level)+speed+"/"+seekBar.getMax());
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         matrixString = pref.getString("matrixString", null);
@@ -72,7 +76,7 @@ public class CreateLevelActivity extends AppCompatActivity {
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                progress.setText("Speed: "+speed+"/"+seekBar.getMax());
+                progress.setText(getString(R.string.speed_created_level)+speed+"/"+seekBar.getMax());
             }
         });
 
@@ -91,8 +95,49 @@ public class CreateLevelActivity extends AppCompatActivity {
                 error = false;
             }
         } );
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent i = new Intent(this, CreateLevel.class);
+                startActivity(i);
+                //finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        onPause();
+        AlertDialog alertDialog = new AlertDialog.Builder( CreateLevelActivity.this ).create();
+        alertDialog.setTitle( R.string.attention );
+        alertDialog.setMessage( getString(R.string.exit_confirm) );
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startActivity( new Intent( CreateLevelActivity.this, CreateLevel.class ) );
+                    }
+                } );
+        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        onResume();
+                    }
+                } );
+        alertDialog.show();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
 
     public void saveLevel(View view) {
         name = nameET.getText().toString();

@@ -1,38 +1,46 @@
 package com.example.android.arkanoid;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.text.BreakIterator;
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Locale;
 
 public class SettingsActivity extends NavigationMenuActivity {
-
-    private ImageView logo;
+    private TextInputLayout commandLayout;
+    private EditText command;
+    private String commandString;
+    private TextInputLayout languageLayout;
+    private EditText language;
+    private String languageString;
+    private String s= null;
+    private String s1 = null;
     private Boolean enableTouch;
     private Boolean enableAccelerometer;
     private String selezione = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LoadLocale();
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_settings, null, false);
@@ -42,175 +50,153 @@ public class SettingsActivity extends NavigationMenuActivity {
         enableTouch = pref.getBoolean("touch", true);
         enableAccelerometer = pref.getBoolean("accelerometro", false);
 
+        commandLayout = findViewById(R.id.settings_commandsc);
+        command = findViewById(R.id.settings_commands);
+
+        languageLayout = findViewById(R.id.settings_languagec);
+        language = findViewById(R.id.settings_language);
+
+        language.setText(R.string.select_a_language); //TODO METTERE LA LINGUA CHE STA
+
+        if(enableTouch && !enableAccelerometer){
+            command.setText(getString(R.string.touch));
+        }else if(!enableTouch && enableAccelerometer){
+            command.setText(getString(R.string.accelerometer));
+        }else if(!enableTouch && !enableAccelerometer){
+            command.setText(getString(R.string.gamepad));
+        }
+
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //in base alle shared impostare lo spinner sul comando attivo
-    /*    if(enableAccelerometer &&  !enableTouch){
-
-        }else if(!enableAccelerometer && enableTouch){
-
-        }else if(!enableAccelerometer && !enableTouch){
-
-        }*/
-
-        logo = findViewById(R.id.info);
-        logo.setBackgroundResource(R.drawable.ic_baseline_info_24);
-
-        Spinner commands_spinner = (Spinner) findViewById(R.id.commands_spinner);
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.commands, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        commands_spinner.setAdapter(adapter);
-        //spinner.setOnItemSelectedListener(this);
-
-        Spinner language_spinner = (Spinner) findViewById(R.id.languages_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
-                R.array.languages, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        language_spinner.setAdapter(adapter2);
-        //spinner2.setOnItemSelectedListener(this);
-
-
-    /*    commands_spinner.setEndIconOnClickListener( new View.OnClickListener() {
+        commandLayout.setEndIconOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                final String[] stati = getResources().getStringArray( R.array.commands );
+                final String[] comandi = getResources().getStringArray( R.array.commands);
                 new MaterialAlertDialogBuilder( SettingsActivity.this )
-                        .setTitle( R.string.settings_select_commands_info )
-                        .setSingleChoiceItems( stati, 0, new DialogInterface.OnClickListener() {
+                        .setTitle( R.string.commands_selector )
+                        .setSingleChoiceItems( comandi, 0, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                selezione = stati[which];
+                                s = comandi[which];
                             }
                         } )
-                        .setPositiveButton( "Conferma", new DialogInterface.OnClickListener() {
+                        .setPositiveButton( getString(R.string.confirm), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                statoE.setText( selezione );
+                                if(s.equals(getString(R.string.touch))){
+                                    enableTouch = true;
+                                    enableAccelerometer = false;
+                                }else if(s.equals(getString(R.string.accelerometer))){
+                                    enableTouch = false;
+                                    enableAccelerometer = true;
+                                }else if(s.equals(getString(R.string.gamepad))){
+                                    enableTouch = false;
+                                    enableAccelerometer = false;
+                                }
+                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                editor.putBoolean("touch", enableTouch);
+                                editor.putBoolean("accelerometro", enableAccelerometer);
+                                editor.apply();
+                                command.setText( s );
                                 dialog.dismiss();
-
                             }
                         } )
-                        .setNegativeButton( "Annulla", new DialogInterface.OnClickListener() {
+                        .setNegativeButton( getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         } ).show();
             }
+        } );
 
-        } );*/
-
-
-        commands_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
+        languageLayout.setEndIconOnClickListener( new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                // Get the spinner selected item text
-                String selectedItemText = (String) adapterView.getItemAtPosition(i);
-                // Display the selected item into the TextView
+            public void onClick(View v) {
+                final String[] languages = getResources().getStringArray( R.array.languages);
+                new MaterialAlertDialogBuilder( SettingsActivity.this )
+                        .setTitle( R.string.commands_selector )
+                        .setSingleChoiceItems( languages, 0, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                s1 = languages[which];
 
-                if(i==1){
-                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                    editor.putBoolean( "accelerometro", true );
-                    editor.putBoolean("touch", false );
-                    editor.apply();
-                    Toast.makeText(SettingsActivity.this, getString(R.string.accelerometer_selected), Toast.LENGTH_SHORT).show();
-                }else if(i==2){
-                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                    editor.putBoolean( "accelerometro", false );
-                    editor.putBoolean("touch", false);
-                    editor.apply();
-                    Toast.makeText(SettingsActivity.this, getString(R.string.gamepad_selected), Toast.LENGTH_SHORT).show();
-                }else if(i==3){
-                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                    editor.putBoolean( "accelerometro", false );
-                    editor.putBoolean("touch", true );
-                    editor.apply();
-                    Toast.makeText(SettingsActivity.this, getString(R.string.touch_selected), Toast.LENGTH_SHORT).show();
-                }
+                            }
+                        } )
+                        .setPositiveButton( getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(s1.equals("Italian")){
+                                    setLocale("it");
+                                    recreate();
+                                }else if(s1.equals("English")){
+                                    setLocale("en");
+                                    recreate();
+                                }
+                                language.setText( s1 );
+                                dialog.dismiss();
+                            }
+                        } )
+                        .setNegativeButton( getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        } ).show();
             }
+        } );
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                //Toast.makeText(this,"No selection",Toast.LENGTH_LONG).show();
-            }
-        });
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
-        language_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                // Get the spinner selected item text
-                String selectedItemText = (String) adapterView.getItemAtPosition(i);
-                // Display the selected item into the TextView
-
-                if(i==1){
-                    /*
-                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                    editor.putBoolean( "accelerometro", true );
-                    editor.putBoolean("touch", false );
-                    editor.apply();
-                     */
-                    Toast.makeText(SettingsActivity.this, getString(R.string.italian_selected), Toast.LENGTH_SHORT).show();
-                }else if(i==2){
-                    /*
-                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                    editor.putBoolean( "accelerometro", false );
-                    editor.putBoolean("touch", false);
-                    editor.apply();
-                    */
-                    Toast.makeText(SettingsActivity.this, getString(R.string.english_selected), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                //Toast.makeText(this,"No selection",Toast.LENGTH_LONG).show();
-            }
-        });
-
+        Button contact = (Button) findViewById(R.id.mybuttoncontacts);
     }
 
-    public void changeCommands(View view) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
+        // If you don't have res/menu, just create a directory named "menu" inside res
+        getMenuInflater().inflate(R.menu.mymenu_contacts, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    public void changeLanguage(View view) {
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.mybuttoncontacts:
+                Intent i=new Intent(this, ContactUsActivity.class);
+                startActivity(i);
+                //finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setLocale(String lang)
+    {
+        Locale locale=new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config=new Configuration();
+        config.locale=locale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor=getSharedPreferences("Settings",MODE_PRIVATE).edit();
+        editor.putString("My_Lang",lang);
+        editor.apply();
+    }
+
+    private void LoadLocale()
+    {
+        SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
+        String language=preferences.getString("My_Lang","");
+        setLocale(language);
     }
 
     public void infoCommands(View view) {
-
         AlertDialog alertDialog = new AlertDialog.Builder( SettingsActivity.this).create();
         alertDialog.setTitle( R.string.settings_select_commands_info );
         alertDialog.setMessage( getString(R.string.commands_info_dialog) );
         alertDialog.show();
     }
 
-    /*
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        // Get the spinner selected item text
-        String selectedItemText = (String) adapterView.getItemAtPosition(i);
-        // Display the selected item into the TextView
-        mTextView.setText("Selected : " + selectedItemText);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
-        Toast.makeText(this,"No selection",Toast.LENGTH_LONG).show();
-    }
-
-     */
     @Override
     public void onBackPressed(){
         startActivity( new Intent(SettingsActivity.this, MenuActivity.class) );

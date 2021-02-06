@@ -59,7 +59,6 @@ public class UsersListActivity extends NavigationMenuActivity {
         rankingScore = pref.getBoolean("score", false);
         rankingTime = pref.getBoolean("time", false);
 
-
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
         searchBar = findViewById(R.id.search_bar);
 
@@ -132,7 +131,6 @@ public class UsersListActivity extends NavigationMenuActivity {
         adapter = new UserListAdapter(options, "", getApplicationContext(), rankingScore, rankingTime);
         recyclerView.setAdapter(adapter);
     }
-
 
     @Override
     protected void onStart() {

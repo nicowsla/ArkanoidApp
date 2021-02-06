@@ -9,5 +9,5 @@
         android:id="@+id/request_sent"
         android:enabled="true"
         android:icon="@drawable/send"
-        android:title="@string/challeng_request"/>
+        android:title="@string/challenge_request"/>
 </menu>

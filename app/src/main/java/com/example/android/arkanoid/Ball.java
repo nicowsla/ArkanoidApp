@@ -21,8 +21,8 @@ public class Ball{
     protected void createSpeed(int level) {
         int minX = 6;
         int minY = -10;
-        xSpeed = (level/5)+ minX;
-        ySpeed = minY - (level/5);
+        xSpeed = (level)+ minX;
+        ySpeed = minY - (level);
     }
 
     // changes direction according to speed
