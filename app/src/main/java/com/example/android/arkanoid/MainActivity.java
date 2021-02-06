@@ -537,7 +537,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }else if(button == 5){
-                System.out.println("MAMTTTTTTTTTTTT");
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
                 String matrixString = pref.getString("matrixString", null);
                 System.out.println(matrixString);
@@ -551,10 +550,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }else if(button == 6){
-                for (int i = 1; i < 9; i++) {
-                    for (int j = 2; j < 9; j++) {
+                for (int i = 2; i < 8; i++) { //8 righe, inizia dalla seconda però
+                    for (int j = 3; j < 18; j++) {
                         if (Levels.LivelloMOSTROLANDSCAPE[i][j] != 0) {
-                            list.add(new Brick(context, (size.x / 11) * j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTROLANDSCAPE[i][j]));
+                            list.add(new Brick(context, (screenWidth / 20) * j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTROLANDSCAPE[i][j]));
                         }
                     }
                 }
@@ -634,6 +633,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // draw text
+                //canvas.drawText("h"+ screenHeight,50,250, paint );
+                //canvas.drawText("w"+ screenWidth,50,300, paint );
                 paint.setColor(Color.WHITE);
                 paint.setTextSize(50);
 
