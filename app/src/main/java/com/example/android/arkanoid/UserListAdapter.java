@@ -54,7 +54,10 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
             long minuti = msec / (1000 * 60);
             long secondi = (msec - (minuti*60000)) / 1000;
             long decimi = (msec - (minuti*60000) - (secondi*1000)) / 100;
-            holder.setScore(minuti + "'" + secondi + "''" + decimi +"'''");
+            long centesimi = (msec - (minuti * 60000) - (secondi * 1000) - (decimi * 100)) / 10;
+            long millesimi = (msec - (minuti * 60000) - (secondi * 1000) - (decimi * 100) - (centesimi * 10));
+
+            holder.setScore(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
         }
             holder.setTxtTitle(lista.getUsername());
             StorageReference riversRef = mStorageRef.child(lista.getId()).child("images/profilo.jpg");
