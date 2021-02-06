@@ -188,7 +188,6 @@ public class SettingsActivity extends NavigationMenuActivity {
     }
 
     public void infoCommands(View view) {
-
         AlertDialog alertDialog = new AlertDialog.Builder( SettingsActivity.this).create();
         alertDialog.setTitle( R.string.settings_select_commands_info );
         alertDialog.setMessage( getString(R.string.commands_info_dialog) );

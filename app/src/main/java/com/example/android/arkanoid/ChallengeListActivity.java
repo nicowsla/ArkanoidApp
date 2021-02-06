@@ -41,10 +41,6 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
     private boolean requestSend;
     private BottomNavigationView bottonMenu;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +141,7 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
             switch (item.getItemId()) {
                 case R.id.request_sent:
                     if(requestSend){
-                        Toast.makeText(ChallengeListActivity.this, getString(R.string.challeng_request),
+                        Toast.makeText(ChallengeListActivity.this, getString(R.string.challenge_request),
                                 Toast.LENGTH_SHORT).show();
                     }else{
                        Intent i = new Intent(ChallengeListActivity.this, ChallengeListActivity.class);

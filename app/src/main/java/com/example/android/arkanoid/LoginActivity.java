@@ -1,15 +1,21 @@
 package com.example.android.arkanoid;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -42,6 +48,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
@@ -68,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LoadLocale();
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -95,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.login_button);
         TextView signin = findViewById(R.id.sign_in);
+        TextView lostpassword = findViewById(R.id.recovery_password);
         guestButton = findViewById(R.id.guest_button);
 
         /*
@@ -103,7 +112,9 @@ public class LoginActivity extends AppCompatActivity {
         pswLayout.startAnimation(fromtop);
         loginButton.startAnimation(frombottom);
         signin.startAnimation(frombottom);
+        lostpassword.startAnimation(frombottom);
         */
+
         guestButton.startAnimation(frombottom);
 
         emailET.setOnFocusChangeListener( new View.OnFocusChangeListener() {
@@ -138,6 +149,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         } );
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
+        Button changeLang = (Button) findViewById(R.id.changeMyLanguage);
+        Button contact = (Button) findViewById(R.id.mybuttoncontacts);
     }
     /*
     @Override
@@ -150,6 +166,74 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     */
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
+        // If you don't have res/menu, just create a directory named "menu" inside res
+        getMenuInflater().inflate(R.menu.mymenu_contacts, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.mybuttoncontacts:
+                Intent i=new Intent(this, ContactUsActivity.class);
+                startActivity(i);
+                //finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void showChangeLanguageDialog(View view)
+    {
+        final String[] listItems={"Italiano", "English"};
+        AlertDialog.Builder mBuilder=new AlertDialog.Builder(LoginActivity.this);
+        mBuilder.setTitle("Scegli la lingua");
+        mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int k)
+            {
+                if(k==0)
+                {
+                    setLocale("it");
+                    recreate();
+                }
+
+                if(k==1)
+                {
+                    setLocale("en");
+                    recreate();
+                }
+
+                dialog.dismiss();
+
+            }
+        });
+
+        AlertDialog mDialog=mBuilder.create();
+        mDialog.show();
+    }
+
+    private void setLocale(String lang)
+    {
+        Locale locale=new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config=new Configuration();
+        config.locale=locale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor=getSharedPreferences("Settings",MODE_PRIVATE).edit();
+        editor.putString("My_Lang",lang);
+        editor.apply();
+    }
+
+    private void LoadLocale()
+    {
+        SharedPreferences preferences=getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language=preferences.getString("My_Lang","");
+        setLocale(language);
+    }
+
     private void hideSystemUI() {
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.

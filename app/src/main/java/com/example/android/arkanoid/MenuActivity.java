@@ -85,14 +85,12 @@ public class MenuActivity extends NavigationMenuActivity {
         startActivity(new Intent(MenuActivity.this, UsersListActivity.class));
     }
 
-
-
     @Override
     public void onBackPressed(){
         AlertDialog alertDialog = new AlertDialog.Builder( MenuActivity.this ).create();
-        alertDialog.setTitle( "ATTENZIONE!" );
-        alertDialog.setMessage( "Sei sicuro di voler uscire?" );
-        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, "SI",
+        alertDialog.setTitle(getString(R.string.attention));
+        alertDialog.setMessage(getString(R.string.exit_confirm));
+        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -102,7 +100,7 @@ public class MenuActivity extends NavigationMenuActivity {
                         startActivity( a );
                     }
                 } );
-        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, "NO",
+        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

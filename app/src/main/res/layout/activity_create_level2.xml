@@ -14,26 +14,31 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="100dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="80dp"
         android:ems="10"
         android:hint="@string/name_level"
         android:inputType="text"
         android:textColorHint="@color/button"
         app:boxStrokeColor="@color/button"
+        app:hintTextAppearance="@style/LoginTextInputLayoutStyle"
         app:errorEnabled="true"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="235dp">
+        tools:layout_editor_absoluteY="235dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="15"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/level_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/button"
-            android:textColorHint="@color/button" />
+            android:textColorHint="@color/button"
+            android:maxLength="15"
+            />
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <TextView
         android:layout_width="match_parent"

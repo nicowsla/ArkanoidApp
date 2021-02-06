@@ -137,8 +137,6 @@ public class UserProfileActivity extends NavigationMenuActivity {
         bottonMenu = findViewById(R.id.bottom_navigation);
         bottonMenu.setOnNavigationItemSelectedListener(navListener);
 
-
-
         //se il l'id dell'utente che sta usando l'app è uguale all'id del profilo che vuole vedere va al suo profilo, dove può modificare
         //altrimenti nascondo il menu per modificare poichè non si trova sul suo profilo
         if(currentUser.equals(profileUser)){
@@ -147,17 +145,14 @@ public class UserProfileActivity extends NavigationMenuActivity {
             menu.setVisibility(View.GONE);
         }
 
-
         email.setFocusable( false );
         email.setFocusableInTouchMode( false );
         username.setFocusable(false);
         username.setFocusableInTouchMode(false);
 
-
         usernameLayout.startAnimation( fromtop );
         photo.startAnimation( fromtop );
         emailLayout.startAnimation( frombottom );
-
 
         modifyProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,7 +206,6 @@ public class UserProfileActivity extends NavigationMenuActivity {
 
     }
 
-
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -259,7 +253,6 @@ public class UserProfileActivity extends NavigationMenuActivity {
 
                 username.setText(usernameString);
                 email.setText(emailString);
-
             }
 
             @Override
@@ -330,7 +323,6 @@ public class UserProfileActivity extends NavigationMenuActivity {
                 // Uh-oh, an error occurred!
             }
         });
-
 
         StorageReference riversRef = storageRef.child(currentUser).child("images/profilo.jpg");
         riversRef.putBytes(imgByte)
