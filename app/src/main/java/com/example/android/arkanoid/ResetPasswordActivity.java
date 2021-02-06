@@ -30,6 +30,7 @@ public class ResetPasswordActivity extends NavigationMenuActivity {
     private TextInputLayout emailLayout;
     private Animation frombottom, fromtop;
     private Button b;
+    private Boolean error = false;
 
 
     @Override
@@ -51,51 +52,89 @@ public class ResetPasswordActivity extends NavigationMenuActivity {
 
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        insertData();
+
+        email.setOnFocusChangeListener( new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                emailLayout.setError( null );
+                error = false;
+            }
+        } );
+
+        email.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emailLayout.setError( null );
+                error = false;
+            }
+        } );
+
+    }
+
+    public void insertData(){ emailString = email.getText().toString(); }
+
+    public void verifyCredentials(){
+        if(email == null || email.length()<1){
+            emailLayout.setError( getString(R.string.signin_email_error) );
+            error = true;
+
+        }else if(!isValidEmailAddress(emailString)){
+            emailLayout.setError( getString(R.string.signin_email_error) );
+            error = true;
+        }
     }
 
     public  void resetPassword(View view){
         insertData();
-        mAuth.fetchSignInMethodsForEmail(emailString)
-                .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+        verifyCredentials();
 
-                        boolean emailNotExists = task.getResult().getSignInMethods().isEmpty();
+        if(!error) {
+            mAuth.fetchSignInMethodsForEmail(emailString)
+                    .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
 
-                        if (emailNotExists) {
-                            AlertDialog alertDialog = new AlertDialog.Builder(ResetPasswordActivity.this).create();
-                            alertDialog.setTitle(getString(R.string.error));
-                            alertDialog.setMessage(getString(R.string.email_nor_registered));
-                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
-                                        }
-                                    });
-                            alertDialog.show();
-                        } else {
-                            mAuth.sendPasswordResetEmail(emailString);
-                            AlertDialog alertDialog = new AlertDialog.Builder(ResetPasswordActivity.this).create();
-                            alertDialog.setTitle(getString(R.string.reset_psw));
-                            alertDialog.setMessage(getString(R.string.check_email));
-                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
-                                        }
-                                    });
-                            alertDialog.show();
+                            boolean emailNotExists = task.getResult().getSignInMethods().isEmpty();
+
+                            if (emailNotExists) {
+                                AlertDialog alertDialog = new AlertDialog.Builder(ResetPasswordActivity.this).create();
+                                alertDialog.setTitle(getString(R.string.error));
+                                alertDialog.setMessage(getString(R.string.email_nor_registered));
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                                startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
+                                            }
+                                        });
+                                alertDialog.show();
+                            } else {
+                                mAuth.sendPasswordResetEmail(emailString);
+                                AlertDialog alertDialog = new AlertDialog.Builder(ResetPasswordActivity.this).create();
+                                alertDialog.setTitle(getString(R.string.reset_psw));
+                                alertDialog.setMessage(getString(R.string.check_email));
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                                startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
+                                            }
+                                        });
+                                alertDialog.show();
+                            }
+
                         }
-
-                    }
-                });
-
+                    });
+        }
     }
 
-    public  void insertData(){
-        emailString = email.getText().toString();
+    public boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
     }
 
 }
