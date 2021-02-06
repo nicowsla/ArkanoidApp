@@ -32,7 +32,6 @@ public class ResetPasswordActivity extends NavigationMenuActivity {
     private Button b;
     private Boolean error = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
