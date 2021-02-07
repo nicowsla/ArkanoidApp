@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ContactUsActivity"
     android:orientation="vertical"
-    android:background="@drawable/background_menu">
+    android:background="@drawable/backgroud">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etTo"

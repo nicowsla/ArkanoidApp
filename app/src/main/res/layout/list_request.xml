@@ -48,7 +48,6 @@
 
                     <TextView
                         android:id="@+id/list_request_name"
-                        android:text="QUYETYUQ"
                         android:textColor="@color/button"
                         android:textSize="16dp"
                         android:layout_gravity="center"
@@ -68,7 +67,6 @@
 
                     <TextView
                         android:id="@+id/list_request_score"
-                        android:text="QUYETYUQ"
                         android:textColor="@color/button"
                         android:textSize="14dp"
                         android:layout_marginTop="5dp"
@@ -87,7 +85,6 @@
 
                     <TextView
                         android:id="@+id/list_request_name2"
-                        android:text="QUYETYUQ"
                         android:textColor="@color/button"
                         android:layout_gravity="center"
                         android:textSize="16dp"
@@ -108,7 +105,6 @@
                     <TextView
                         android:id="@+id/list_request_score2"
                         android:layout_gravity="center"
-                        android:text="QUYETYUQ"
                         android:layout_marginTop="5dp"
                         android:textColor="@color/button"
                         android:textSize="14dp"

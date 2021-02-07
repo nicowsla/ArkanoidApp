@@ -22,11 +22,13 @@ import android.os.Message;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -101,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
         Boolean sfidante = i.getBoolean("Sfidante");
         Boolean sfidato = i.getBoolean("Sfidato");
 
-
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -168,8 +169,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.mymenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-    // handle button activities
 
     //MANCA VOCE GAMEPAD
     @Override
@@ -431,8 +430,16 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-                //PARTITE A TEMA
-            }else if(button == 1){
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(R.string.attention);
+                builder.setMessage(getString(R.string.timeMode_info_dialog));
+                AlertDialog dialog = builder.show();
+                TextView messageText = (TextView)dialog.findViewById(android.R.id.message);
+                messageText.setGravity(Gravity.CENTER);
+                dialog.show();
+
+            }else if(button == 1){              //PARTITE A TEMA
                 //Parto da 3 perchè mi abbasso
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
@@ -670,7 +677,7 @@ public class MainActivity extends AppCompatActivity {
                     attivato = false;
                 }
 
-            }else {
+            }else{
                     //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     if (stretchedOut == null) {
                         stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);

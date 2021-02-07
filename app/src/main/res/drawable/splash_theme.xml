@@ -2,6 +2,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/button"/>
 <item>
-<bitmap android:gravity="center" android:src="@drawable/redball"/>
+<bitmap android:gravity="center" android:src="@drawable/logo_splash_256"/>
 </item>
     </layer-list>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/activity_menu"
     tools:context=".MenuActivity"
-    android:background="@drawable/background_menu">
+    android:background="@drawable/backgroud">
 
     <ScrollView
         android:layout_width="match_parent"

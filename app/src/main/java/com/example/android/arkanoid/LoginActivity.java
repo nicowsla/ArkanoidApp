@@ -81,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         //salvo lo userID per non perdere l'accesso
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         String uid = pref.getString("uid", null);
+
         if(!Objects.isNull(uid)){
             startActivity(new Intent(LoginActivity.this, MenuActivity.class));
         }
@@ -92,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
         Animation fromtop = AnimationUtils.loadAnimation(this, R.anim.fromtop);
 
         logo = findViewById(R.id.logo);
-        logo.setBackgroundResource(R.drawable.redball);
 
         emailLayout = findViewById(R.id.login_emailc);
         emailET = findViewById(R.id.login_email);
@@ -105,8 +105,9 @@ public class LoginActivity extends AppCompatActivity {
         TextView lostpassword = findViewById(R.id.recovery_password);
         guestButton = findViewById(R.id.guest_button);
 
-        /*
         logo.startAnimation(fromtop);
+
+        /*
         emailLayout.startAnimation(fromtop);
         pswLayout.startAnimation(fromtop);
         loginButton.startAnimation(frombottom);
