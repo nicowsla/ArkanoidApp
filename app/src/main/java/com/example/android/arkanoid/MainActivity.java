@@ -298,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
 
         private Bitmap background;
         private Bitmap backgroundGamepad;
+        private Bitmap backgroundGamepadLandscape;
         private Bitmap redBall;
         private Bitmap stretchedOut;
         private Bitmap stretchedOutGamepad;
@@ -598,6 +599,7 @@ public class MainActivity extends AppCompatActivity {
         private void readBackground(Context context) {
 
             backgroundGamepad = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score_gamepad));
+            backgroundGamepadLandscape = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score_gamepad_landscape));
             background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score));
 
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -621,7 +623,7 @@ public class MainActivity extends AppCompatActivity {
                     stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
                 }
                 if (stretchedOutGamepad == null ) {
-                    stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepad, size.x, size.y, true);
+                    stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepadLandscape, size.x, size.y, true);
                 }
 
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -801,7 +803,6 @@ public class MainActivity extends AppCompatActivity {
                             startTime = 0;
                             attivato = false;
                         }
-            
                     }
                 }
             }
@@ -1043,13 +1044,6 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                     }
                                 } );
-                        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                    }
-                                } );
                         alertDialog.show();
                         start = false;
                     }else if(timeMode){
@@ -1091,15 +1085,20 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                     }
                                 } );
-                        /*
-                        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
+                        alertDialog.show();
+                        start = false;
+                    }else if(landscape && level==3){
+                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                        alertDialog.setTitle( R.string.vittoria_tempo );
+                        alertDialog.setMessage( getString(R.string.messaggio_landscape) );
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
                                         startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                     }
                                 } );
-                         */
                         alertDialog.show();
                         start = false;
                     }

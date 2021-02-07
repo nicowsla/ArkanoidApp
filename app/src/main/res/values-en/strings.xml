@@ -179,5 +179,6 @@
         Pay attention to pause in this mode!! \n
         \n...time goes on...
     </string>
+    <string name="messaggio_landscape">Great, you completed all the levels in landscape mode!</string>
 
 </resources>
