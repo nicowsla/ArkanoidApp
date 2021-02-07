@@ -723,10 +723,6 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
                     Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
                     Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
-                    canvas.drawBitmap(new_icon_level, (size.x / 6) - (maxSize + 5), 50, paint);
-                    canvas.drawText("" + level, (size.x / 6), 100, paint);
-                    canvas.drawBitmap(new_icon_lives, (size.x / 6) * 3 - (maxSize + 5), 50, paint);
-                    canvas.drawText("" + lifes, (size.x / 6) * 3, 100, paint);
 
                     if (timeMode) {
                         difference = System.currentTimeMillis() - startTime;
@@ -735,9 +731,19 @@ public class MainActivity extends AppCompatActivity {
                         decimi = (difference - (minuti * 60000) - (secondi * 1000)) / 100;
                         centesimi = (difference - (minuti * 60000) - (secondi * 1000) - (decimi * 100)) / 10;
                         millesimi = (difference - (minuti * 60000) - (secondi * 1000) - (decimi * 100) - (centesimi * 10));
-                        canvas.drawBitmap(new_icon_time, (size.x / 6) * 5 - 40 - (maxSize + 5), 50, paint);
-                        canvas.drawText(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi, (size.x / 6) * 5 - 40, 100, paint);
+                        canvas.drawBitmap(new_icon_time, (size.x / 6) * 4 - 40 - (maxSize + 5), 50, paint);
+                        canvas.drawBitmap(new_icon_lives, (size.x / 6) * 2 - (maxSize + 5), 50, paint);
+                        canvas.drawText("" + lifes, (size.x / 6) * 2, 100, paint);
+                        if(!start && !gameOver){
+                            canvas.drawText(0 + "'" + 0 + "''" + 0 + 0 + 0, (size.x / 6) * 4 - 40, 100, paint);
+                        }else {
+                            canvas.drawText(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi, (size.x / 6) * 4 - 40, 100, paint);
+                        }
                     } else {
+                        canvas.drawBitmap(new_icon_lives, (size.x / 6) * 3 - (maxSize + 5), 50, paint);
+                        canvas.drawText("" + lifes, (size.x / 6) * 3, 100, paint);
+                        canvas.drawBitmap(new_icon_level, (size.x / 6) - (maxSize + 5), 50, paint);
+                        canvas.drawText("" + level, (size.x / 6), 100, paint);
                         canvas.drawBitmap(new_icon_score, (size.x / 6) * 5 - (maxSize + 5), 50, paint);
                         canvas.drawText("" + score, (size.x / 6) * 5, 100, paint);
                     }
