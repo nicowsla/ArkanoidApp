@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private String friendUsername;
     private String idRequest;
     private Long friendScore;
+    private int level = 1;
 
 
     @Override
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         Boolean multiplayer = i.getBoolean("Multiplayer");
         Boolean sfidante = i.getBoolean("Sfidante");
         Boolean sfidato = i.getBoolean("Sfidato");
+        int level = i.getInt("Level");
 
 
         //sets the screen orientation
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // create a new game
-        game = new Game(this, 3, 0, 1, screenWidth, screenHeight, partita, multiplayer, sfidante, sfidato);
+        game = new Game(this, 3, 0, level, screenWidth, screenHeight, partita, multiplayer, sfidante, sfidato);
         setContentView(game);
 
         // create an handler and thread
