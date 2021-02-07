@@ -104,9 +104,9 @@ public class LoginActivity extends AppCompatActivity {
         TextView lostpassword = findViewById(R.id.recovery_password);
         guestButton = findViewById(R.id.guest_button);
 
-        /*
+
         logo.startAnimation(fromtop);
-        emailLayout.startAnimation(fromtop);
+       /* emailLayout.startAnimation(fromtop);
         pswLayout.startAnimation(fromtop);
         loginButton.startAnimation(frombottom);
         signin.startAnimation(frombottom);
