@@ -92,7 +92,6 @@ public class LoginActivity extends AppCompatActivity {
         Animation fromtop = AnimationUtils.loadAnimation(this, R.anim.fromtop);
 
         logo = findViewById(R.id.logo);
-        logo.setBackgroundResource(R.drawable.redball);
 
         emailLayout = findViewById(R.id.login_emailc);
         emailET = findViewById(R.id.login_email);
