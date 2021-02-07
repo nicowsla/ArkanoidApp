@@ -550,10 +550,24 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }else if(button == 6){
-                for (int i = 2; i < 8; i++) { //8 righe, inizia dalla seconda però
+                for (int i = 2; i < 8; i++) { //6*15
                     for (int j = 3; j < 18; j++) {
-                        if (Levels.LivelloMOSTROLANDSCAPE[i][j] != 0) {
-                            list.add(new Brick(context, (screenWidth / 20) * j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTROLANDSCAPE[i][j]));
+                        switch (level){
+                            case 1:
+                                if (Levels.Livello1LANDSCAPE[i][j] != 0) {
+                                    list.add(new Brick(context, (screenHeight/11) * j, (i * 70), Levels.Livello1LANDSCAPE[i][j]));
+                                }
+                                break;
+                            case 2:
+                                if (Levels.Livello2LANDSCAPE[i][j] != 0) {
+                                    list.add(new Brick(context, (screenHeight/11) * j, (i * 70), Levels.Livello2LANDSCAPE[i][j]));
+                                }
+                                break;
+                            case 3:
+                                if (Levels.Livello3LANDSCAPE[i][j] != 0) {
+                                    list.add(new Brick(context, (screenHeight/11) * j, (i * 70), Levels.Livello3LANDSCAPE[i][j]));
+                                }
+                                break;
                         }
                     }
                 }
@@ -628,7 +642,7 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < list.size(); i++) {
                     Brick b = list.get(i);
                     //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
-                    r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1080, b.getY() + (70*screenHeight)/1920) ;
+                    r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1920, b.getY() + (100*screenHeight)/2880) ;
                     canvas.drawBitmap(b.getBrick(), null, r, paint);
                 }
 
@@ -652,12 +666,12 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
                 Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
                 Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
-                canvas.drawBitmap(new_icon_level, (size.x/6) - (maxSize+5) - 45, 50 - 48, paint);
-                canvas.drawText("" + level,(size.x/6) - 50,100 - 50, paint );
-                canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - (maxSize+5) - 10, 50 - 45, paint);
-                canvas.drawText("" + lifes, (size.x/6)*3, 100 - 50, paint);
-                canvas.drawBitmap(new_icon_score, (size.x/6)*5 - (maxSize+5) - 45, 50 - 45, paint);
-                canvas.drawText("" + score, (size.x/6)*5 - 50, 100 - 50, paint);
+                canvas.drawBitmap(new_icon_level, size.x/6, 50 - 48, paint);
+                canvas.drawText("" + level,(size.x/6) + 60,100 - 50, paint );
+                canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - 50, 50 - 45, paint);
+                canvas.drawText("" + lifes, (size.x/6)*3 + 20, 100 - 50, paint);
+                canvas.drawBitmap(new_icon_score, (size.x/6)*5 - 100, 50 - 45, paint);
+                canvas.drawText("" + score, (size.x/6)*5 - 40, 100 - 50, paint);
 
                 //in case of loss draw "Game over!"
                 if (gameOver) {
