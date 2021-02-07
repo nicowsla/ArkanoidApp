@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,7 +24,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.SignInMethodQueryResult;
 
-public class ResetPasswordActivity extends NavigationMenuActivity {
+import java.util.Objects;
+
+public class ResetPasswordActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private EditText email;
@@ -31,14 +35,16 @@ public class ResetPasswordActivity extends NavigationMenuActivity {
     private Animation frombottom, fromtop;
     private Button b;
     private Boolean error = false;
+    String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_reset_password, null, false);
-        dl.addView(contentView, 0);
+        setContentView(R.layout.activity_reset_password);
         mAuth = FirebaseAuth.getInstance();
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        uid = pref.getString("uid", null);
 
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
@@ -136,4 +142,12 @@ public class ResetPasswordActivity extends NavigationMenuActivity {
         return m.matches();
     }
 
+    @Override
+    public void onBackPressed() {
+        if(!Objects.isNull(uid)){
+            startActivity(new Intent(ResetPasswordActivity.this, UserProfileActivity.class));
+        }else{
+            startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
+        }
+    }
 }
