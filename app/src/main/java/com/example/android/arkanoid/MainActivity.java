@@ -798,12 +798,20 @@ public class MainActivity extends AppCompatActivity {
                             canvas.drawText(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi, (size.x / 6) * 4 - 40, 100, paint);
                         }
                     } else {
-                        canvas.drawBitmap(new_icon_lives, (size.x / 6) * 3 - (maxSize + 5), 50, paint);
-                        canvas.drawText("" + lifes, (size.x / 6) * 3, 100, paint);
-                        canvas.drawBitmap(new_icon_level, (size.x / 6) - (maxSize + 5), 50, paint);
-                        canvas.drawText("" + level, (size.x / 6), 100, paint);
-                        canvas.drawBitmap(new_icon_score, (size.x / 6) * 5 - (maxSize + 5), 50, paint);
-                        canvas.drawText("" + score, (size.x / 6) * 5, 100, paint);
+                        if(!infinityMode){
+                            canvas.drawBitmap(new_icon_lives, (size.x / 6) * 2 - (maxSize + 5), 50, paint);
+                            canvas.drawText("" + lifes, (size.x / 6) * 2, 100, paint);
+                            canvas.drawBitmap(new_icon_level, (size.x / 6)*4 - (maxSize + 5), 50, paint);
+                            canvas.drawText("" + level, (size.x / 6)*4, 100, paint);
+                        } else{
+                            canvas.drawBitmap(new_icon_lives, (size.x / 6) * 3 - (maxSize + 5), 50, paint);
+                            canvas.drawText("" + lifes, (size.x / 6) * 3, 100, paint);
+                            canvas.drawBitmap(new_icon_level, (size.x / 6) - (maxSize + 5), 50, paint);
+                            canvas.drawText("" + level, (size.x / 6), 100, paint);
+                            canvas.drawBitmap(new_icon_score, (size.x / 6) * 5 - (maxSize + 5), 50, paint);
+                            canvas.drawText("" + score, (size.x / 6) * 5, 100, paint);
+                        }
+
                     }
 
                     //in case of loss draw "Game over!"
@@ -1067,6 +1075,7 @@ public class MainActivity extends AppCompatActivity {
             // find out if the player won or not
             private void win() {
                 if (list.isEmpty()) {
+                    soundPlayer.playOverSound();
                     if(boss){
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
                         alertDialog.setTitle( R.string.vittoria );
@@ -1190,7 +1199,6 @@ public class MainActivity extends AppCompatActivity {
                             lifes++;                            //AGGIUNGE UNA VITA
                             paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
                         }
-                        soundPlayer.playOverSound();
                         resetLevel(level,buttonValue);
                         start = false;
                     }
