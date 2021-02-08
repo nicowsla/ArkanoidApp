@@ -817,7 +817,6 @@ public class MainActivity extends AppCompatActivity {
                     //in case of loss draw "Game over!"
                     if (gameOver) {
                         paddle_width = 200;
-                        soundPlayer.playGameOverSound();
 
                         if (infinityMode && score > bestScore) {
                             database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score*(-1));
@@ -854,6 +853,7 @@ public class MainActivity extends AppCompatActivity {
             //checks the status of the game. whether my lives or whether the game is over
             private void checkLives() {
                 if (lifes == 1) {
+                    soundPlayer.playGameOverSound();
                     if(multiplayer && sfidante){
                         onPause();
                        DatabaseReference myRef = database.getReference("utenti").child(user.getUid()).child("RichiesteSfidaEffettuate").push();
