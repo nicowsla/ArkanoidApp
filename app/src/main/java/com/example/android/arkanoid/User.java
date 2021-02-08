@@ -6,13 +6,17 @@ public class User {
     private String email;
     private long bestScore;
     private long bestTime;
+    private int livArcade;
+    private int livTema;
 
-    public User(String id, String username, String email, long bestScore, long bestTime) {
+    public User(String id, String username, String email, long bestScore, long bestTime, int livArcade, int livTema) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.bestScore = bestScore;
         this.bestTime = bestTime;
+        this.livArcade = livArcade;
+        this.livTema = livTema;
     }
 
     public String getId() {
@@ -53,5 +57,21 @@ public class User {
 
     public void setBestTime(long bestTime) {
         this.bestTime = bestTime;
+    }
+
+    public int getLivArcade() {
+        return livArcade;
+    }
+
+    public void setLivArcade(int livArcade) {
+        this.livArcade = livArcade;
+    }
+
+    public int getLivTema() {
+        return livTema;
+    }
+
+    public void setLivTema(int livTema) {
+        this.livTema = livTema;
     }
 }

@@ -123,7 +123,7 @@ public class UsersListActivity extends NavigationMenuActivity {
                             public User parseSnapshot(@NonNull DataSnapshot snapshot) {
                                 return new User(snapshot.child("id").getValue(String.class), snapshot.child("username").getValue(String.class),
                                         snapshot.child("email").getValue(String.class), snapshot.child("bestScore").getValue(Long.class),
-                                       snapshot.child("bestTime").getValue(Long.class)) ;
+                                       snapshot.child("bestTime").getValue(Long.class), snapshot.child("livArcade").getValue(Integer.class), snapshot.child("livTema").getValue(Integer.class)) ;
                             }
                         })
                         .build();

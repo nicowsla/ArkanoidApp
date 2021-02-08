@@ -810,7 +810,7 @@ public class MainActivity extends AppCompatActivity {
                         paddle_width = 200;
                         if (infinityMode && score > bestScore) {
                             database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score);
-                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime));
+                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime, levArcade, levTheme));
                         }
                         if(!multiplayer){
                             paint.setColor(Color.RED);
@@ -1093,7 +1093,7 @@ public class MainActivity extends AppCompatActivity {
     
                         if(difference<bestTime){
                             database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
-                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestScore, difference));
+                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestScore, difference, levArcade, levTheme));
                         }
     
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();

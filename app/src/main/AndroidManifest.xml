@@ -9,17 +9,29 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
-        <activity android:name=".ChallengeListActivity"></activity>
+
+        <activity android:name=".ChallengeListActivity"/>
+
         <activity android:name=".PersonalLevelsActivity" />
+
         <activity android:name=".CreateLevelActivity" />
+
         <activity android:name=".ContactUsActivity" />
+
         <activity android:name=".NavigationMenuActivity" />
+
         <activity android:name=".SettingsActivity" />
+
         <activity android:name=".ResetPasswordActivity" />
+
         <activity android:name=".UserProfileActivity" />
+
         <activity android:name=".MessagesActivity" />
+
         <activity android:name=".UsersListActivity" />
+
         <activity android:name=".ThemeLevelsActivity" />
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
@@ -29,12 +41,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".CreateLevel" />
+
         <activity android:name=".MainActivity" />
+
         <activity android:name=".MenuActivity" />
+
         <activity
             android:name=".SignInActivity"
             android:parentActivityName=".MainActivity" />
+
         <activity android:name=".LoginActivity" />
     </application>
 
