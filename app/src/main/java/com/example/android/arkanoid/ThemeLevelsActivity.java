@@ -52,6 +52,7 @@ public class ThemeLevelsActivity extends AppCompatActivity {
         img.add(img8);
         img.add(img9);
         img.add(img10);
+        
         if(level<=10){
             for(int a = level; a<10; a++){
                 img.get(a).setVisibility(View.GONE);
