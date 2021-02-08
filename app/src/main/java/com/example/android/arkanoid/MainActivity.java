@@ -767,9 +767,6 @@ public class MainActivity extends AppCompatActivity {
                     paint.setColor(Color.WHITE);
                     paint.setTextSize(50);
 
-                    float velocitaX = ball.getxSpeed();
-                    float velocitaY = ball.ySpeed;
-
                     Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
                     Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
                     Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
@@ -825,10 +822,9 @@ public class MainActivity extends AppCompatActivity {
                         if(!multiplayer){
                             Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
                             canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
-                            if(!arcadeMode || !themeMode){
+                            if(!arcadeMode && !themeMode){
                                 level = 1;
                             }
-                            //infinityMode = false;
                             boss = false;
                             startTime = 0;
                             attivato = false;
@@ -925,13 +921,11 @@ public class MainActivity extends AppCompatActivity {
 
                     gameOver = true;
                     start = false;
-                    if(!arcadeMode){
+                    if(!arcadeMode && !themeMode){
                         level = 1;
                     }
-
                     soundPlayer.playGameOverSound();
                     invalidate();
-
 
                 } else {
                     lifes--;
