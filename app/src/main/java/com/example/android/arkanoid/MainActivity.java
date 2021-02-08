@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private Long friendScore;
     private int levArcade;
     private int levTheme;
+    private Boolean guestMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,23 +91,11 @@ public class MainActivity extends AppCompatActivity {
         //int levTheme = pref.getInt("livTheme",1);
         levArcade = pref.getInt("livArcade", 1);
         levTheme = pref.getInt("livTheme", 1);
+        guestMode = pref.getBoolean("guest", false);
         String s = pref.getString("friendScore", null);
         if(s!=null){
             friendScore = Long.parseLong(s);
         }
-
-        database = FirebaseDatabase.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-
-        //prendo l'id per capire quale tasto è stato scelto
-        //Credo basti solo uno
-        Bundle i = getIntent().getExtras();
-        int partita = i.getInt("MODE");
-        Boolean multiplayer = i.getBoolean("Multiplayer");
-        Boolean sfidante = i.getBoolean("Sfidante");
-        Boolean sfidato = i.getBoolean("Sfidato");
-        int level = i.getInt("Level");
 
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -118,25 +107,45 @@ public class MainActivity extends AppCompatActivity {
         int screenWidth = displayMetrics.widthPixels;
         int screenHeight = displayMetrics.heightPixels;
 
-        DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
+        if(!guestMode){
+            database = FirebaseDatabase.getInstance();
+            mAuth = FirebaseAuth.getInstance();
+            user = mAuth.getCurrentUser();
+            Bundle i = getIntent().getExtras();
+            int partita = i.getInt("MODE");
+            Boolean multiplayer = i.getBoolean("Multiplayer");
+            Boolean sfidante = i.getBoolean("Sfidante");
+            Boolean sfidato = i.getBoolean("Sfidato");
+            int level = i.getInt("Level");
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                bestScore = dataSnapshot.child("bestScore").getValue(Long.class);
-                bestTime =  dataSnapshot.child("bestTime").getValue(Long.class);
-                username = dataSnapshot.child("username").getValue(String.class);
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-            }
-        });
+
+            DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
+
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // This method is called once with the initial value and again
+                    // whenever data at this location is updated.
+                    bestScore = dataSnapshot.child("bestScore").getValue(Long.class);
+                    bestTime =  dataSnapshot.child("bestTime").getValue(Long.class);
+                    username = dataSnapshot.child("username").getValue(String.class);
+                }
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                }
+            });
+
+            game = new Game(this, 3, 0, level, screenWidth, screenHeight, partita, multiplayer, sfidante, sfidato);
+
+        }else{
+            game = new Game(this, 3, 0, 1, screenWidth, screenHeight, 3, false, false, false);
+
+        }
+
 
         // create a new game
-        game = new Game(this, 3, 0, level, screenWidth, screenHeight, partita, multiplayer, sfidante, sfidato);
+
         setContentView(game);
 
         // create an handler and thread
@@ -256,8 +265,13 @@ public class MainActivity extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
+                                        if(guestMode){
+                                            startActivity( new Intent( MainActivity.this, LoginActivity.class ) );
+                                        }else{
+                                            startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
+                                        }
 
-                                        startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
+
                                     }
                                 } );
                         alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
@@ -286,7 +300,12 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
+                        if(guestMode){
+                            startActivity( new Intent( MainActivity.this, LoginActivity.class ) );
+                        }else{
+                            startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
+                        }
+
                     }
                 } );
         alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
@@ -879,7 +898,7 @@ public class MainActivity extends AppCompatActivity {
                             alertDialog.show();
                         }
                     }
-                    if(arcadeMode && level==17){
+                    if(arcadeMode && level==17 && !guestMode){
                         gameOver = true;
                         start = false;
                         level = 1;
@@ -887,7 +906,7 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                         editor.putInt( "livArcade", level );
                         editor.apply();
-                    }else{
+                    }else {
                         gameOver = true;
                         start = false;
                         level = 1;
@@ -1045,7 +1064,11 @@ public class MainActivity extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                        if(guestMode){
+                                            startActivity( new Intent( MainActivity.this, LoginActivity.class ) );
+                                        }else{
+                                            startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
+                                        }
                                     }
                                 } );
                         alertDialog.show();
@@ -1117,7 +1140,7 @@ public class MainActivity extends AppCompatActivity {
                                 } );
                         alertDialog.show();
                         start = false;
-                    }else if(arcadeMode){
+                    }else if(arcadeMode && !guestMode){
                         if(level<17){
                             level++;
                         }

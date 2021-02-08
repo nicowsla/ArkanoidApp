@@ -291,4 +291,11 @@ public class LoginActivity extends AppCompatActivity {
     public void goToContactUs(View view){
         startActivity(new Intent(LoginActivity.this, ContactUsActivity.class));
     }
+
+    public void guestMode(View view){
+        SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+        editor.putBoolean( "guest", true );
+        editor.apply();
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    }
 }

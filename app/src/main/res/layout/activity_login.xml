@@ -120,7 +120,7 @@
     <Button
         android:id="@+id/guest_button"
         android:layout_marginTop="30dp"
-        android:onClick="goToResetPassword"
+        android:onClick="guestMode"
         android:layout_centerInParent="true"
         android:text="@string/guest_mode"
         android:layout_marginLeft="90dp"
