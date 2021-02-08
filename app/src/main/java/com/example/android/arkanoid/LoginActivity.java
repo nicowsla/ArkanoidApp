@@ -215,6 +215,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 editor.putString("username", username);
                                                 editor.putInt("livTheme", livTheme);
                                                 editor.putInt("livArcade", livArcade);
+                                                editor.putBoolean("guest", false);
                                                 editor.apply();
                                                 startActivity(new Intent(LoginActivity.this, MenuActivity.class));
 
