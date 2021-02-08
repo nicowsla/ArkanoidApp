@@ -1107,12 +1107,10 @@ public class MainActivity extends AppCompatActivity {
                         alertDialog.setMessage( getString(R.string.messaggio_partita_tempo)  + minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
                         alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                    }
-                                } );
+                                (dialog, which) -> {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                });
                         alertDialog.show();
                         start = false;
                     }else if(themeMode){
@@ -1122,12 +1120,10 @@ public class MainActivity extends AppCompatActivity {
                             alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
                             alertDialog.setCanceledOnTouchOutside(false);
                             alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                        }
-                                    } );
+                                    (dialog, which) -> {
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                    });
                             alertDialog.show();
                         }else{
                             level++;
