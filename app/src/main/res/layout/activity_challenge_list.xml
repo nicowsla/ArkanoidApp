@@ -28,7 +28,9 @@
         style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        app:menu="@menu/bottom_navigation_menu_challenge" />
+        app:menu="@menu/bottom_navigation_menu_challenge"
+        app:itemTextColor="@color/button"
+        app:itemIconTint="@color/button"/>
 
     </RelativeLayout>
 
