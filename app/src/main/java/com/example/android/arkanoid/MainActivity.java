@@ -47,14 +47,16 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
+    public  static final int IDEAL_WIDTH=1080;
+    public  static final int IDEAL_HEIGHT=1234;
     private Game game;
     private UpdateThread myThread;
     private Handler updateHandler;
-    Boolean enableTouch;
+    private Boolean enableTouch;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private FirebaseUser user;
-    Boolean enableAccelerometer;
+    private Boolean enableAccelerometer;
     private SoundPlayer soundPlayer;
 
     private long bestScore = 0;
@@ -121,14 +123,8 @@ public class MainActivity extends AppCompatActivity {
                 sfidante = i.getBoolean("Sfidante");
                 sfidato = i.getBoolean("Sfidato");
             }
-
-
-
             int level = i.getInt("Level");
-
-
             DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
-
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -355,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
         private int level;
         private boolean start;
         private boolean gameOver;
-        private Context context;
+        private final Context context;
 
         private int screenWidth;
         private int screenHeight;

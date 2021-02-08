@@ -28,10 +28,8 @@ import java.util.Locale;
 public class SettingsActivity extends NavigationMenuActivity {
     private TextInputLayout commandLayout;
     private EditText command;
-    private String commandString;
     private TextInputLayout languageLayout;
     private EditText language;
-    private String languageString;
     private String s= null;
     private String s1 = null;
     private Boolean enableTouch;
