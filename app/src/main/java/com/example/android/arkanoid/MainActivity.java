@@ -273,15 +273,11 @@ public class MainActivity extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
+
                                         if(guestMode){
                                             startActivity( new Intent( MainActivity.this, LoginActivity.class ) );
-                                        }else{
-                                            startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
-                                        }
-
-
-                                        if(game.themeMode){
-                                            startActivity(new Intent(MainActivity.this, ThemeLevelsActivity.class));
+                                        }else if(game.themeMode){
+                                            startActivity( new Intent( MainActivity.this, ThemeLevelsActivity.class ) );
                                         }else {
                                             startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                         }
@@ -825,7 +821,7 @@ public class MainActivity extends AppCompatActivity {
                         if(!multiplayer){
                             Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
                             canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
-                            if(!arcadeMode){
+                            if(!arcadeMode && !themeMode){
                                 level = 1;
                             }
                             //infinityMode = false;
