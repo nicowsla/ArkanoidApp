@@ -309,15 +309,11 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        
                         if(guestMode){
                             startActivity( new Intent( MainActivity.this, LoginActivity.class ) );
-                        }else{
-                            startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
-                        }
-
-                        if(game.themeMode)
-                        {
-                            startActivity(new Intent(MainActivity.this, ThemeLevelsActivity.class));
+                        }else if(game.themeMode){
+                            startActivity( new Intent( MainActivity.this, ThemeLevelsActivity.class ) );
                         }else {
                             startActivity(new Intent(MainActivity.this, MenuActivity.class));
                         }
@@ -1156,11 +1152,11 @@ public class MainActivity extends AppCompatActivity {
                                 } );
                         alertDialog.show();
                         start = false;
-                    }else if(arcadeMode && !guestMode){
-                        if(level<17){
+                    }else if(arcadeMode ){
+                        if(!boss){
                             level++;
                         }
-                        if(level > levArcade ){
+                        if(level > levArcade && !guestMode){
                             database.getReference("utenti").child(user.getUid()).child("livArcade").setValue(level);
                             SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                             editor.putInt( "livArcade", level );
