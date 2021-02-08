@@ -257,7 +257,11 @@ public class SignInActivity extends AppCompatActivity {
 
 
     public void createAccount(){
-        if(!error){ mAuth.createUserWithEmailAndPassword(email, password)
+        if(imageString==null){
+            Toast.makeText(SignInActivity.this, getString(R.string.error_image_not_found),
+                    Toast.LENGTH_SHORT).show();
+        }
+        if(!error && imageString!=null){ mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

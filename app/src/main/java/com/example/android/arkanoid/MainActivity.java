@@ -309,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        
+
                         if(guestMode){
                             startActivity( new Intent( MainActivity.this, LoginActivity.class ) );
                         }else if(game.themeMode){

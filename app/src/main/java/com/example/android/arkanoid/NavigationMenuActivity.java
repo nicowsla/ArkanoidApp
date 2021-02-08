@@ -51,8 +51,7 @@ public class NavigationMenuActivity extends AppCompatActivity {
         photo = findViewById(R.id.menu_photo);
 
         if( imageString.equals("ciao")){
-            Toast.makeText(NavigationMenuActivity.this, getString(R.string.error),
-                    Toast.LENGTH_SHORT).show();
+
         }else{
             byte[] b = Base64.decode(imageString, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
