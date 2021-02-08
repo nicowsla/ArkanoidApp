@@ -289,7 +289,6 @@ public class SignInActivity extends AppCompatActivity {
                                         } );
                             }
 
-                            Toast.makeText( getApplicationContext(), R.string.signin_check_mail, Toast.LENGTH_LONG ).show();
                             AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
                             alertDialog.setTitle( R.string.attention);
                             alertDialog.setMessage(getString(R.string.signin_check_mail));
