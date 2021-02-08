@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
     private int levArcade;
     private int levTheme;
     private Boolean guestMode = false;
+    private Boolean multiplayer;
+    private Boolean sfidante = false;
+    private Boolean sfidato = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,9 +116,14 @@ public class MainActivity extends AppCompatActivity {
             user = mAuth.getCurrentUser();
             Bundle i = getIntent().getExtras();
             int partita = i.getInt("MODE");
-            Boolean multiplayer = i.getBoolean("Multiplayer");
-            Boolean sfidante = i.getBoolean("Sfidante");
-            Boolean sfidato = i.getBoolean("Sfidato");
+            multiplayer = i.getBoolean("Multiplayer");
+            if(multiplayer){
+                sfidante = i.getBoolean("Sfidante");
+                sfidato = i.getBoolean("Sfidato");
+            }
+
+
+
             int level = i.getInt("Level");
 
 

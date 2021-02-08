@@ -58,11 +58,6 @@ public class ThemeLevelsActivity extends AppCompatActivity {
             }
         }
 
-
-
-
-
-
         Intent i = new Intent(ThemeLevelsActivity.this, MainActivity.class);
         i.putExtra("MODE", 1);
         i.putExtra("Multiplayer", false);
