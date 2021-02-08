@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private String friendUsername;
     private String idRequest;
     private Long friendScore;
-    private int level = 1;
-
+    private int levArcade;
+    private int levTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
         friend = pref.getString("friend", null);
         friendUsername = pref.getString("friendName", null);
         idRequest = pref.getString("idRichiesta", null);
+        //int levTheme = pref.getInt("livTheme",1);
+        levArcade = pref.getInt("livArcade", 1);
+        levTheme = pref.getInt("livTheme", 1);
         String s = pref.getString("friendScore", null);
         if(s!=null){
             friendScore = Long.parseLong(s);
@@ -775,20 +778,9 @@ public class MainActivity extends AppCompatActivity {
                         canvas.drawText("" + score, (size.x / 6) * 5, 100, paint);
                     }
 
-
-                    //PROVE ##############################################################
-                    /* canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
-                    canvas.drawText("paddle width:" + new_paddle.getWidth(),50,300,paint);
-                    canvas.drawText("paddle height:" + new_paddle.getHeight(),50,350,paint);
-                    canvas.drawText("left:" + r.left,50,400,paint);
-                    canvas.drawText("top:" + r.top,50,450,paint);
-                    canvas.drawText("right:" + r.right,50,500,paint);
-                    canvas.drawText("bottom:" + r.bottom,50,550,paint);*/
-
                     //in case of loss draw "Game over!"
                     if (gameOver) {
                         paddle_width = 200;
-
                         if (infinityMode && score > bestScore) {
                             database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score);
                             database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime));
@@ -886,12 +878,22 @@ public class MainActivity extends AppCompatActivity {
                                     } );
                             alertDialog.show();
                         }
-    
                     }
-                    gameOver = true;
-                    start = false;
-                    level = 1;
-                    invalidate();
+                    if(arcadeMode && level==17){
+                        gameOver = true;
+                        start = false;
+                        level = 1;
+                        database.getReference("utenti").child(user.getUid()).child("livArcade").setValue(level);
+                        SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                        editor.putInt( "livArcade", level );
+                        editor.apply();
+                    }else{
+                        gameOver = true;
+                        start = false;
+                        level = 1;
+                        invalidate();
+                    }
+
                 } else {
                     lifes--;
                     ball.setX((size.x / 2) - (30*screenWidth)/1080);
@@ -1075,20 +1077,32 @@ public class MainActivity extends AppCompatActivity {
                                 } );
                         alertDialog.show();
                         start = false;
-                    }else if(themeMode && level==10){
-                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
-                        alertDialog.setTitle( R.string.vittoria_tempo );
-                        alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
-                        alertDialog.setCanceledOnTouchOutside(false);
-                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                    }
-                                } );
-                        alertDialog.show();
-                        start = false;
+                    }else if(themeMode){
+                        if(level==10) {
+                            AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                            alertDialog.setTitle( R.string.vittoria_tempo );
+                            alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
+                            alertDialog.setCanceledOnTouchOutside(false);
+                            alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                        }
+                                    } );
+                            alertDialog.show();
+                        }else{
+                            level++;
+                            if(level>levTheme){
+                                database.getReference("utenti").child(user.getUid()).child("livTema").setValue(level);
+                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                editor.putInt( "livTheme", level );
+                                editor.apply();
+                            }
+                            resetLevel(level,buttonValue);
+                            start = false;
+                        }
+
                     }else if(landscape && level==3){
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                         alertDialog.setTitle( R.string.vittoria_tempo );
@@ -1103,16 +1117,28 @@ public class MainActivity extends AppCompatActivity {
                                 } );
                         alertDialog.show();
                         start = false;
-                    }
-                    else{
-                        level++;
-                        if(level%5 == 0 && arcadeMode){         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
+                    }else if(arcadeMode){
+                        if(level<17){
+                            level++;
+                        }
+                        if(level > levArcade ){
+                            database.getReference("utenti").child(user.getUid()).child("livArcade").setValue(level);
+                            SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                            editor.putInt( "livArcade", level );
+                            editor.apply();
+                        }
+                        if(level%5 == 0){         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
                             lifes++;                            //AGGIUNGE UNA VITA
                             paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
                         }
                         soundPlayer.playOverSound();
                         resetLevel(level,buttonValue);
-                        // ball.increaseSpeed(level);
+                        start = false;
+                    }
+                    else{
+                        level++;
+                        soundPlayer.playOverSound();
+                        resetLevel(level,buttonValue);
                         start = false;
                     }
     

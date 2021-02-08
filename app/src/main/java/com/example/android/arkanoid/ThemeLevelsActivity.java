@@ -3,9 +3,13 @@ package com.example.android.arkanoid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ThemeLevelsActivity extends AppCompatActivity {
     private ImageView img1;
@@ -18,11 +22,14 @@ public class ThemeLevelsActivity extends AppCompatActivity {
     private ImageView img8;
     private ImageView img9;
     private ImageView img10;
-
+    private List<ImageView> img = new ArrayList();
+    private int level;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme_levels);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        level = pref.getInt("livTheme", 1);
 
         img1 = findViewById(R.id.img1);
         img2 = findViewById(R.id.img2);
@@ -34,6 +41,27 @@ public class ThemeLevelsActivity extends AppCompatActivity {
         img8 = findViewById(R.id.img8);
         img9 = findViewById(R.id.img9);
         img10 = findViewById(R.id.img10);
+
+        img.add(img1);
+        img.add(img2);
+        img.add(img3);
+        img.add(img4);
+        img.add(img5);
+        img.add(img6);
+        img.add(img7);
+        img.add(img8);
+        img.add(img9);
+        img.add(img10);
+        if(level<=10){
+            for(int a = level; a<10; a++){
+                img.get(a).setVisibility(View.GONE);
+            }
+        }
+
+
+
+
+
 
         Intent i = new Intent(ThemeLevelsActivity.this, MainActivity.class);
         i.putExtra("MODE", 1);

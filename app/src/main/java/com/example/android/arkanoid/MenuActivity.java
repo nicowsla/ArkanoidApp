@@ -27,7 +27,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 
 public class MenuActivity extends NavigationMenuActivity {
-
+    private int level;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //inserire la navbar
@@ -35,6 +35,10 @@ public class MenuActivity extends NavigationMenuActivity {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_menu, null, false);
         dl.addView(contentView, 0);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        level = pref.getInt("livArcade", 1);
+
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
@@ -53,7 +57,7 @@ public class MenuActivity extends NavigationMenuActivity {
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_arcade):
-                i.putExtra("Level", 1); //da mettere il livello che ho raggiunto
+                i.putExtra("Level", level);
                 i.putExtra("MODE", 3);
                 i.putExtra("Multiplayer", false);
                 startActivity(i);

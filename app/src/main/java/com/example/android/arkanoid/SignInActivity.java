@@ -271,6 +271,9 @@ public class SignInActivity extends AppCompatActivity {
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference myRef = database.getReference( "utenti" ).child( user.getUid() );
                             myRef.setValue( new User(currentUser,username, email, 0, 1000000000) );
+                            myRef.child("livArcade").setValue(1);
+                            myRef.child("livTema").setValue(1);
+
 
                             if (imageString != null) {
                                 StorageReference storageRef = FirebaseStorage.getInstance().getReference();

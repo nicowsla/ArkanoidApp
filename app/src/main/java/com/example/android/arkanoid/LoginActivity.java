@@ -208,9 +208,13 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                                 String username = dataSnapshot.child( "username" ).getValue(String.class);
+                                                int livTheme = dataSnapshot.child( "livTema" ).getValue(Integer.class);
+                                                int livArcade = dataSnapshot.child( "livArcade" ).getValue(Integer.class);
                                                 SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                                                 editor.putString( "uid", user.getUid() );
                                                 editor.putString("username", username);
+                                                editor.putInt("livTheme", livTheme);
+                                                editor.putInt("livArcade", livArcade);
                                                 editor.apply();
                                                 startActivity(new Intent(LoginActivity.this, MenuActivity.class));
 
