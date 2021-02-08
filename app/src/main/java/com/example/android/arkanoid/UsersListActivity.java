@@ -64,6 +64,7 @@ public class UsersListActivity extends NavigationMenuActivity {
 
         bottonMenu = findViewById(R.id.bottom_navigation_rankings);
         bottonMenu.setOnNavigationItemSelectedListener(navListener);
+
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 

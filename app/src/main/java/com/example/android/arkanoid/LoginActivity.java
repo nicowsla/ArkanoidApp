@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
         //salvo lo userID per non perdere l'accesso
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         String uid = pref.getString("uid", null);
@@ -88,6 +89,11 @@ public class LoginActivity extends AppCompatActivity {
 
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //imposto la lingua predefinita come inglese
+        SharedPreferences.Editor editor=getSharedPreferences("Settings",MODE_PRIVATE).edit();
+        editor.putString("My_Lang","en");
+        editor.apply();
 
         Animation frombottom = AnimationUtils.loadAnimation(this, R.anim.show_from_bottom); //prima era frombottom
         Animation fromtop = AnimationUtils.loadAnimation(this, R.anim.fromtop);

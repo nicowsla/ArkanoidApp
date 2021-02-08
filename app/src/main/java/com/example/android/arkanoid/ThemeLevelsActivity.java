@@ -7,9 +7,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-
 import java.util.ArrayList;
 import java.util.List;
+import androidx.appcompat.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.WindowManager;
+
 
 public class ThemeLevelsActivity extends AppCompatActivity {
     private ImageView img1;
@@ -30,6 +33,9 @@ public class ThemeLevelsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_theme_levels);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         level = pref.getInt("livTheme", 1);
+
+        //nasconde il pannello delle notifiche
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         img1 = findViewById(R.id.img1);
         img2 = findViewById(R.id.img2);
@@ -62,7 +68,6 @@ public class ThemeLevelsActivity extends AppCompatActivity {
         Intent i = new Intent(ThemeLevelsActivity.this, MainActivity.class);
         i.putExtra("MODE", 1);
         i.putExtra("Multiplayer", false);
-
 
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,5 +150,8 @@ public class ThemeLevelsActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(ThemeLevelsActivity.this, MenuActivity.class));
+    }
 }

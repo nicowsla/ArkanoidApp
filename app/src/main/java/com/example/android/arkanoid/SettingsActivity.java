@@ -34,11 +34,10 @@ public class SettingsActivity extends NavigationMenuActivity {
     private String s1 = null;
     private Boolean enableTouch;
     private Boolean enableAccelerometer;
-    private String selezione = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LoadLocale();
+        //LoadLocale();
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_settings, null, false);
@@ -119,7 +118,6 @@ public class SettingsActivity extends NavigationMenuActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 s1 = languages[which];
-
                             }
                         } )
                         .setPositiveButton( getString(R.string.confirm), new DialogInterface.OnClickListener() {
@@ -134,6 +132,7 @@ public class SettingsActivity extends NavigationMenuActivity {
                                 }
                                 language.setText( s1 );
                                 dialog.dismiss();
+                                startActivity(new Intent(SettingsActivity.this, SettingsActivity.class));
                             }
                         } )
                         .setNegativeButton( getString(R.string.cancel), new DialogInterface.OnClickListener() {

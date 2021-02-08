@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 public class CreateLevel extends Activity {
 
@@ -65,6 +67,17 @@ public class CreateLevel extends Activity {
         dv = new DrawingView(this);
         setContentView(dv);
 
+        //FORZO IMPOSTAZIONE LINGUA
+        SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
+        String language=preferences.getString("My_Lang","");
+
+        //IMPOSTA LA LINGUA
+        Locale locale=new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config=new Configuration();
+        config.locale=locale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -80,7 +93,6 @@ public class CreateLevel extends Activity {
         maxSize= (int)screenWidth/9;
         //rimpicciolisce in scala le dimensioni del mattoncino
         brick = scaleDown(originalBrick, maxSize, true);
-
     }
 
     public static Bitmap scaleDown(Bitmap realImage, float maxImageSize, boolean filter) {
@@ -104,7 +116,6 @@ public class CreateLevel extends Activity {
             context=c;
             mBitmapPaint = new Paint(Paint.DITHER_FLAG);
             paint = new Paint();
-
         }
 
         @Override

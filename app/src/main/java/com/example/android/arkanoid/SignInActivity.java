@@ -272,7 +272,6 @@ public class SignInActivity extends AppCompatActivity {
                             DatabaseReference myRef = database.getReference( "utenti" ).child( user.getUid() );
                             myRef.setValue( new User(currentUser,username, email, 0, 1000000000, 1, 1) );
 
-
                             if (imageString != null) {
                                 StorageReference storageRef = FirebaseStorage.getInstance().getReference();
                                 StorageReference riversRef = storageRef.child( currentUser ).child( "images/profilo.jpg" );

@@ -43,7 +43,6 @@ public class MenuActivity extends NavigationMenuActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-
     public void goToGame(View View){
         Intent i = new Intent(this, MainActivity.class);
         switch (View.getId()) {

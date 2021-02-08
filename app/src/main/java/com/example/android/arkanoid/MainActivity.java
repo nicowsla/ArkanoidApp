@@ -18,7 +18,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Message;
-
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -30,10 +30,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.Gravity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -58,11 +58,10 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     private Boolean enableAccelerometer;
     private SoundPlayer soundPlayer;
-
+    private int level = 1;
     private long bestScore = 0;
     private long bestTime = 0;
     private String username;
-
     private String friend;
     private String friendUsername;
     private String idRequest;
@@ -73,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean multiplayer;
     private Boolean sfidante = false;
     private Boolean sfidato = false;
+    private int paddle_width = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
         if(s!=null){
             friendScore = Long.parseLong(s)*(-1);
         }
+
+        database = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+
 
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -149,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         // create a new game
-
         setContentView(game);
 
         // create an handler and thread
@@ -276,6 +280,11 @@ public class MainActivity extends AppCompatActivity {
                                         }
 
 
+                                        if(game.themeMode){
+                                            startActivity(new Intent(MainActivity.this, ThemeLevelsActivity.class));
+                                        }else {
+                                            startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                        }
                                     }
                                 } );
                         alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
@@ -310,6 +319,12 @@ public class MainActivity extends AppCompatActivity {
                             startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
                         }
 
+                        if(game.themeMode)
+                        {
+                            startActivity(new Intent(MainActivity.this, ThemeLevelsActivity.class));
+                        }else {
+                            startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                        }
                     }
                 } );
         alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
@@ -332,10 +347,10 @@ public class MainActivity extends AppCompatActivity {
         private Bitmap stretchedOutGamepad;
         private Bitmap paddle_p;
         private Bitmap new_paddle;
-
         private Display display;
         private Point size;
         private Paint paint;
+        private Paint paintGameOver;
 
         private Ball ball;
         private ArrayList<Brick> list;
@@ -386,6 +401,7 @@ public class MainActivity extends AppCompatActivity {
         public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita, Boolean multiplayer, Boolean sfidante, Boolean sfidato) {
             super(context);
             paint = new Paint();
+            paintGameOver = new Paint();
 
             // continue context, lifes, score a level
             this.context = context;
@@ -398,7 +414,6 @@ public class MainActivity extends AppCompatActivity {
             this.multiplayer = multiplayer;
             this.sfidante = sfidante;
             this.sfidato = sfidato;
-
 
             // start a gameOver to see if the game continues or the player has lost all the lives
             start = false;
@@ -467,7 +482,6 @@ public class MainActivity extends AppCompatActivity {
                 TextView messageText = (TextView)dialog.findViewById(android.R.id.message);
                 messageText.setGravity(Gravity.CENTER);
                 dialog.show();
-
             }else if(button == 1){              //PARTITE A TEMA
                 //Parto da 3 perchè mi abbasso
                 for (int i = 3; i < 20; i++) {
@@ -670,6 +684,7 @@ public class MainActivity extends AppCompatActivity {
                 paint.setColor(Color.RED);
                 canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
 
+
                 // draw fell, disegna rettangolo cioè barra
                 paint.setColor(Color.WHITE);
                 //La riga sotto era +200 + 40
@@ -714,16 +729,14 @@ public class MainActivity extends AppCompatActivity {
 
                 //in case of loss draw "Game over!"
                 if (gameOver) {
-                    paint.setColor(Color.RED);
-                    paint.setTextSize(100);
-                    canvas.drawText("Game over!", size.x / 6, size.y / 6, paint);
+                    Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
+                    canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
                     level = 1;
                     //infinityMode = false;
                     startTime = 0;
                     attivato = false;
                 }
-
-            }else{
+            }else {
                     //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     if (stretchedOut == null) {
                         stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
@@ -804,14 +817,15 @@ public class MainActivity extends AppCompatActivity {
                     //in case of loss draw "Game over!"
                     if (gameOver) {
                         paddle_width = 200;
+                        soundPlayer.playGameOverSound();
+
                         if (infinityMode && score > bestScore) {
                             database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score*(-1));
                             database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score*(-1), bestTime, levArcade, levTheme));
                         }
                         if(!multiplayer){
-                            paint.setColor(Color.RED);
-                            paint.setTextSize(100);
-                            canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
+                            Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
+                            canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
                             if(!arcadeMode){
                                 level = 1;
                             }
@@ -915,6 +929,7 @@ public class MainActivity extends AppCompatActivity {
                         level = 1;
                     }
 
+                    soundPlayer.playGameOverSound();
                     invalidate();
 
 
@@ -1163,16 +1178,32 @@ public class MainActivity extends AppCompatActivity {
                         resetLevel(level,buttonValue);
                         start = false;
                     }
-                    else{
+                    else if(landscape && level==3) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                        alertDialog.setTitle(R.string.vittoria_tempo);
+                        alertDialog.setMessage(getString(R.string.messaggio_landscape));
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                    }
+                                } );
+                        alertDialog.show();
+                        start = false;
+                    }else{
                         level++;
+                        if(level%5 == 0 && arcadeMode){         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
+                            lifes++;                            //AGGIUNGE UNA VITA
+                            paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
+                        }
                         soundPlayer.playOverSound();
                         resetLevel(level,buttonValue);
                         start = false;
                     }
-    
                 }
             }
         }
-    
-    }
+}
       
