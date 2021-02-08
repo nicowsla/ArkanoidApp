@@ -24,6 +24,7 @@
         app:boxStrokeColor="@color/button"
         app:hintTextAppearance="@style/LoginTextInputLayoutStyle"
         app:errorEnabled="true"
+        app:hintTextColor="@color/button"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="235dp"
         app:counterEnabled="true"

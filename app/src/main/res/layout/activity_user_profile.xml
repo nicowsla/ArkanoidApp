@@ -50,6 +50,7 @@
                 android:id="@+id/profile_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="18"
                 android:textColor="@color/button"
                 android:textColorHint="@color/button"/>
         </com.google.android.material.textfield.TextInputLayout>

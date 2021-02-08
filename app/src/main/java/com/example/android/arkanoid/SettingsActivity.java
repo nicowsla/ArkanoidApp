@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -96,6 +97,8 @@ public class SettingsActivity extends NavigationMenuActivity {
                                 editor.putBoolean("accelerometro", enableAccelerometer);
                                 editor.apply();
                                 command.setText( s );
+                                Toast.makeText(SettingsActivity.this, s1, Toast.LENGTH_SHORT).show();
+
                                 dialog.dismiss();
                             }
                         } )
@@ -132,6 +135,7 @@ public class SettingsActivity extends NavigationMenuActivity {
                                 }
                                 language.setText( s1 );
                                 dialog.dismiss();
+                                Toast.makeText(SettingsActivity.this, s1, Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SettingsActivity.this, SettingsActivity.class));
                             }
                         } )
