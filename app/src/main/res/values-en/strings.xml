@@ -180,5 +180,6 @@
         \n...time goes on...
     </string>
     <string name="messaggio_landscape">Great, you completed all the levels in landscape mode!</string>
+    <string name="choose_app_email">Choose an app</string>
 
 </resources>

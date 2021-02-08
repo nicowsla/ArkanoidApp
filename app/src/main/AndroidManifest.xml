@@ -19,6 +19,7 @@
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".MessagesActivity" />
         <activity android:name=".UsersListActivity" />
+        <activity android:name=".ThemeLevelsActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">

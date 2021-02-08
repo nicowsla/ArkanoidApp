@@ -178,5 +178,6 @@
         \n...il tempo va avanti...
     </string>
     <string name="messaggio_landscape">Bravo, hai completato tutti i livelli in modalità landscape!</string>
+    <string name="choose_app_email">Scegli app</string>
 
 </resources>

@@ -35,7 +35,6 @@
             android:textColorHint="@color/button"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etSubject"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -105,6 +104,8 @@
         android:shadowRadius="10"
         android:textColor="#000000"
         android:textStyle="bold"
-        app:cornerRadius="15dp"/>
+        app:cornerRadius="15dp"
+        android:clickable="true"
+        android:onClick="sendEmail"/>
 
 </LinearLayout>
