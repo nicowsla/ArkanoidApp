@@ -78,9 +78,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
         //salvo lo userID per non perdere l'accesso
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         String uid = pref.getString("uid", null);
+
         if(!Objects.isNull(uid)){
             startActivity(new Intent(LoginActivity.this, MenuActivity.class));
         }
@@ -88,11 +90,15 @@ public class LoginActivity extends AppCompatActivity {
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        //imposto la lingua predefinita come inglese
+        SharedPreferences.Editor editor=getSharedPreferences("Settings",MODE_PRIVATE).edit();
+        editor.putString("My_Lang","en");
+        editor.apply();
+
         Animation frombottom = AnimationUtils.loadAnimation(this, R.anim.show_from_bottom); //prima era frombottom
         Animation fromtop = AnimationUtils.loadAnimation(this, R.anim.fromtop);
 
         logo = findViewById(R.id.logo);
-        logo.setBackgroundResource(R.drawable.redball);
 
         emailLayout = findViewById(R.id.login_emailc);
         emailET = findViewById(R.id.login_email);
@@ -105,8 +111,9 @@ public class LoginActivity extends AppCompatActivity {
         TextView lostpassword = findViewById(R.id.recovery_password);
         guestButton = findViewById(R.id.guest_button);
 
-        /*
         logo.startAnimation(fromtop);
+
+        /*
         emailLayout.startAnimation(fromtop);
         pswLayout.startAnimation(fromtop);
         loginButton.startAnimation(frombottom);

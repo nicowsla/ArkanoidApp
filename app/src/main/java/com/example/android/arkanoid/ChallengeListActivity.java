@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,6 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+
+import java.util.Locale;
 
 public class ChallengeListActivity extends NavigationMenuActivity  {
     private RecyclerView recyclerView;
@@ -53,8 +56,22 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
 
         bottonMenu = findViewById(R.id.bottom_navigation_challenge);
         bottonMenu.setOnNavigationItemSelectedListener(navListener);
+
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
+        String language=preferences.getString("My_Lang","");
+
+        //IMPOSTA LA LINGUA
+        Locale locale=new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config=new Configuration();
+        config.locale=locale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor=getSharedPreferences("Settings",MODE_PRIVATE).edit();
+        editor.putString("My_Lang",language);
+        editor.apply();
 
         Bundle i = getIntent().getExtras();
         requestSend = i.getBoolean("S");

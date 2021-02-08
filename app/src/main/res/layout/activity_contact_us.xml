@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ContactUsActivity"
     android:orientation="vertical"
-    android:background="@drawable/background_menu">
+    android:background="@drawable/backgroud">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etTo"
@@ -35,7 +35,6 @@
             android:textColorHint="@color/button"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etSubject"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -60,7 +59,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/button"
             android:textColorHint="@color/button"
-            android:maxLength="31"/>
+            android:maxLength="35"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -86,7 +85,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/button"
             android:textColorHint="@color/button"
-            android:maxLength="496"
+            android:maxLength="665"
         />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,6 +104,8 @@
         android:shadowRadius="10"
         android:textColor="#000000"
         android:textStyle="bold"
-        app:cornerRadius="15dp"/>
+        app:cornerRadius="15dp"
+        android:clickable="true"
+        android:onClick="sendEmail"/>
 
 </LinearLayout>

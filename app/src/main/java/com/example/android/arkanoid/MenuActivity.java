@@ -39,31 +39,32 @@ public class MenuActivity extends NavigationMenuActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-
     public void goToGame(View View){
         Intent i = new Intent(this, MainActivity.class);
         switch (View.getId()) {
             case (R.id.menu_go_to_tema):
-                i.putExtra("MODE", 1);
-                i.putExtra("Multiplayer", false);
-                startActivity(i);
+                startActivity(new Intent(this, ThemeLevelsActivity.class));
                 break;
             case (R.id.menu_go_to_classificata):
+                i.putExtra("Level", 1);
                 i.putExtra("MODE", 2);
                 i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_arcade):
+                i.putExtra("Level", 1); //da mettere il livello che ho raggiunto
                 i.putExtra("MODE", 3);
                 i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_infinita):
+                i.putExtra("Level", 1);
                 i.putExtra("MODE", 4);
                 i.putExtra("Multiplayer", false);
                 startActivity(i);
                 break;
             case (R.id.menu_go_to_landscape):
+                i.putExtra("Level", 1);
                 i.putExtra("MODE", 6);
                 startActivity(i);
                 break;

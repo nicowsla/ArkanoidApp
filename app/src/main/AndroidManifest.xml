@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/redball"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/redball"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
         <activity android:name=".ChallengeListActivity"></activity>
@@ -19,6 +19,7 @@
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".MessagesActivity" />
         <activity android:name=".UsersListActivity" />
+        <activity android:name=".ThemeLevelsActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">

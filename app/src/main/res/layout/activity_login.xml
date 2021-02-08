@@ -7,15 +7,18 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".LoginActivity"
-    android:background="@drawable/background_menu">
+    android:background="@drawable/backgroud">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="30dp"
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="-50dp"
-        tools:srcCompat="@drawable/redball" /> //cambiare immagine random con logo e inserire animazione
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/logo_giallo"
+        app:civ_border_width="1dp"
+        app:civ_border_color="#FF000000"
+        android:minHeight="200dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_emailc"

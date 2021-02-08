@@ -117,7 +117,7 @@
     <string name="show_levels">Custom levels</string>
     <string name="users">Users</string>
     <string name="theme_match">Themed match</string>
-    <string name="classified_challenge">Ranked match</string>
+    <string name="classified_challenge">Timed match</string>
     <string name="infinity_mode">Infinity Mode</string>
     <string name="arcade_mode">Arcade Mode</string>
     <string name="level_send">You sent this level!</string>
@@ -175,5 +175,11 @@
     <string name="touch_the_color">Choose the color!</string>
     <string name="draw_bricks">Draw the bricks in the area below!</string>
     <string name="select_the_color">Select the color tapping on a brick!</string>
+    <string name="timeMode_info_dialog">
+        Pay attention to pause in this mode!! \n
+        \n...time goes on...
+    </string>
+    <string name="messaggio_landscape">Great, you completed all the levels in landscape mode!</string>
+    <string name="choose_app_email">Choose an app</string>
 
 </resources>

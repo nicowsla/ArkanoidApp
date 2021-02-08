@@ -18,7 +18,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Message;
-
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -28,10 +28,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
-
+import android.view.Gravity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -54,16 +54,15 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     Boolean enableAccelerometer;
     private SoundPlayer soundPlayer;
-
+    private int level = 1;
     private long bestScore = 0;
     private long bestTime = 0;
     private String username;
-
     private String friend;
     private String friendUsername;
     private String idRequest;
     private Long friendScore;
-
+    private int paddle_width = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         Boolean multiplayer = i.getBoolean("Multiplayer");
         Boolean sfidante = i.getBoolean("Sfidante");
         Boolean sfidato = i.getBoolean("Sfidato");
-
+        int level = i.getInt("Level");
 
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -130,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // create a new game
-        game = new Game(this, 3, 0, 1, screenWidth, screenHeight, partita, multiplayer, sfidante, sfidato);
+        game = new Game(this, 3, 0, level, screenWidth, screenHeight, partita, multiplayer, sfidante, sfidato);
         setContentView(game);
 
         // create an handler and thread
@@ -168,8 +167,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.mymenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-    // handle button activities
 
     //MANCA VOCE GAMEPAD
     @Override
@@ -252,8 +249,11 @@ public class MainActivity extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-
-                                        startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
+                                        if(game.themeMode){
+                                            startActivity(new Intent(MainActivity.this, ThemeLevelsActivity.class));
+                                        }else {
+                                            startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                        }
                                     }
                                 } );
                         alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
@@ -282,7 +282,12 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
+                        if(game.themeMode)
+                        {
+                            startActivity(new Intent(MainActivity.this, ThemeLevelsActivity.class));
+                        }else {
+                            startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                        }
                     }
                 } );
         alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
@@ -304,10 +309,11 @@ public class MainActivity extends AppCompatActivity {
         private Bitmap stretchedOutGamepad;
         private Bitmap paddle_p;
         private Bitmap new_paddle;
-
+        private Bitmap backgroundGamepadLandscape;
         private Display display;
         private Point size;
         private Paint paint;
+        private Paint paintGameOver;
 
         private Ball ball;
         private ArrayList<Brick> list;
@@ -352,11 +358,13 @@ public class MainActivity extends AppCompatActivity {
         private long centesimi;
         private long millesimi;
 
-
+        private int paddle_width = 200;
+        private int paddle_height = 40;
 
         public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita, Boolean multiplayer, Boolean sfidante, Boolean sfidato) {
             super(context);
             paint = new Paint();
+            paintGameOver = new Paint();
 
             // continue context, lifes, score a level
             this.context = context;
@@ -369,7 +377,6 @@ public class MainActivity extends AppCompatActivity {
             this.multiplayer = multiplayer;
             this.sfidante = sfidante;
             this.sfidato = sfidato;
-
 
             // start a gameOver to see if the game continues or the player has lost all the lives
             start = false;
@@ -386,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
             // create a bitmap for the ball and paddle
             redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
             paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
-            new_paddle = Bitmap.createScaledBitmap(paddle_p,(200*screenWidth)/1080,(40*screenHeight)/1920,true);
+            new_paddle = Bitmap.createScaledBitmap(paddle_p,(paddle_width*screenWidth)/1080,(paddle_height*screenHeight)/1920,true);
 
             // creates a new ball, paddle, and list of bricks
             ball = new Ball(size.x / 2, size.y - (470*screenHeight)/1920, level);
@@ -429,8 +436,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-                //PARTITE A TEMA
-            }else if(button == 1){
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(R.string.attention);
+                builder.setMessage(getString(R.string.timeMode_info_dialog));
+                AlertDialog dialog = builder.show();
+                TextView messageText = (TextView)dialog.findViewById(android.R.id.message);
+                messageText.setGravity(Gravity.CENTER);
+                dialog.show();
+            }else if(button == 1){              //PARTITE A TEMA
                 //Parto da 3 perchè mi abbasso
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
@@ -537,7 +550,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }else if(button == 5){
-                System.out.println("MAMTTTTTTTTTTTT");
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
                 String matrixString = pref.getString("matrixString", null);
                 System.out.println(matrixString);
@@ -551,10 +563,24 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }else if(button == 6){
-                for (int i = 1; i < 9; i++) {
-                    for (int j = 2; j < 9; j++) {
-                        if (Levels.LivelloMOSTROLANDSCAPE[i][j] != 0) {
-                            list.add(new Brick(context, (size.x / 11) * j, (i * 70 * screenHeight) / screenHeight, Levels.LivelloMOSTROLANDSCAPE[i][j]));
+                for (int i = 2; i < 8; i++) { //6*15
+                    for (int j = 3; j < 18; j++) {
+                        switch (level){
+                            case 1:
+                                if (Levels.Livello1LANDSCAPE[i][j] != 0) {
+                                    list.add(new Brick(context, (screenHeight/11) * j, (i * 70), Levels.Livello1LANDSCAPE[i][j]));
+                                }
+                                break;
+                            case 2:
+                                if (Levels.Livello2LANDSCAPE[i][j] != 0) {
+                                    list.add(new Brick(context, (screenHeight/11) * j, (i * 70), Levels.Livello2LANDSCAPE[i][j]));
+                                }
+                                break;
+                            case 3:
+                                if (Levels.Livello3LANDSCAPE[i][j] != 0) {
+                                    list.add(new Brick(context, (screenHeight/11) * j, (i * 70), Levels.Livello3LANDSCAPE[i][j]));
+                                }
+                                break;
                         }
                     }
                 }
@@ -576,6 +602,7 @@ public class MainActivity extends AppCompatActivity {
         private void readBackground(Context context) {
 
             backgroundGamepad = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score_gamepad));
+            backgroundGamepadLandscape = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score_gamepad_landscape));
             background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score));
 
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -599,7 +626,7 @@ public class MainActivity extends AppCompatActivity {
                     stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
                 }
                 if (stretchedOutGamepad == null ) {
-                    stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepad, size.x, size.y, true);
+                    stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepadLandscape, size.x, size.y, true);
                 }
 
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -618,6 +645,7 @@ public class MainActivity extends AppCompatActivity {
                 paint.setColor(Color.RED);
                 canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
 
+
                 // draw fell, disegna rettangolo cioè barra
                 paint.setColor(Color.WHITE);
                 //La riga sotto era +200 + 40
@@ -629,7 +657,7 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < list.size(); i++) {
                     Brick b = list.get(i);
                     //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
-                    r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1080, b.getY() + (70*screenHeight)/1920) ;
+                    r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1920, b.getY() + (100*screenHeight)/2880) ;
                     canvas.drawBitmap(b.getBrick(), null, r, paint);
                 }
 
@@ -651,24 +679,22 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
                 Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
                 Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
-                canvas.drawBitmap(new_icon_level, (size.x/6) - (maxSize+5) - 45, 50 - 48, paint);
-                canvas.drawText("" + level,(size.x/6) - 50,100 - 50, paint );
-                canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - (maxSize+5) - 10, 50 - 45, paint);
-                canvas.drawText("" + lifes, (size.x/6)*3, 100 - 50, paint);
-                canvas.drawBitmap(new_icon_score, (size.x/6)*5 - (maxSize+5) - 45, 50 - 45, paint);
-                canvas.drawText("" + score, (size.x/6)*5 - 50, 100 - 50, paint);
+                canvas.drawBitmap(new_icon_level, size.x/6, 50 - 48, paint);
+                canvas.drawText("" + level,(size.x/6) + 60,100 - 50, paint );
+                canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - 50, 50 - 45, paint);
+                canvas.drawText("" + lifes, (size.x/6)*3 + 20, 100 - 50, paint);
+                canvas.drawBitmap(new_icon_score, (size.x/6)*5 - 100, 50 - 45, paint);
+                canvas.drawText("" + score, (size.x/6)*5 - 40, 100 - 50, paint);
 
                 //in case of loss draw "Game over!"
                 if (gameOver) {
-                    paint.setColor(Color.RED);
-                    paint.setTextSize(100);
-                    canvas.drawText("Game over!", size.x / 6, size.y / 6, paint);
+                    Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
+                    canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
                     level = 1;
                     //infinityMode = false;
                     startTime = 0;
                     attivato = false;
                 }
-
             }else {
                     //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     if (stretchedOut == null) {
@@ -693,7 +719,7 @@ public class MainActivity extends AppCompatActivity {
                     paint.setColor(Color.WHITE);
                     //La riga sotto era +200 + 40
                     //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
-                    canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200 * screenWidth) / 1080, paddle.getY() + (40 * screenHeight) / 1920, paint);
+                    canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (paddle_width * screenWidth) / 1080, paddle.getY() + (paddle_height * screenHeight) / 1920, paint);
 
                     // draw bricks
                     paint.setColor(Color.GREEN);
@@ -734,33 +760,39 @@ public class MainActivity extends AppCompatActivity {
                         decimi = (difference - (minuti * 60000) - (secondi * 1000)) / 100;
                         centesimi = (difference - (minuti * 60000) - (secondi * 1000) - (decimi * 100)) / 10;
                         millesimi = (difference - (minuti * 60000) - (secondi * 1000) - (decimi * 100) - (centesimi * 10));
+                        canvas.drawBitmap(new_icon_time, (size.x / 6) * 4 - 40 - (maxSize + 5), 50, paint);
+                        canvas.drawBitmap(new_icon_lives, (size.x / 6) * 2 - (maxSize + 5), 50, paint);
+                        canvas.drawText("" + lifes, (size.x / 6) * 2, 100, paint);
+                        if(!start && !gameOver){
+                            canvas.drawText(0 + "'" + 0 + "''" + 0 + 0 + 0, (size.x / 6) * 4 - 40, 100, paint);
+                        }else {
+                            canvas.drawText(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi, (size.x / 6) * 4 - 40, 100, paint);
+                        }
+                        /*
                         canvas.drawBitmap(new_icon_time, (size.x / 6) * 5 - 40 - (maxSize + 5), 50, paint);
                         canvas.drawText(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi, (size.x / 6) * 5 - 40, 100, paint);
+                         */
                     } else {
+                        canvas.drawBitmap(new_icon_lives, (size.x / 6) * 3 - (maxSize + 5), 50, paint);
+                        canvas.drawText("" + lifes, (size.x / 6) * 3, 100, paint);
+                        canvas.drawBitmap(new_icon_level, (size.x / 6) - (maxSize + 5), 50, paint);
+                        canvas.drawText("" + level, (size.x / 6), 100, paint);
                         canvas.drawBitmap(new_icon_score, (size.x / 6) * 5 - (maxSize + 5), 50, paint);
                         canvas.drawText("" + score, (size.x / 6) * 5, 100, paint);
                     }
 
-
-                    //PROVE ##############################################################
-                    /* canvas.drawText("xpaddle:"+ paddle.getX(),50,250, paint );
-                    canvas.drawText("paddle width:" + new_paddle.getWidth(),50,300,paint);
-                    canvas.drawText("paddle height:" + new_paddle.getHeight(),50,350,paint);
-                    canvas.drawText("left:" + r.left,50,400,paint);
-                    canvas.drawText("top:" + r.top,50,450,paint);
-                    canvas.drawText("right:" + r.right,50,500,paint);
-                    canvas.drawText("bottom:" + r.bottom,50,550,paint);*/
-
                     //in case of loss draw "Game over!"
                     if (gameOver) {
+                        paddle_width = 200;
+                        soundPlayer.playGameOverSound();
+
                         if (infinityMode && score > bestScore) {
                             database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score);
                             database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime));
                         }
                         if(!multiplayer){
-                            paint.setColor(Color.RED);
-                            paint.setTextSize(100);
-                            canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
+                            Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
+                            canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
                             if(!boss){
                                 level = 1;
                             }
@@ -769,7 +801,6 @@ public class MainActivity extends AppCompatActivity {
                             startTime = 0;
                             attivato = false;
                         }
-            
                     }
                 }
             }
@@ -856,6 +887,7 @@ public class MainActivity extends AppCompatActivity {
                     gameOver = true;
                     start = false;
                     level = 1;
+                    soundPlayer.playGameOverSound();
                     invalidate();
                 } else {
                     lifes--;
@@ -901,8 +933,8 @@ public class MainActivity extends AppCompatActivity {
                         paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
     
                         //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
-                        if (paddle.getX() + event.values[0] > size.x - (200*screenWidth)/1080) {
-                            paddle.setX(size.x - (200*screenWidth)/1080);
+                        if (paddle.getX() + event.values[0] > size.x - (paddle_width*screenWidth)/1080) {
+                            paddle.setX(size.x - (paddle_width*screenWidth)/1080);
                         } else if (paddle.getX() - event.values[0] <= (0*screenWidth)/1080) {
                             paddle.setX((0*screenWidth)/1080);
                         }
@@ -929,28 +961,28 @@ public class MainActivity extends AppCompatActivity {
                     switch (event.getAction()) {
                         
                         case MotionEvent.ACTION_UP:
-                            paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
-                            if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
-                                paddle.setX(size.x - (200*screenWidth)/1080);
-                            } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
+                            paddle.setX(event.getRawX() - ((paddle_width/2)*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                            if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) > size.x - (paddle_width*screenWidth)/1080) {
+                                paddle.setX(size.x - (paddle_width*screenWidth)/1080);
+                            } else if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) <= (0*screenWidth)/1080) {
                                 paddle.setX((0*screenWidth)/1080);
                             }
                             invalidate();
                             return true;
                         case MotionEvent.ACTION_MOVE:
-                            paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
-                            if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
-                                paddle.setX(size.x - (200*screenWidth)/1080);
-                            } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
+                            paddle.setX(event.getRawX() - ((paddle_width/2)*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                            if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) > size.x - (paddle_width*screenWidth)/1080) {
+                                paddle.setX(size.x - (paddle_width*screenWidth)/1080);
+                            } else if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) <= (0*screenWidth)/1080) {
                                 paddle.setX((0*screenWidth)/1080);
                             }
                             invalidate();
                             return true;
                         case MotionEvent.ACTION_DOWN:
-                            paddle.setX(event.getRawX() - (100*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
-                            if ((event.getRawX()  - (100*screenWidth)/1080) > size.x - (200*screenWidth)/1080) {
-                                paddle.setX(size.x - (200*screenWidth)/1080);
-                            } else if ((event.getRawX()  - (100*screenWidth)/1080) <= (0*screenWidth)/1080) {
+                            paddle.setX(event.getRawX() - ((paddle_width/2)*screenWidth)/1080); //quando tocco lo schermo il dito sarà al centro del paddle
+                            if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) > size.x - (paddle_width*screenWidth)/1080) {
+                                paddle.setX(size.x - (paddle_width*screenWidth)/1080);
+                            } else if ((event.getRawX()  - ((paddle_width/2)*screenWidth)/1080) <= (0*screenWidth)/1080) {
                                 paddle.setX((0*screenWidth)/1080);
                             }
                             return true;
@@ -964,12 +996,12 @@ public class MainActivity extends AppCompatActivity {
                         //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
                         if(x < (screenWidth/2) && x_paddle > 0){ //90
                             paddle.setX(paddle.getX() - ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
-                            if(x > size.x - (200*screenWidth)/1080){
+                            if(x > size.x - (paddle_width*screenWidth)/1080){
                                 x_paddle += (50*screenWidth)/1080;
                             }
-                        }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((200*screenWidth)/1080))){ //280
+                        }else if(x > (screenWidth/2) && x_paddle < (screenWidth - ((paddle_width*screenWidth)/1080))){ //280
                             paddle.setX(paddle.getX() + ((40*screenWidth)/1080)); //100, è il valore di quanto si sposta la barra
-                            if(x > size.x - (200*screenWidth)/1080){
+                            if(x > size.x - (paddle_width*screenWidth)/1080){
                                 x_paddle -= (50*screenWidth)/1080;
                             }
                         }
@@ -1011,13 +1043,6 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                     }
                                 } );
-                        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                    }
-                                } );
                         alertDialog.show();
                         start = false;
                     }else if(timeMode){
@@ -1047,7 +1072,7 @@ public class MainActivity extends AppCompatActivity {
                                 } );
                         alertDialog.show();
                         start = false;
-                    }else if(themeMode){
+                    }else if(themeMode && level==10){
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                         alertDialog.setTitle( R.string.vittoria_tempo );
                         alertDialog.setMessage( getString(R.string.messaggio_partita_tema) );
@@ -1059,7 +1084,14 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                     }
                                 } );
-                        alertDialog.setButton( AlertDialog.BUTTON_NEGATIVE, getString(R.string.commands_not_confirm),
+                        alertDialog.show();
+                        start = false;
+                    }else if(landscape && level==3) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                        alertDialog.setTitle(R.string.vittoria_tempo);
+                        alertDialog.setMessage(getString(R.string.messaggio_landscape));
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
@@ -1068,21 +1100,19 @@ public class MainActivity extends AppCompatActivity {
                                 } );
                         alertDialog.show();
                         start = false;
-                    }
-                    else{
+                    }else{
                         level++;
-                        if(level%5==0){
-                            lifes++;
+                        if(level%5 == 0 && arcadeMode){         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
+                            lifes++;                            //AGGIUNGE UNA VITA
+                            paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
                         }
                         soundPlayer.playOverSound();
                         resetLevel(level,buttonValue);
                         // ball.increaseSpeed(level);
                         start = false;
                     }
-    
                 }
             }
         }
-    
-    }
+}
       

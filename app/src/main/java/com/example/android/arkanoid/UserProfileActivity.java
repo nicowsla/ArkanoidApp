@@ -222,6 +222,7 @@ public class UserProfileActivity extends NavigationMenuActivity {
                 case R.id.challenge:
                     Intent i = new Intent(UserProfileActivity.this, MainActivity.class);
                     i.putExtra("MODE", 4);
+                    i.putExtra("Level", 1);
                     i.putExtra("Multiplayer", true);
                     i.putExtra("Sfidante", true);
                     i.putExtra("Sfidato", false);

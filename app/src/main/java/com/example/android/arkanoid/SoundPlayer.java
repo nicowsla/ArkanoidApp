@@ -10,7 +10,7 @@ public class SoundPlayer
 {
     private AudioAttributes audioAttributes;
     private static SoundPool soundPool;
-    private static int hitSound,overSound;
+    private static int hitSound, overSound, gameOverSound;
 
     public SoundPlayer(Context context)
     {
@@ -24,7 +24,8 @@ public class SoundPlayer
         }
 
         hitSound = soundPool.load(context, R.raw.beep1, 1);
-        overSound = soundPool.load(context, R.raw.explode, 1);
+        overSound = soundPool.load(context, R.raw.levelup, 1);
+        gameOverSound = soundPool.load(context, R.raw.gameover, 1);
     }
 
     public void playHitSound()
@@ -35,5 +36,10 @@ public class SoundPlayer
     public void playOverSound()
     {
         soundPool.play(overSound, 1.0f,1.0f,1,0,1.0f);
+    }
+
+    public void playGameOverSound()
+    {
+        soundPool.play(gameOverSound, 1.0f,1.0f,1,0,1.0f);
     }
 }

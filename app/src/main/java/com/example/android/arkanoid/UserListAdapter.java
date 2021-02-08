@@ -3,6 +3,7 @@ package com.example.android.arkanoid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,10 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.Locale;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListViewHolder> {
     private String filter;
@@ -33,6 +38,16 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
         this.rankingTime = rankingTime;
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
+        //FORZO IMPOSTAZIONE LINGUA
+        SharedPreferences preferences=context.getSharedPreferences("Settings", MODE_PRIVATE);
+        String language=preferences.getString("My_Lang","");
+
+        //IMPOSTA LA LINGUA
+        Locale locale=new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config=new Configuration();
+        config.locale=locale;
+        context.getResources().updateConfiguration(config,context.getResources().getDisplayMetrics());
     }
 
     void setFilter(String filter) {
@@ -54,7 +69,10 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
             long minuti = msec / (1000 * 60);
             long secondi = (msec - (minuti*60000)) / 1000;
             long decimi = (msec - (minuti*60000) - (secondi*1000)) / 100;
-            holder.setScore(minuti + "'" + secondi + "''" + decimi +"'''");
+            long centesimi = (msec - (minuti * 60000) - (secondi * 1000) - (decimi * 100)) / 10;
+            long millesimi = (msec - (minuti * 60000) - (secondi * 1000) - (decimi * 100) - (centesimi * 10));
+
+            holder.setScore(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
         }
             holder.setTxtTitle(lista.getUsername());
             StorageReference riversRef = mStorageRef.child(lista.getId()).child("images/profilo.jpg");
@@ -68,7 +86,7 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
                 holder.show();
 
                 holder.root.setOnClickListener(view -> {
-                    SharedPreferences.Editor editor = context.getSharedPreferences( "arkanoid", Context.MODE_PRIVATE ).edit();
+                    SharedPreferences.Editor editor = context.getSharedPreferences( "arkanoid", MODE_PRIVATE ).edit();
                     editor.putString( "friend", lista.getId());
                     editor.putString( "friendName", lista.getUsername());
                     editor.apply();

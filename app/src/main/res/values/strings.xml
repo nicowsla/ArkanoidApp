@@ -173,5 +173,11 @@
     <string name="draw_bricks">Disegna i mattoncini nell\'area sottostante!</string>
     <string name="select_the_color">Seleziona il colore toccando un mattone colorato!</string>
     <string name="select_a_language">Seleziona lingua</string>
+    <string name="timeMode_info_dialog">
+        Fai molta attenzione quando metti pausa in questa modalità!! \n
+        \n...il tempo va avanti...
+    </string>
+    <string name="messaggio_landscape">Bravo, hai completato tutti i livelli in modalità landscape!</string>
+    <string name="choose_app_email">Scegli app</string>
 
 </resources>

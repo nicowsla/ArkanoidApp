@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_menu"
+    android:background="@drawable/backgroud"
     android:foregroundTint="@color/button"
     android:orientation="vertical"
     tools:context=".SettingsActivity">
@@ -73,7 +73,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/settings_languagec"
-
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

@@ -30,6 +30,10 @@ public class ContactUsActivity extends AppCompatActivity {
     private Animation fromtop;
     private Boolean error = false;
 
+    private String emailString;
+    private String subjectString;
+    private String bodyString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -43,12 +47,12 @@ public class ContactUsActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         emailLayout = findViewById((R.id.etTo));
-        email=(EditText)findViewById(R.id.email);
-        subjectLayout=findViewById(R.id.etSubject);
-        subject=(EditText) findViewById(R.id.Subject);
-        BodyLayout=findViewById(R.id.etBody);
-        body=(EditText)findViewById(R.id.Body);
-        buttonSend=findViewById(R.id.btnSend);
+        email = findViewById(R.id.email);
+        subjectLayout = findViewById(R.id.etSubject);
+        subject = findViewById(R.id.Subject);
+        BodyLayout = findViewById(R.id.etBody);
+        body = findViewById(R.id.Body);
+        buttonSend = findViewById(R.id.btnSend);
 
         emailLayout.startAnimation(fromtop);
         subjectLayout.startAnimation(fromtop);
@@ -110,32 +114,34 @@ public class ContactUsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         buttonSend.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 if(!email.getText().toString().isEmpty() && !subject.getText().toString().isEmpty()
-                        && !body.getText().toString().isEmpty())
-                {
-                    Intent intent=new Intent(Intent.ACTION_SEND);
-                    intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email.getText().toString()});
-                    intent.putExtra(Intent.EXTRA_SUBJECT, subject.getText().toString());
-                    intent.putExtra(Intent.EXTRA_TEXT, body.getText().toString());
-                    intent.setData(Uri.parse("mailto:"));
+                        && !body.getText().toString().isEmpty()) {
 
-                    if(intent.resolveActivity(getPackageManager())!=null)
+                    emailString = email.getText().toString();
+                    subjectString = subject.getText().toString();
+                    bodyString = body.getText().toString();
+
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {email.getText().toString()});
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectString);
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, bodyString);
+                    emailIntent.setData(Uri.parse("mailto:"));
+
+                    if(emailIntent.resolveActivity(getPackageManager())!=null)
                     {
-                        startActivity(intent);
+                        startActivity(Intent.createChooser(emailIntent, getString(R.string.choose_app_email)));
                     }else
                     {
                         Toast.makeText(ContactUsActivity.this, getString(R.string.error_contact), Toast.LENGTH_SHORT).show();
                     }
-                }else
-                {
+                }else{
                     Toast.makeText(ContactUsActivity.this,getString(R.string.error_fields), Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -146,7 +152,6 @@ public class ContactUsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
