@@ -292,6 +292,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void goToResetPassword(View view){
+        SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+        editor.putBoolean( "guest", true );
+        editor.apply();
         startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
     }
 

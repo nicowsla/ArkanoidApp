@@ -35,7 +35,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private Animation frombottom, fromtop;
     private Button b;
     private Boolean error = false;
-    String uid;
+    private String uid;
+    private Boolean guest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         uid = pref.getString("uid", null);
+        guest = pref.getBoolean("guest", false);
 
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
@@ -110,8 +112,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
+                                                email.setText("");
                                                 dialog.dismiss();
-                                                startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
                                             }
                                         });
                                 alertDialog.show();
@@ -124,7 +126,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
-                                                startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
+                                                if(guest){
+                                                    startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
+                                                }else{
+                                                    startActivity(new Intent(ResetPasswordActivity.this, UserProfileActivity.class));
+                                                }
                                             }
                                         });
                                 alertDialog.show();
@@ -144,10 +150,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(!Objects.isNull(uid)){
-            startActivity(new Intent(ResetPasswordActivity.this, UserProfileActivity.class));
-        }else{
+        if(guest){
             startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
+        }else{
+            startActivity(new Intent(ResetPasswordActivity.this, UserProfileActivity.class));
         }
     }
 }
