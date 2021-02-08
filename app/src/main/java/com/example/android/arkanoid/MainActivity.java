@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         guestMode = pref.getBoolean("guest", false);
         String s = pref.getString("friendScore", null);
         if(s!=null){
-            friendScore = Long.parseLong(s);
+            friendScore = Long.parseLong(s)*(-1);
         }
 
         //sets the screen orientation
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
-                    bestScore = dataSnapshot.child("bestScore").getValue(Long.class);
+                    bestScore = dataSnapshot.child("bestScore").getValue(Long.class)*(-1);
                     bestTime =  dataSnapshot.child("bestTime").getValue(Long.class);
                     username = dataSnapshot.child("username").getValue(String.class);
                 }
@@ -805,8 +805,8 @@ public class MainActivity extends AppCompatActivity {
                     if (gameOver) {
                         paddle_width = 200;
                         if (infinityMode && score > bestScore) {
-                            database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score);
-                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score, bestTime, levArcade, levTheme));
+                            database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score*(-1));
+                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score*(-1), bestTime, levArcade, levTheme));
                         }
                         if(!multiplayer){
                             paint.setColor(Color.RED);
@@ -844,10 +844,10 @@ public class MainActivity extends AppCompatActivity {
                         onPause();
                        DatabaseReference myRef = database.getReference("utenti").child(user.getUid()).child("RichiesteSfidaEffettuate").push();
                         String key = myRef.getKey();
-                        myRef.setValue(new Challenge(key, friend, friendUsername, (long) 0, score, false, false));
+                        myRef.setValue(new Challenge(key, friend, friendUsername, (long) 0, score*(-1), false, false));
     
                         DatabaseReference myRef1 = database.getReference("utenti").child(friend).child("RichiesteSfidaRicevute").child(key);
-                        myRef1.setValue(new Challenge(key, user.getUid(), username, score, (long) 0, false, false));
+                        myRef1.setValue(new Challenge(key, user.getUid(), username, score*(-1), (long) 0, false, false));
     
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                         alertDialog.setTitle( R.string.wait_for_friend );
@@ -872,9 +872,9 @@ public class MainActivity extends AppCompatActivity {
     
                         DatabaseReference myRef2 = database.getReference("utenti").child(user.getUid()).child("Storico").push();
                         String key = myRef2.getKey();
-                        myRef2.setValue(new Challenge(key, friend, friendUsername, friendScore, score, true, false));
+                        myRef2.setValue(new Challenge(key, friend, friendUsername, friendScore, score*(-1), true, false));
     
-                        myRef1.child("Storico").child(key).setValue(new Challenge(key, user.getUid(), username, score, friendScore, true, false));
+                        myRef1.child("Storico").child(key).setValue(new Challenge(key, user.getUid(), username, score*(-1), friendScore, true, false));
     
                         if(score>friendScore){
                             AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
@@ -1089,7 +1089,7 @@ public class MainActivity extends AppCompatActivity {
     
                         if(difference<bestTime){
                             database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
-                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestScore, difference, levArcade, levTheme));
+                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestScore*(-1), difference, levArcade, levTheme));
                         }
     
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();

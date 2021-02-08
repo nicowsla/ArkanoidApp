@@ -46,7 +46,7 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
             holder.hide();
         }else  {
             if(rankingScore){
-            Long s = lista.getBestScore();
+            Long s = lista.getBestScore()*(-1);
             String s1 = s.toString();
             holder.setScore(s1);
         }else if(rankingTime){

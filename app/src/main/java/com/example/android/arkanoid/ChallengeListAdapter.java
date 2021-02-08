@@ -44,7 +44,7 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
 
         holder.setName2(myUsername);
 
-        Long score = lista.getScore();
+        Long score = lista.getScore()*(-1);
         if(score>0){
             String s1 = score.toString();
             holder.setScore1(s1);
@@ -52,7 +52,7 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
             holder.setScore1(context.getString(R.string.waiting));
         }
 
-        if(lista.getYourScore()>0){
+        if(lista.getYourScore()*(-1)>0){
             String s1 = (lista.getYourScore()).toString();
             holder.setScore2(s1);
         }else{
