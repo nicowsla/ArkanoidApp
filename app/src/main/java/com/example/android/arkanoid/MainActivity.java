@@ -816,7 +816,7 @@ public class MainActivity extends AppCompatActivity {
                             paint.setColor(Color.RED);
                             paint.setTextSize(100);
                             canvas.drawText("Game over!", size.x / 2, size.y / 2, paint);
-                            if(!boss){
+                            if(!arcadeMode){
                                 level = 1;
                             }
                             //infinityMode = false;
@@ -907,19 +907,20 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     if(arcadeMode && level==17 && !guestMode){
-                        gameOver = true;
-                        start = false;
-                        level = 1;
                         database.getReference("utenti").child(user.getUid()).child("livArcade").setValue(level);
                         SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                         editor.putInt( "livArcade", level );
                         editor.apply();
-                    }else {
-                        gameOver = true;
-                        start = false;
-                        level = 1;
-                        invalidate();
                     }
+
+                    gameOver = true;
+                    start = false;
+                    if(!arcadeMode){
+                        level = 1;
+                    }
+
+                    invalidate();
+
 
                 } else {
                     lifes--;
