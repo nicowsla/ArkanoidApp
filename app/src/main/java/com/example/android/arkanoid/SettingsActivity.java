@@ -97,7 +97,7 @@ public class SettingsActivity extends NavigationMenuActivity {
                                 editor.putBoolean("accelerometro", enableAccelerometer);
                                 editor.apply();
                                 command.setText( s );
-                                Toast.makeText(SettingsActivity.this, s1, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SettingsActivity.this, s, Toast.LENGTH_SHORT).show();
 
                                 dialog.dismiss();
                             }
