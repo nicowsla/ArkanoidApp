@@ -61,7 +61,7 @@ public class ThemeLevelsActivity extends AppCompatActivity {
 
         if(level<=10){
             for(int a = level; a<10; a++){
-                img.get(a).setVisibility(View.GONE);
+                img.get(a).setImageDrawable(getDrawable(R.drawable.locker));
             }
         }
 
@@ -69,85 +69,16 @@ public class ThemeLevelsActivity extends AppCompatActivity {
         i.putExtra("MODE", 1);
         i.putExtra("Multiplayer", false);
 
-        img1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.putExtra("Level", 1);
-                startActivity(i);
-            }
-        });
-
-        img2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.putExtra("Level", 2);
-                startActivity(i);
-            }
-        });
-
-        img3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.putExtra("Level", 3);
-                startActivity(i);
-            }
-        });
-
-        img4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.putExtra("Level", 4);
-                startActivity(i);
-            }
-        });
-
-        img5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.putExtra("Level", 5);
-                startActivity(i);
-            }
-        });
-
-        img6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.putExtra("Level", 6);
-                startActivity(i);
-            }
-        });
-
-        img7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.putExtra("Level", 7);
-                startActivity(i);
-            }
-        });
-
-        img8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.putExtra("Level", 8);
-                startActivity(i);
-            }
-        });
-
-        img9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.putExtra("Level", 9);
-                startActivity(i);
-            }
-        });
-
-        img10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.putExtra("Level", 10);
-                startActivity(i);
-            }
-        });
+        for(int a=0; a<level; a++ ){
+            final int c = a+1;
+            img.get(a).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    i.putExtra("Level", c);
+                    startActivity(i);
+                }
+            });
+        }
     }
 
     @Override
