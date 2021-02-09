@@ -48,7 +48,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     public  static final int IDEAL_WIDTH=1080;
-    public  static final int IDEAL_HEIGHT=1234;
+    public  static final int IDEAL_HEIGHT=1920;
     private Game game;
     private UpdateThread myThread;
     private Handler updateHandler;
@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     private Boolean enableAccelerometer;
     private SoundPlayer soundPlayer;
-    private int level = 1;
     private long bestScore = 0;
     private long bestTime = 0;
     private String username;
@@ -72,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     private Boolean multiplayer;
     private Boolean sfidante = false;
     private Boolean sfidato = false;
-    private int paddle_width = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
