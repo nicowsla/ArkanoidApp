@@ -885,9 +885,9 @@ public class MainActivity extends AppCompatActivity {
     
                         DatabaseReference myRef2 = database.getReference("utenti").child(user.getUid()).child("Storico").push();
                         String key = myRef2.getKey();
-                        myRef2.setValue(new Challenge(key, friend, friendUsername, friendScore, score*(-1), true, false));
+                        myRef2.setValue(new Challenge(key, friend, friendUsername, friendScore*(-1), score*(-1), true, false));
     
-                        myRef1.child("Storico").child(key).setValue(new Challenge(key, user.getUid(), username, score*(-1), friendScore, true, false));
+                        myRef1.child("Storico").child(key).setValue(new Challenge(key, user.getUid(), username, score*(-1), friendScore*(-1), true, false));
     
                         if(score>friendScore){
                             AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
