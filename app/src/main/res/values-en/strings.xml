@@ -181,5 +181,8 @@
     </string>
     <string name="messaggio_landscape">Great, you completed all the levels in landscape mode!</string>
     <string name="choose_app_email">Choose an app</string>
+    <string name="error_image_not_found">Select an image!</string>
+    <string name="permission_denied">Permissions denied</string>
+    <string name="draw_challenge">Draw!</string>
 
 </resources>

@@ -97,8 +97,10 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
         }
 
         if(!sent && !received){
-            if(lista.getYourScore()>lista.getScore()){
+            if(lista.getYourScore()<lista.getScore()){
                 holder.setResult(context.getString(R.string.win_challenges_list));
+            }else if (lista.getYourScore()==lista.getScore()){
+                holder.setResult(context.getString(R.string.draw_challenge));
             }else{
                 holder.setResult(context.getString(R.string.lose_challenges_list));
             }
@@ -124,17 +126,6 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
                 context.startActivity(i);
             }
         });
-
-      /*  holder.root.setOnClickListener(view -> {
-            SharedPreferences.Editor editor = context.getSharedPreferences( "arkanoid", Context.MODE_PRIVATE ).edit();
-            editor.putString( "friend", lista.getId());
-            editor.putString( "friendName", lista.getUsername());
-            editor.apply();
-            Intent intent = new Intent( context, UserProfileActivity.class  );
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity( intent );
-
-        });*/
 
     }
 
