@@ -93,6 +93,9 @@ public class UserProfileActivity extends NavigationMenuActivity {
     private Boolean errore =false;
     private Animation frombottom, fromtop;
 
+    private Long bestScore;
+    private Long bestTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,6 +254,8 @@ public class UserProfileActivity extends NavigationMenuActivity {
                 // whenever data at this location is updated.
                 usernameString = (dataSnapshot.child("username").getValue(String.class));
                 emailString = dataSnapshot.child("email").getValue(String.class);
+                bestScore = dataSnapshot.child("bestScore").getValue(Long.class);
+                bestTime = dataSnapshot.child("bestTime").getValue(Long.class);
 
                 username.setText(usernameString);
                 email.setText(emailString);
@@ -281,8 +286,13 @@ public class UserProfileActivity extends NavigationMenuActivity {
         checkData();
         if(!errore) {
             DatabaseReference myRef1 = database.getReference( "utenti" ).child( currentUser );
-
             myRef1.child( "username" ).setValue( usernameString );
+
+            if(bestScore!=0 || bestTime!=1000000000){
+                DatabaseReference myRef2 = database.getReference( "punteggi" ).child( currentUser );
+                myRef2.child( "username" ).setValue( usernameString );
+            }
+            
             SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
             editor.putString("username", usernameString);
             editor.apply();
