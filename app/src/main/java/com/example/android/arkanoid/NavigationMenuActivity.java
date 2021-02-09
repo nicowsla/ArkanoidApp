@@ -102,7 +102,7 @@ public class NavigationMenuActivity extends AppCompatActivity {
                                         dialog.dismiss();
                                         SharedPreferences.Editor editor = getSharedPreferences( "arkanoid", MODE_PRIVATE ).edit();
                                         editor.clear();
-                                        editor.commit();
+                                        editor.apply();
                                         startActivity( new Intent( NavigationMenuActivity.this, LoginActivity.class ) );
                                     }
                                 } );
