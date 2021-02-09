@@ -116,6 +116,7 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
                 editor.apply();
                 Intent i = new Intent(context, MainActivity.class);
                 i.putExtra("MODE", 4);
+                i.putExtra("Level", 1);
                 i.putExtra("Multiplayer", true);
                 i.putExtra("Sfidato", true);
                 i.putExtra("Sfidante", false);

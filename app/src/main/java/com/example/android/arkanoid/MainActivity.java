@@ -817,7 +817,7 @@ public class MainActivity extends AppCompatActivity {
                             database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score*(-1));
                             database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score*(-1), bestTime, levArcade, levTheme));
                         }
-                     
+
                             Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
                             canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
                             if(!arcadeMode && !themeMode){
