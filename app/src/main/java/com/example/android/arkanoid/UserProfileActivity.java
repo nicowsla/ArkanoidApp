@@ -292,7 +292,7 @@ public class UserProfileActivity extends NavigationMenuActivity {
                 DatabaseReference myRef2 = database.getReference( "punteggi" ).child( currentUser );
                 myRef2.child( "username" ).setValue( usernameString );
             }
-            
+
             SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
             editor.putString("username", usernameString);
             editor.apply();
