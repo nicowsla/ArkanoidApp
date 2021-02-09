@@ -182,4 +182,5 @@
     <string name="error_image_not_found">Inserisci un\'immagine!</string>
     <string name="permission_denied">Permessi negati</string>
     <string name="draw_challenge">Pareggio!</string>
+    <string name="score_show_dialog">\n\nPunteggio: </string>
 </resources>

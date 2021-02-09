@@ -184,5 +184,6 @@
     <string name="error_image_not_found">Select an image!</string>
     <string name="permission_denied">Permissions denied</string>
     <string name="draw_challenge">Draw!</string>
+    <string name="score_show_dialog">\n\nScore: </string>
 
 </resources>

@@ -892,7 +892,7 @@ public class MainActivity extends AppCompatActivity {
                         if(score>friendScore){
                             AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                             alertDialog.setTitle( R.string.winner );
-                            alertDialog.setMessage( getString(R.string.win) + ":\n"+score+"-"+friendScore);
+                            alertDialog.setMessage( getString(R.string.win) + getString(R.string.score_show_dialog) + score + "-" + friendScore);
                             alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -904,7 +904,7 @@ public class MainActivity extends AppCompatActivity {
                         }else{
                             AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                             alertDialog.setTitle( R.string.loser );
-                            alertDialog.setMessage( getString(R.string.lost) + ":\n"+score+"-"+friendScore );
+                            alertDialog.setMessage( getString(R.string.lost) + getString(R.string.score_show_dialog) + score + "-" + friendScore );
                             alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -1047,7 +1047,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
-    
                 }
                 else {
                     start = true;
