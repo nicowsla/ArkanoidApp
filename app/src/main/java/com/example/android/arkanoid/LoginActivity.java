@@ -1,12 +1,14 @@
 package com.example.android.arkanoid;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,6 +53,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Objects;
+
+import static com.example.android.arkanoid.SignInActivity.hasPermissions;
 
 public class LoginActivity extends AppCompatActivity {
     private static final long ONE_MEGABYTE= 1024 * 1024;
@@ -78,6 +83,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        int PERMISSION = 1;
+        String[] PERMISSIONS = {
+                Manifest.permission.INTERNET,
+        };
 
         //salvo lo userID per non perdere l'accesso
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
@@ -159,18 +169,11 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         Button contact = (Button) findViewById(R.id.mybuttoncontacts);
-    }
-    /*
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            showSystemUI();
-        }else{
-            hideSystemUI();
+
+        if (!hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION);
         }
     }
-    */
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
@@ -307,5 +310,28 @@ public class LoginActivity extends AppCompatActivity {
         editor.putBoolean( "guest", true );
         editor.apply();
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    Toast.makeText(LoginActivity.this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
+                    Intent a = new Intent( Intent.ACTION_MAIN );
+                    a.addCategory( Intent.CATEGORY_HOME );
+                    a.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                    startActivity( a );
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }

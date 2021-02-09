@@ -3,10 +3,14 @@ package com.example.android.arkanoid;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -86,6 +90,17 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        // The request code used in ActivityCompat.requestPermissions()
+        // and returned in the Activity's onRequestPermissionsResult()
+        int PERMISSION_ALL = 1;
+        String[] PERMISSIONS = {
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.CAMERA
+        };
+
+
 
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -187,6 +202,10 @@ public class SignInActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        if (!hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -198,7 +217,6 @@ public class SignInActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
@@ -209,14 +227,12 @@ public class SignInActivity extends AppCompatActivity {
         createAccount();
     }
 
-
     public void insertData(){
         email = emailET.getText().toString();
         password = pswET.getText().toString();
         passwordConfirmation = passwordConfirmationET.getText().toString();
         username = userNameET.getText().toString();
     }
-
 
     public void verifyCredentials(){
         if(username == null || username.length()<1 || username.length()>18){
@@ -254,7 +270,6 @@ public class SignInActivity extends AppCompatActivity {
             return false;
         }
     }
-
 
     public void createAccount(){
         if(imageString==null){
@@ -320,8 +335,6 @@ public class SignInActivity extends AppCompatActivity {
                             alertDialog.show();
 
                         }
-
-                        // ...
                     }
                 });
         }
@@ -387,5 +400,36 @@ public class SignInActivity extends AppCompatActivity {
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
+    }
+
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    Toast.makeText(SignInActivity.this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent( SignInActivity.this, LoginActivity.class));
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }

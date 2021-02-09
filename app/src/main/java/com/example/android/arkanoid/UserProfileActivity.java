@@ -4,6 +4,7 @@ package com.example.android.arkanoid;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,6 +57,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static android.view.View.VISIBLE;
+import static com.example.android.arkanoid.SignInActivity.hasPermissions;
 
 public class UserProfileActivity extends NavigationMenuActivity {
     private EditText username;
@@ -103,6 +106,13 @@ public class UserProfileActivity extends NavigationMenuActivity {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_user_profile, null, false);
         dl.addView(contentView, 0);
+
+        int PERMISSION_ALL = 1;
+        String[] PERMISSIONS = {
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.CAMERA
+        };
 
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -206,6 +216,10 @@ public class UserProfileActivity extends NavigationMenuActivity {
                 errore = false;
             }
         } );
+
+        if (!hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
 
     }
 
@@ -418,5 +432,25 @@ public class UserProfileActivity extends NavigationMenuActivity {
     public void onBackPressed(){
         menu.close( true );
         startActivity( new Intent(UserProfileActivity.this, MenuActivity.class) );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    Toast.makeText(UserProfileActivity.this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent( UserProfileActivity.this, MenuActivity.class));
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }
