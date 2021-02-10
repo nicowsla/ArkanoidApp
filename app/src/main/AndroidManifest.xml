@@ -17,27 +17,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
 
-        <activity android:name=".ChallengeListActivity"/>
+        <activity android:name=".ChallengeListActivity" android:label="@string/label_challenge_list"/>
 
-        <activity android:name=".PersonalLevelsActivity" />
+        <activity android:name=".PersonalLevelsActivity" android:label="@string/label_personal_levels"/>
 
-        <activity android:name=".CreateLevelActivity" />
+        <activity android:name=".CreateLevelActivity" android:label="@string/label_create_level"/>
 
-        <activity android:name=".ContactUsActivity" />
+        <activity android:name=".ContactUsActivity" android:label="@string/label_contac_us"/>
 
         <activity android:name=".NavigationMenuActivity" />
 
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SettingsActivity" android:label="@string/label_settings"/>
 
-        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".ResetPasswordActivity" android:label="@string/label_reset_password"/>
 
-        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".UserProfileActivity" android:label="@string/label_profile"/>
 
         <activity android:name=".MessagesActivity" />
 
-        <activity android:name=".UsersListActivity" />
+        <activity android:name=".UsersListActivity" android:label="@string/label_user_list"/>
 
-        <activity android:name=".ThemeLevelsActivity" />
+        <activity android:name=".ThemeLevelsActivity" android:label="@string/label_theme_levels"/>
 
         <activity
             android:name=".SplashActivity"
@@ -56,9 +56,10 @@
 
         <activity
             android:name=".SignInActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:label="@string/label_sign_in"/>
 
-        <activity android:name=".LoginActivity" >
+        <activity android:name=".LoginActivity" android:label="@string/label_login">
 
         </activity>
     </application>

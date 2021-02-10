@@ -184,4 +184,15 @@
     <string name="draw_challenge">Pareggio!</string>
     <string name="score_show_dialog">\n\nPunteggio: </string>
     <string name="distance">Distanza:</string>
+    <string name="label_challenge_list">Sfide</string>
+    <string name="label_create_level">Crea livello</string>
+    <string name="label_personal_levels">I miei livelli</string>
+    <string name="label_contac_us">Contattaci</string>
+    <string name="label_settings">Impostazioni</string>
+    <string name="label_reset_password">Reset password</string>
+    <string name="label_profile">Profilo</string>
+    <string name="label_user_list">Giocatori</string>
+    <string name="label_theme_levels">Livelli a tema</string>
+    <string name="label_sign_in">Registrazione</string>
+    <string name="label_login">Login</string>
 </resources>
