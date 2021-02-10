@@ -581,7 +581,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }else if(button == 5){
+            }else if(button == 5){ //modalità landscape
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
                 String matrixString = pref.getString("matrixString", null);
                 System.out.println(matrixString);
