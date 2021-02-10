@@ -180,7 +180,7 @@ public class UsersListActivity extends NavigationMenuActivity {
                             public User parseSnapshot(@NonNull DataSnapshot snapshot) {
                                 return new User(snapshot.child("id").getValue(String.class), snapshot.child("username").getValue(String.class),
                                         snapshot.child("email").getValue(String.class), snapshot.child("bestScore").getValue(Long.class),
-                                       snapshot.child("bestTime").getValue(Long.class), snapshot.child("livArcade").getValue(Integer.class), snapshot.child("livTema").getValue(Integer.class), new Coordinate(snapshot.child("latitude").getValue(Double.class), snapshot.child("longitude").getValue(Double.class))) ;
+                                       snapshot.child("bestTime").getValue(Long.class), snapshot.child("livArcade").getValue(Integer.class), snapshot.child("livTema").getValue(Integer.class), new Coordinate(snapshot.child( "coordinate" ).child("latitude").getValue(Double.class), snapshot.child( "coordinate" ).child("longitude").getValue(Double.class))) ;
                             }
                         })
                         .build();
