@@ -123,8 +123,7 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
                             public Challenge parseSnapshot(@NonNull DataSnapshot snapshot) {
                                 return new Challenge(snapshot.child("id").getValue(String.class), snapshot.child("userID").getValue(String.class),
                                         snapshot.child("username").getValue(String.class), snapshot.child("score").getValue(Long.class),
-                                        snapshot.child("yourScore").getValue(Long.class), snapshot.child("accepted").getValue(Boolean.class),
-                                        snapshot.child("refused").getValue(Boolean.class)) ;
+                                        snapshot.child("yourScore").getValue(Long.class)) ;
                             }
                         })
                         .build();
