@@ -125,7 +125,7 @@ public class PersonalLevelsActivity extends AppCompatActivity {
 
                             Intent k = new Intent(PersonalLevelsActivity.this, MainActivity.class);
                             k.putExtra("MODE", 5);
-                            k.putExtra("level", lista.getSpeed());
+                            k.putExtra("Level", lista.getSpeed());
                             startActivity(k);
                         }
 
