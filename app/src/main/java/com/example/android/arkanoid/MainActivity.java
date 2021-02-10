@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean multiplayer;
     private Boolean sfidante = false;
     private Boolean sfidato = false;
-    private  Boolean pause = false;
+    private Boolean pause = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -187,7 +187,6 @@
     <string name="score_show_dialog">\n\nScore: </string>
     <string name="distance">Distance:</string>
     <string name="label_challenge_list">Sfide</string>
-
     <string name="label_create_level">Create level</string>
     <string name="label_personal_levels">Custom levels</string>
     <string name="label_contact_us">Contact us</string>
@@ -204,5 +203,6 @@
     <string name="label_landscape_mode">Landscape mode</string>
     <string name="km">Km</string>
     <string name="unlimited_speed">Unlimited</string>
-
+    <string name="first_run_info">Before to play you have to set command type and language!</string>
+    <string name="first_run">Game setup</string>
 </resources>

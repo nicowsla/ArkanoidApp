@@ -201,4 +201,6 @@
     <string name="label_landscape_mode">Modalità landscape</string>
     <string name="km">Km</string>
     <string name="unlimited_speed">Illimitata</string>
+    <string name="first_run_info">Prima di poter giocare imposta la tipologia di comandi e la lingua!</string>
+    <string name="first_run">Primo avvio</string>
 </resources>
