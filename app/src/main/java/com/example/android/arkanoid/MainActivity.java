@@ -845,7 +845,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
                             canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
-                            if(!arcadeMode && !themeMode){
+                            if(infinityMode || landscape || timeMode){
                                 level = 1;
                             }
                             if(!multiplayer){
@@ -945,7 +945,7 @@ public class MainActivity extends AppCompatActivity {
 
                     gameOver = true;
                     start = false;
-                    if(!arcadeMode && !themeMode){
+                    if(infinityMode || timeMode || landscape){
                         level = 1;
                     }
                     soundPlayer.playGameOverSound();
