@@ -112,10 +112,12 @@ public class UsersListActivity extends NavigationMenuActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.startAnimation( fromtop );
 
-        if(rankingTime || rankingScore){        //se visualizzo la classifica nascondo il menu
+        if(rankingTime || rankingScore){        //se visualizzo la classifica nascondo il menu e seekbar
             searchBar.setVisibility(View.GONE);
+            seekBar.setVisibility(View.GONE);
         }else{
             bottonMenu.setVisibility(View.GONE); // se visualizzo la lista utenti nascondo la searchBar
+
         }
         fetch();
 
