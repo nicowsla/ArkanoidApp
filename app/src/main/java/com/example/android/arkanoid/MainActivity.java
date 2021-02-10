@@ -29,10 +29,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +39,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -75,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //creo la action bar dinamica che si modifica in base alla modalità
+        ActionBar actionBar = getSupportActionBar();
 
         //mantiene il display acceso durante il gioco
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -84,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
 
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setHomeButtonEnabled(true);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         enableTouch = pref.getBoolean("touch", true);
@@ -104,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
-
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -114,13 +118,35 @@ public class MainActivity extends AppCompatActivity {
         wm.getDefaultDisplay().getMetrics(displayMetrics);
         int screenWidth = displayMetrics.widthPixels;
         int screenHeight = displayMetrics.heightPixels;
+        int partita = 0;
 
         if(!guestMode){
             database = FirebaseDatabase.getInstance();
             mAuth = FirebaseAuth.getInstance();
             user = mAuth.getCurrentUser();
             Bundle i = getIntent().getExtras();
-            int partita = i.getInt("MODE");
+            partita = i.getInt("MODE");
+
+            if(actionBar != null) {
+                switch (partita) {
+                    case 1:
+                        actionBar.setTitle(R.string.label_theme_mode);
+                        break;
+                    case 2:
+                        actionBar.setTitle(R.string.label_time_mode);
+                        break;
+                    case 3:
+                        actionBar.setTitle(R.string.label_arcade_mode);
+                        break;
+                    case 4:
+                        actionBar.setTitle(R.string.label_infinity_home);
+                        break;
+                    case 6:
+                        actionBar.setTitle(R.string.label_landscape_mode);
+                        break;
+                }
+            }
+
             multiplayer = i.getBoolean("Multiplayer");
             if(multiplayer){
                 sfidante = i.getBoolean("Sfidante");
@@ -150,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
         // create a new game
         setContentView(game);
 
@@ -158,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
         createHandler();
         myThread = new UpdateThread(updateHandler);
         myThread.start();
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void createHandler() {
@@ -581,7 +608,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }else if(button == 5){ //modalità landscape
+            }else if(button == 5){ //crea livello
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
                 String matrixString = pref.getString("matrixString", null);
                 System.out.println(matrixString);
@@ -594,7 +621,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }else if(button == 6){
+            }else if(button == 6){ //modalità landscape
                 for (int i = 2; i < 8; i++) { //6*15
                     for (int j = 3; j < 18; j++) {
                         switch (level){

@@ -22,9 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_bar"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:textAlignment="center">
 
         <TextView
             android:textSize="18dp"
@@ -36,12 +37,12 @@
 
         <TextView
             android:id="@+id/distance"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:textSize="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/button"
-            android:text="Illimitata"
+            android:text="@string/unlimited_speed"
             />
 
         <TextView
@@ -49,8 +50,8 @@
             android:layout_width="wrap_content"
             android:visibility="invisible"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Km"
+            android:layout_marginLeft="0dp"
+            android:text="@string/km"
             android:textColor="@color/button"
             android:textSize="18dp" />
 

@@ -23,7 +23,7 @@
 
         <activity android:name=".CreateLevelActivity" android:label="@string/label_create_level"/>
 
-        <activity android:name=".ContactUsActivity" android:label="@string/label_contac_us"/>
+        <activity android:name=".ContactUsActivity" android:label="@string/label_contact_us"/>
 
         <activity android:name=".NavigationMenuActivity" />
 
@@ -37,7 +37,7 @@
 
         <activity android:name=".UsersListActivity" android:label="@string/label_user_list"/>
 
-        <activity android:name=".ThemeLevelsActivity" android:label="@string/label_theme_levels"/>
+        <activity android:name=".ThemeLevelsActivity" android:label="@string/label_theme_mode"/>
 
         <activity
             android:name=".SplashActivity"

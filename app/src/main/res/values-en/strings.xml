@@ -190,13 +190,19 @@
 
     <string name="label_create_level">Create level</string>
     <string name="label_personal_levels">Custom levels</string>
-    <string name="label_contac_us">Contact us</string>
+    <string name="label_contact_us">Contact us</string>
     <string name="label_settings">Settings</string>
     <string name="label_reset_password">Reset password</string>
     <string name="label_profile">Profile</string>
     <string name="label_user_list">Users</string>
-    <string name="label_theme_levels">Theme levels</string>
     <string name="label_sign_in">Sign in</string>
     <string name="label_login">Login</string>
+    <string name="label_theme_mode">Theme mode</string>
+    <string name="label_time_mode">Time mode</string>
+    <string name="label_arcade_mode">Arcade mode</string>
+    <string name="label_infinity_home">Infinity mode</string>
+    <string name="label_landscape_mode">Landscape mode</string>
+    <string name="km">Km</string>
+    <string name="unlimited_speed">Unlimited</string>
 
 </resources>
