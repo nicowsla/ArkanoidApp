@@ -67,6 +67,7 @@ public class UsersListActivity extends NavigationMenuActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private TextView distanceTextView;
     private TextView kmTextView;
+    private TextView label;
     private SeekBar seekBar;
 
     @Override
@@ -83,6 +84,7 @@ public class UsersListActivity extends NavigationMenuActivity {
         distanceTextView = (TextView) findViewById( R.id.distance );
         seekBar = (SeekBar) findViewById(R.id.seekBarDistance);
         kmTextView = (TextView) findViewById( R.id.kilometri );
+        label = (TextView) findViewById(R.id.tw);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
@@ -140,9 +142,18 @@ public class UsersListActivity extends NavigationMenuActivity {
         if(rankingTime || rankingScore){        //se visualizzo la classifica nascondo il menu e seekbar
             searchBar.setVisibility(View.GONE);
             seekBar.setVisibility(View.GONE);
+            distanceTextView.setVisibility(View.GONE);
+            kmTextView.setVisibility(View.GONE);
+            label.setVisibility(View.GONE);
+
+            if(rankingTime){
+                getSupportActionBar().setTitle(R.string.ranking_score);
+            }else{
+                getSupportActionBar().setTitle(R.string.ranking_time);
+            }
+
         }else{
             bottonMenu.setVisibility(View.GONE); // se visualizzo la lista utenti nascondo la searchBar
-
         }
         fetch();
 

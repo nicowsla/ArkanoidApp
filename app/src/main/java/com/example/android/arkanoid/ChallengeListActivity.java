@@ -1,7 +1,6 @@
 package com.example.android.arkanoid;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -97,8 +95,15 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
 
         if(!requestReceived && !requestSend){
             bottonMenu.setVisibility(View.GONE);
+            getSupportActionBar().setTitle(R.string.history);
+        }
+        if(requestSend){
+            getSupportActionBar().setTitle(R.string.send_challenges);
         }
 
+        if(requestReceived){
+            getSupportActionBar().setTitle(R.string.received_challenges);
+        }
         fetch();
 
     }
@@ -157,7 +162,7 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
             switch (item.getItemId()) {
                 case R.id.request_sent:
                     if(requestSend){
-                        Toast.makeText(ChallengeListActivity.this, getString(R.string.challenge_request),
+                        Toast.makeText(ChallengeListActivity.this, getString(R.string.send_challenges),
                                 Toast.LENGTH_SHORT).show();
                     }else{
                        Intent i = new Intent(ChallengeListActivity.this, ChallengeListActivity.class);
@@ -168,7 +173,7 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
                     break;
                 case R.id.request_received:
                     if(requestReceived){
-                        Toast.makeText(ChallengeListActivity.this, getString(R.string.challenge_received),
+                        Toast.makeText(ChallengeListActivity.this, getString(R.string.received_challenges),
                                 Toast.LENGTH_SHORT).show();
                     }else{
                         Intent i1 = new Intent(ChallengeListActivity.this, ChallengeListActivity.class);

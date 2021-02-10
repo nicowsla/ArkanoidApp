@@ -133,7 +133,7 @@
     </string-array>
     <string name="title_activity_ranking">MainActivity</string>
     <string name="score_ranking">Classifica Punteggi</string>
-    <string name="time_ranking">Classifica tempi</string>
+    <string name="time_ranking">Classifica Tempi</string>
     <string name="title_home">okok</string>
     <string name="menu">Menu</string>
     <string name="profile">Profilo</string>
@@ -146,12 +146,12 @@
     <string name="wait">Aspetta che il tuo amico giochi!</string>
     <string name="accept">ACCETTA</string>
     <string name="challenge_received">Ricevute</string>
-    <string name="challenge_request">Effettuate</string>
+    <string name="challenge_request">Inviate</string>
     <string name="winner">VITTORIA!</string>
     <string name="win">Fantastico, hai battuto il tuo amico!</string>
     <string name="loser">Sconfitta</string>
     <string name="lost">"Oh no! Hai perso! "</string>
-    <string name="story">Storico Partite</string>
+    <string name="history">Storico Partite</string>
     <string name="italian_selected">Italiano selezionato</string>
     <string name="english_selected">English selected</string>
     <string name="sconfitta_boss">HAI PERSO!</string>
@@ -203,4 +203,6 @@
     <string name="unlimited_speed">Illimitata</string>
     <string name="first_run_info">Prima di poter giocare imposta la tipologia di comandi e la lingua!</string>
     <string name="first_run">Primo avvio</string>
+    <string name="send_challenges">Sfide inviate</string>
+    <string name="received_challenges">Sfide ricevute</string>
 </resources>

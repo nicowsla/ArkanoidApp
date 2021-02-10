@@ -154,7 +154,7 @@
     <string name="win">Great, you beat your friend!</string>
     <string name="loser">Defeat</string>
     <string name="lost">"Oh no! You lose! "</string>
-    <string name="story">Match history</string>
+    <string name="history">Match history</string>
     <string name="italian_selected">Italian selected</string>
     <string name="english_selected">English selected</string>
     <string name="sconfitta_boss">YOU LOSE!</string>
@@ -205,4 +205,6 @@
     <string name="unlimited_speed">Unlimited</string>
     <string name="first_run_info">Before to play you have to set command type and language!</string>
     <string name="first_run">Game setup</string>
+    <string name="send_challenges">Sent challenges</string>
+    <string name="received_challenges">Received challenges</string>
 </resources>
