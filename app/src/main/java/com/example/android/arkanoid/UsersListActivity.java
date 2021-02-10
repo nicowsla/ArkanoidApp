@@ -68,10 +68,7 @@ public class UsersListActivity extends NavigationMenuActivity {
     private TextView distanceTextView;
     private TextView kmTextView;
     private SeekBar seekBar;
-
-
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
