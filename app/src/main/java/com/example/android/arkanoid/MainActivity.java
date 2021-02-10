@@ -18,7 +18,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Message;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -30,10 +29,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.Gravity;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import android.widget.TextView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -819,7 +818,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (infinityMode && score > bestScore) {
                             database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score*(-1));
-                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score*(-1), bestTime, levArcade, levTheme));
+                            database.getReference("punteggi").child(user.getUid()).setValue(new UserRanked(user.getUid(), username, user.getEmail(), score*(-1), bestTime, levArcade, levTheme));
                         }
 
                             Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
@@ -857,10 +856,10 @@ public class MainActivity extends AppCompatActivity {
                         onPause();
                        DatabaseReference myRef = database.getReference("utenti").child(user.getUid()).child("RichiesteSfidaEffettuate").push();
                         String key = myRef.getKey();
-                        myRef.setValue(new Challenge(key, friend, friendUsername, (long) 0, score*(-1), false, false));
+                        myRef.setValue(new Challenge(key, friend, friendUsername, (long) 0, score*(-1)));
     
                         DatabaseReference myRef1 = database.getReference("utenti").child(friend).child("RichiesteSfidaRicevute").child(key);
-                        myRef1.setValue(new Challenge(key, user.getUid(), username, score*(-1), (long) 0, false, false));
+                        myRef1.setValue(new Challenge(key, user.getUid(), username, score*(-1), (long) 0));
     
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                         alertDialog.setTitle( R.string.wait_for_friend );
@@ -885,9 +884,9 @@ public class MainActivity extends AppCompatActivity {
     
                         DatabaseReference myRef2 = database.getReference("utenti").child(user.getUid()).child("Storico").push();
                         String key = myRef2.getKey();
-                        myRef2.setValue(new Challenge(key, friend, friendUsername, friendScore*(-1), score*(-1), true, false));
+                        myRef2.setValue(new Challenge(key, friend, friendUsername, friendScore*(-1), score*(-1)));
     
-                        myRef1.child("Storico").child(key).setValue(new Challenge(key, user.getUid(), username, score*(-1), friendScore*(-1), true, false));
+                        myRef1.child("Storico").child(key).setValue(new Challenge(key, user.getUid(), username, score*(-1), friendScore*(-1)));
     
                         if(score>friendScore){
                             AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
@@ -1101,7 +1100,7 @@ public class MainActivity extends AppCompatActivity {
     
                         if(difference<bestTime){
                             database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
-                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestScore*(-1), difference, levArcade, levTheme));
+                            database.getReference("punteggi").child(user.getUid()).setValue(new UserRanked(user.getUid(), username, user.getEmail(), bestScore*(-1), difference, levArcade, levTheme));
                         }
     
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();

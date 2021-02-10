@@ -28,6 +28,8 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
     private Boolean rankingScore;
     private Boolean rankingTime;
     private  String img;
+    private Coordinate coordinate;
+    private Long distance;
 
 
     public UserListAdapter(@NonNull FirebaseRecyclerOptions<User> options, String filter, Context context, Boolean rankingScore, Boolean rankingTime) {
@@ -53,6 +55,8 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
     void setFilter(String filter) {
         this.filter = filter;
     }
+    void setCoordinate(Coordinate coordinateUtente){this.coordinate = coordinate;}
+    void setDistance (Long distance){this.distance = distance;}
 
     @Override
     protected void onBindViewHolder(@NonNull final UsersListViewHolder holder, int i, @NonNull final User lista) {
@@ -81,7 +85,7 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
                 holder.setImg(img);
             }).addOnFailureListener(exception -> {
             });
-            if(lista.getEmail().toLowerCase().contains( filter) || lista.getUsername().toLowerCase().contains( filter)) {
+            if((lista.getEmail().toLowerCase().contains( filter) || lista.getUsername().toLowerCase().contains( filter)) && (coordinate==null || distance==null || distance( coordinate.getLatitude(),lista.getCoordinate().getLatitude(), coordinate.getLongitude(), lista.getCoordinate().getLongitude() )<distance)) {
 
                 holder.show();
 
@@ -110,6 +114,15 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
         return new UsersListViewHolder( view);
     }
 
-
+    public Long distance(double lat1, double lat2, double lon1, double lon2) {
+        final int R = 6371; // raggio della Terra
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return Math.round(R * c);
+    }
 
 }

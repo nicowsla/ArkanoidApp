@@ -15,14 +15,70 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
-            android:background="@drawable/round_shape_rectangular"></SearchView>
+            android:background="@drawable/round_shape_rectangular"/>
+
+    <LinearLayout
+        android:id="@+id/layoutHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textSize="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/button"
+            android:text="@string/distance"
+            />
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_marginLeft="20dp"
+            android:textSize="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/button"
+            android:text="AYEYE BERZOF"
+            />
+
+        <TextView
+            android:id="@+id/kilometri"
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Km"
+            android:textColor="@color/button"
+            android:textSize="18dp" />
+
+
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBarDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/layoutHorizontal"
+        android:max="500"
+        android:min="0"
+        android:progressDrawable="@layout/progress_seekbar"
+        android:thumb="@drawable/thumb"
+        android:splitTrack="false"
+        android:shape="oval"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_above="@+id/relative"
-        android:layout_below="@+id/search_bar"
+        android:layout_below="@+id/seekBarDistance"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:transcriptMode="alwaysScroll" />

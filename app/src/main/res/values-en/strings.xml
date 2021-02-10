@@ -185,5 +185,6 @@
     <string name="permission_denied">Permissions denied</string>
     <string name="draw_challenge">Draw!</string>
     <string name="score_show_dialog">\n\nScore: </string>
+    <string name="distance">Distance:</string>
 
 </resources>

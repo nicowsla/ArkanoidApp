@@ -1,6 +1,6 @@
 package com.example.android.arkanoid;
 
-public class User {
+public class UserRanked {
     private String id;
     private String username;
     private String email;
@@ -8,9 +8,8 @@ public class User {
     private long bestTime;
     private int livArcade;
     private int livTema;
-    private Coordinate coordinate;
 
-    public User(String id, String username, String email, long bestScore, long bestTime, int livArcade, int livTema, Coordinate coordinate) {
+    public UserRanked(String id, String username, String email, long bestScore, long bestTime, int livArcade, int livTema) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -18,7 +17,6 @@ public class User {
         this.bestTime = bestTime;
         this.livArcade = livArcade;
         this.livTema = livTema;
-        this.coordinate = coordinate;
     }
 
     public String getId() {
@@ -75,13 +73,5 @@ public class User {
 
     public void setLivTema(int livTema) {
         this.livTema = livTema;
-    }
-
-    public Coordinate getCoordinate() {
-        return coordinate;
-    }
-
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
     }
 }

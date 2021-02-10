@@ -6,15 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +33,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,6 +58,13 @@ import java.io.IOException;
 import static android.view.View.VISIBLE;
 
 public class SignInActivity extends AppCompatActivity {
+
+    private static final int PERMISSION_ID = 44;
+
+    private double latitude;
+    private double longitude;
+    private FusedLocationProviderClient mFusedLocationClient;
+
     private FirebaseAuth mAuth;
 
     private TextInputLayout emailLayout;
@@ -72,7 +89,6 @@ public class SignInActivity extends AppCompatActivity {
 
     private Boolean error = false;
 
-
     private StorageReference storageRef;
     private String currentUser;
 
@@ -91,16 +107,15 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        // The request code used in ActivityCompat.requestPermissions()
-        // and returned in the Activity's onRequestPermissionsResult()
-        int PERMISSION_ALL = 1;
-        String[] PERMISSIONS = {
+
+        String[] PERMISSIONS = {android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 android.Manifest.permission.CAMERA
         };
 
-
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -133,6 +148,7 @@ public class SignInActivity extends AppCompatActivity {
         passwordConfirmationLayout.startAnimation(fromtop);
         signinButton.startAnimation(frombottom);
 
+        posizione();
         insertData();
 
         emailET.setOnFocusChangeListener( new View.OnFocusChangeListener() {
@@ -203,7 +219,7 @@ public class SignInActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (!hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ID);
         }
 
     }
@@ -272,72 +288,77 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void createAccount(){
-        if(imageString==null){
-            Toast.makeText(SignInActivity.this, getString(R.string.error_image_not_found),
-                    Toast.LENGTH_SHORT).show();
-        }
-        if(!error && imageString!=null){ mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
 
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            currentUser = user.getUid();
-                            user.sendEmailVerification();
+            if(imageString==null){
+                Toast.makeText(SignInActivity.this, getString(R.string.error_image_not_found),
+                        Toast.LENGTH_SHORT).show();
+            }
+            if(!error && imageString!=null){ mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
 
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            DatabaseReference myRef = database.getReference( "utenti" ).child( user.getUid() );
-                            myRef.setValue( new User(currentUser,username, email, 0, 1000000000, 1, 1) );
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                currentUser = user.getUid();
+                                user.sendEmailVerification();
 
-                            if (imageString != null) {
-                                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-                                StorageReference riversRef = storageRef.child( currentUser ).child( "images/profilo.jpg" );
-                                riversRef.putBytes( imgByte )
-                                        .addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                // Get a URL to the uploaded content
-                                            }
-                                        } )
-                                        .addOnFailureListener( new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception exception) {
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference myRef = database.getReference( "utenti" ).child( user.getUid() );
+                                myRef.setValue( new User(currentUser,username, email, 0, 1000000000, 1, 1, null) );
+                                myRef.child("coordinate").child("latitude").setValue(latitude);
+                                myRef.child("coordinate").child("longitude").setValue(longitude);
+
+                                if (imageString != null) {
+                                    StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                                    StorageReference riversRef = storageRef.child( currentUser ).child( "images/profilo.jpg" );
+                                    riversRef.putBytes( imgByte )
+                                            .addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                    // Get a URL to the uploaded content
+                                                }
+                                            } )
+                                            .addOnFailureListener( new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception exception) {
+                                                }
+                                            } );
+                                }
+
+                                AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
+                                alertDialog.setTitle( R.string.attention);
+                                alertDialog.setMessage(getString(R.string.signin_check_mail));
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                                startActivity( new Intent( SignInActivity.this, LoginActivity.class ) );//qui mettere passaggio per l'altra activity
                                             }
                                         } );
+                                alertDialog.show();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
+                                alertDialog.setTitle( R.string.signin_failed );
+                                alertDialog.setMessage( getString(R.string.sigin_failure_msg) );
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        } );
+                                alertDialog.show();
+
                             }
-
-                            AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
-                            alertDialog.setTitle( R.string.attention);
-                            alertDialog.setMessage(getString(R.string.signin_check_mail));
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            startActivity( new Intent( SignInActivity.this, LoginActivity.class ) );//qui mettere passaggio per l'altra activity
-                                        }
-                                    } );
-                            alertDialog.show();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
-                            alertDialog.setTitle( R.string.signin_failed );
-                            alertDialog.setMessage( getString(R.string.sigin_failure_msg) );
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    } );
-                            alertDialog.show();
-
                         }
-                    }
-                });
-        }
+                    });
+            }
+
+
     }
 
     public void selectImage(View view) {
@@ -413,7 +434,7 @@ public class SignInActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
@@ -431,5 +452,113 @@ public class SignInActivity extends AppCompatActivity {
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }*/
+
+
+    public void posizione(){
+        getLastLocation();
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getLastLocation(){
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(
+                        new OnCompleteListener<Location>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Location> task) {
+                                Location location = task.getResult();
+                                if (location == null) {
+                                    requestNewLocationData();
+                                } else {
+                                     latitude =  location.getLatitude();
+                                     longitude =  location.getLongitude();
+                                }
+                            }
+                        }
+                );
+            } else {
+                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        } else {
+            requestPermissions();
+        }
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData(){
+
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(0);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.requestLocationUpdates(
+                mLocationRequest, mLocationCallback,
+                Looper.myLooper()
+        );
+
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+            latitude =  mLastLocation.getLatitude();
+            longitude =  mLastLocation.getLongitude();
+        }
+    };
+
+    //verifico che i vi siano i permessi
+    private boolean checkPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
+    }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        android.Manifest.permission.CAMERA}, PERMISSION_ID);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+            }
+        }else{
+            //permessi negati, torna al login
+            Toast.makeText(SignInActivity.this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(SignInActivity.this, LoginActivity.class));
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (checkPermissions()) {
+            getLastLocation();
+        }
+
     }
 }
