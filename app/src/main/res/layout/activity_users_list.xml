@@ -66,8 +66,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_below="@+id/layoutHorizontal"
-        android:max="500"
-        android:min="0"
         android:progressDrawable="@layout/progress_seekbar"
         android:thumb="@drawable/thumb"
         android:splitTrack="false"

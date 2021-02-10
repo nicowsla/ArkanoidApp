@@ -68,7 +68,7 @@ public class UsersListActivity extends NavigationMenuActivity {
     private TextView distanceTextView;
     private TextView kmTextView;
     private SeekBar seekBar;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,29 +109,7 @@ public class UsersListActivity extends NavigationMenuActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.startAnimation( fromtop );
 
-        if(rankingTime || rankingScore){        //se visualizzo la classifica nascondo il menu e seekbar
-            searchBar.setVisibility(View.GONE);
-            seekBar.setVisibility(View.GONE);
-        }else{
-            bottonMenu.setVisibility(View.GONE); // se visualizzo la lista utenti nascondo la searchBar
-
-        }
-        fetch();
-
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.setFilter(newText);
-                adapter.notifyDataSetChanged();
-                return false;
-            }
-        } );
-
+        seekBar.setMax( 200 );
         seekBar.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -158,6 +136,31 @@ public class UsersListActivity extends NavigationMenuActivity {
 
             }
         } );
+
+        if(rankingTime || rankingScore){        //se visualizzo la classifica nascondo il menu e seekbar
+            searchBar.setVisibility(View.GONE);
+            seekBar.setVisibility(View.GONE);
+        }else{
+            bottonMenu.setVisibility(View.GONE); // se visualizzo la lista utenti nascondo la searchBar
+
+        }
+        fetch();
+
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.setFilter(newText);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        } );
+
+
     }
 
     private void fetch() {
@@ -253,7 +256,7 @@ public class UsersListActivity extends NavigationMenuActivity {
                                 } else {
                                     if(!distanceTextView.getText().toString().equals( "Illimitata" )) {
                                         adapter.setDistance( Long.parseLong( distanceTextView.getText().toString()) );
-                                        adapter.setCoordinate( new Coordinate( location.getLatitude(), location.getLongitude() ) );
+                                        adapter.setUserCoordinate( new Coordinate( location.getLatitude(), location.getLongitude() ) );
                                         adapter.notifyDataSetChanged();
                                     }
                                 }
@@ -294,7 +297,7 @@ public class UsersListActivity extends NavigationMenuActivity {
             Location location = locationResult.getLastLocation();
             if(!distanceTextView.getText().toString().equals( "Illimitata" )) {
                 adapter.setDistance( Long.parseLong( distanceTextView.getText().toString()) );
-                adapter.setCoordinate( new Coordinate( location.getLatitude(), location.getLongitude() ) );
+                adapter.setUserCoordinate( new Coordinate( location.getLatitude(), location.getLongitude() ) );
                 adapter.notifyDataSetChanged();
             }
         }

@@ -28,7 +28,7 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
     private Boolean rankingScore;
     private Boolean rankingTime;
     private  String img;
-    private Coordinate coordinate;
+    private Coordinate userCoordinate;
     private Long distance;
 
 
@@ -55,7 +55,7 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
     void setFilter(String filter) {
         this.filter = filter;
     }
-    void setCoordinate(Coordinate coordinateUtente){this.coordinate = coordinate;}
+    void setUserCoordinate(Coordinate coordinateUtente){this.userCoordinate = userCoordinate;}
     void setDistance (Long distance){this.distance = distance;}
 
     @Override
@@ -85,7 +85,8 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
                 holder.setImg(img);
             }).addOnFailureListener(exception -> {
             });
-            if((lista.getEmail().toLowerCase().contains( filter) || lista.getUsername().toLowerCase().contains( filter)) && (coordinate==null || distance==null || distance( coordinate.getLatitude(),lista.getCoordinate().getLatitude(), coordinate.getLongitude(), lista.getCoordinate().getLongitude() )<distance)) {
+            if((lista.getEmail().toLowerCase().contains( filter) || lista.getUsername().toLowerCase().contains( filter))
+                    && (userCoordinate ==null || distance==null || distance( userCoordinate.getLatitude(),lista.getCoordinate().getLatitude(), userCoordinate.getLongitude(), lista.getCoordinate().getLongitude() )<distance)) {
 
                 holder.show();
 
