@@ -30,7 +30,7 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
     private  String img;
     private Coordinate userCoordinate;
     private Long distance;
-
+    private String uid;
 
     public UserListAdapter(@NonNull FirebaseRecyclerOptions<User> options, String filter, Context context, Boolean rankingScore, Boolean rankingTime) {
         super( options );
@@ -39,6 +39,9 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
         this.rankingScore = rankingScore;
         this.rankingTime = rankingTime;
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        SharedPreferences pref = context.getSharedPreferences("arkanoid", MODE_PRIVATE);
+        uid = pref.getString("uid", null);
 
         //FORZO IMPOSTAZIONE LINGUA
         SharedPreferences preferences=context.getSharedPreferences("Settings", MODE_PRIVATE);
@@ -60,8 +63,8 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
 
     @Override
     protected void onBindViewHolder(@NonNull final UsersListViewHolder holder, int i, @NonNull final User lista) {
-
-        if((rankingScore && lista.getBestScore()==0)|| (rankingTime && lista.getBestTime()>=1000000)) {
+System.out.println("uid   "+ uid+"     listaid   "+lista.getId());
+        if((rankingScore && lista.getBestScore()==0)|| (rankingTime && lista.getBestTime()>=1000000) || uid.equals(lista.getId())) {
             holder.hide();
         }else  {
             if(rankingScore){
@@ -79,6 +82,7 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
             holder.setScore(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi);
         }
             holder.setTxtTitle(lista.getUsername());
+
             StorageReference riversRef = mStorageRef.child(lista.getId()).child("images/profilo.jpg");
             riversRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytes -> {
                 img = Base64.encodeToString(bytes, Base64.DEFAULT);

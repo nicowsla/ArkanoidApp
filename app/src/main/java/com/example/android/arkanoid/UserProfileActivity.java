@@ -270,7 +270,6 @@ public class UserProfileActivity extends NavigationMenuActivity {
                 emailString = dataSnapshot.child("email").getValue(String.class);
                 bestScore = dataSnapshot.child("bestScore").getValue(Long.class);
                 bestTime = dataSnapshot.child("bestTime").getValue(Long.class);
-
                 username.setText(usernameString);
                 email.setText(emailString);
             }
@@ -449,8 +448,7 @@ public class UserProfileActivity extends NavigationMenuActivity {
                 }
                 return;
             }
-            // other 'case' lines to check for other
-            // permissions this app might request
+
         }
     }
 }
