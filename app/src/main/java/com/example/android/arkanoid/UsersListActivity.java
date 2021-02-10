@@ -68,10 +68,7 @@ public class UsersListActivity extends NavigationMenuActivity {
     private TextView distanceTextView;
     private TextView kmTextView;
     private SeekBar seekBar;
-
-
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,10 +109,12 @@ public class UsersListActivity extends NavigationMenuActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.startAnimation( fromtop );
 
-        if(rankingTime || rankingScore){        //se visualizzo la classifica nascondo il menu
+        if(rankingTime || rankingScore){        //se visualizzo la classifica nascondo il menu e seekbar
             searchBar.setVisibility(View.GONE);
+            seekBar.setVisibility(View.GONE);
         }else{
             bottonMenu.setVisibility(View.GONE); // se visualizzo la lista utenti nascondo la searchBar
+
         }
         fetch();
 
@@ -180,7 +179,7 @@ public class UsersListActivity extends NavigationMenuActivity {
                             public User parseSnapshot(@NonNull DataSnapshot snapshot) {
                                 return new User(snapshot.child("id").getValue(String.class), snapshot.child("username").getValue(String.class),
                                         snapshot.child("email").getValue(String.class), snapshot.child("bestScore").getValue(Long.class),
-                                       snapshot.child("bestTime").getValue(Long.class), snapshot.child("livArcade").getValue(Integer.class), snapshot.child("livTema").getValue(Integer.class), new Coordinate(snapshot.child("latitude").getValue(Double.class), snapshot.child("longitude").getValue(Double.class))) ;
+                                       snapshot.child("bestTime").getValue(Long.class), snapshot.child("livArcade").getValue(Integer.class), snapshot.child("livTema").getValue(Integer.class), new Coordinate(snapshot.child( "coordinate" ).child("latitude").getValue(Double.class), snapshot.child( "coordinate" ).child("longitude").getValue(Double.class))) ;
                             }
                         })
                         .build();
