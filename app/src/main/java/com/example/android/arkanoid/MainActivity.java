@@ -87,9 +87,6 @@ public class MainActivity extends AppCompatActivity {
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
-        //getActionBar().setHomeButtonEnabled(true);
-
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         enableTouch = pref.getBoolean("touch", true);
         enableAccelerometer = pref.getBoolean("accelerometro", false);
@@ -183,8 +180,6 @@ public class MainActivity extends AppCompatActivity {
         createHandler();
         myThread = new UpdateThread(updateHandler);
         myThread.start();
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void createHandler() {
