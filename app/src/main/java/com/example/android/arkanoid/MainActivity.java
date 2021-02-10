@@ -840,7 +840,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (infinityMode && score > bestScore) {
                             database.getReference("utenti").child(user.getUid()).child("bestScore").setValue(score*(-1));
-                            database.getReference("punteggi").child(user.getUid()).setValue(new UserRanked(user.getUid(), username, user.getEmail(), score*(-1), bestTime, levArcade, levTheme));
+                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score*(-1), bestTime, levArcade, levTheme, new Coordinate(0,0)));
                         }
 
                             Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
@@ -1122,7 +1122,7 @@ public class MainActivity extends AppCompatActivity {
     
                         if(difference<bestTime){
                             database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
-                            database.getReference("punteggi").child(user.getUid()).setValue(new UserRanked(user.getUid(), username, user.getEmail(), bestScore*(-1), difference, levArcade, levTheme));
+                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestScore*(-1), difference, levArcade, levTheme, new Coordinate(0,0)));
                         }
     
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
