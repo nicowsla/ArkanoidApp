@@ -1192,8 +1192,10 @@ public class MainActivity extends AppCompatActivity {
                                 lifes++;                            //AGGIUNGE UNA VITA
                                 paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
                             }
-                            resetLevel(level, buttonValue);
                             start = false;
+                            resetLevel(level, buttonValue);
+
+
                         }
                     }else if(landscape && level==3) {
                         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -1211,8 +1213,8 @@ public class MainActivity extends AppCompatActivity {
                         start = false;
                     }else{
                         level++;
-                        resetLevel(level,buttonValue);
                         start = false;
+                        resetLevel(level,buttonValue);
                     }
                 }
             }
