@@ -56,7 +56,7 @@
 
         <activity
             android:name=".SignInActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".LoginActivity"
             android:label="@string/label_sign_in"/>
 
         <activity android:name=".LoginActivity" android:label="@string/label_login">
