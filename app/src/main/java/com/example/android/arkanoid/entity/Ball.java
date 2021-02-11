@@ -1,5 +1,8 @@
 package com.example.android.arkanoid.entity;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 import androidx.constraintlayout.solver.widgets.Rectangle;
@@ -73,27 +76,8 @@ public class Ball{
     // zisti ci je lopticka blizko
     //clean ci is a ball close traduttore di merda che minchia vuol dire
     private boolean isNear(float xPaddle, float yPaddle, float xBall, float yBall, int screenWidth, int screenHeight) {
-        //xBall += 2;
-        //yBall += 1;
-
-        //float circle_width = 60;
-        //float circle_height = 60;
-
-        /*float distX = Math.abs(getX() - xPaddle - rect_width/2);
-        float distY = Math.abs(getY() - yPaddle - rect_height/2);
-
-        if (distX > (rect_width/2 + raggio)) { return false; }
-        if (distY > (rect_height/2 + raggio)) { return false; }
-
-        if (distX <= ( rect_width/2)) { return true; }
-        if (distY <= rect_height/2 && distY > (rect_height/2-7) ) { return true; }
-
-        float dx = distX-rect_width/2;
-        float dy = distY-rect_height/2;
-        return (dx*dx+dy*dy<=(raggio*raggio));*/
-
         // temporary variables to set edges for testing
-        int raggio = 30;
+        int raggio = 60;
         float rect_width = (200*screenWidth)/1080;
         float rect_height = (40*screenHeight)/1920;
         float testX = xBall;
@@ -116,32 +100,41 @@ public class Ball{
         }
         return false;
 
-        /*if ((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) {
-            return true;
-        } else if ((Math.sqrt(Math.pow((xPaddle + 100) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 60) {
-            return true;
-        } else if ((Math.sqrt(Math.pow((xPaddle + 150) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 60) {
-            return true;
-        }*/
-
-
-       /*if (((Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 80) && (Math.sqrt(Math.pow((xPaddle + 50) - xBall, 2) + Math.pow(yPaddle - yBall, 2)) > 58) ) {
-            return true;
-        } else if (((Math.sqrt(Math.pow((xPaddle + 100) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) <60) && ((Math.sqrt(Math.pow((xPaddle + 100) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) >28)) {//DX
-            return true; //la pallina va in loop se continua atrovarsi in una posizione <70 e si blocca
-        } else if (((Math.sqrt(Math.pow((xPaddle + 150) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) < 60) && ((Math.sqrt(Math.pow((xPaddle + 150) - xBall, 2) + Math.pow(yPaddle - yBall, 2))) >28)) {
-            return true;
-        }*/
-
-       /* if(!(xPaddle<xBall) && (xBall<(xPaddle+200)) && (yPaddle>yBall) && (yBall<(yPaddle+40))){
-            return false;
-        }*/
-        //LA PALLINA VA AVANTI SOLO SE è NELLA POSIZIONE DEL PADDLE BELLISSIMO
-       /* if((xPaddle<xBall) && (xBall<(xPaddle+200)) && (yPaddle>yBall) && (yBall<(yPaddle+40))){
-            return false;
-        }*/
-
     }
+
+    public static boolean isCollisionDetected(Bitmap bitmap1, int x1, int y1,
+                                              Bitmap bitmap2, int x2, int y2) {
+
+        Rect bounds1 = new Rect(x1, y1, x1+bitmap1.getWidth(), y1+bitmap1.getHeight());
+        Rect bounds2 = new Rect(x2, y2, x2+bitmap2.getWidth(), y2+bitmap2.getHeight());
+
+        if (Rect.intersects(bounds1, bounds2)) {
+            Rect collisionBounds = getCollisionBounds(bounds1, bounds2);
+            for (int i = collisionBounds.left; i < collisionBounds.right; i++) {
+                for (int j = collisionBounds.top; j < collisionBounds.bottom; j++) {
+                    int bitmap1Pixel = bitmap1.getPixel(i-x1, j-y1);
+                    int bitmap2Pixel = bitmap2.getPixel(i-x2, j-y2);
+                    if (isFilled(bitmap1Pixel) && isFilled(bitmap2Pixel)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static Rect getCollisionBounds(Rect rect1, Rect rect2) {
+        int left = (int) Math.max(rect1.left, rect2.left);
+        int top = (int) Math.max(rect1.top, rect2.top);
+        int right = (int) Math.min(rect1.right, rect2.right);
+        int bottom = (int) Math.min(rect1.bottom, rect2.bottom);
+        return new Rect(left, top, right, bottom);
+    }
+
+    private static boolean isFilled(int pixel) {
+        return pixel != Color.TRANSPARENT;
+    }
+
 
     //find out if the ball is close to a brick
     private boolean isCloseToBrick(float ax, float ay, float bx, float by, int screenWidth, int screenHeight) {
@@ -149,7 +142,7 @@ public class Ball{
         by += 1;
         double d = Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow((ay + 40) - by, 2));
         return d < 80;*/
-        int raggio = 30;
+        int raggio = 60;
         float rect_width = (100*screenWidth)/1080;
         float rect_height = (70*screenHeight)/1920;
         float testX = bx;
@@ -174,13 +167,14 @@ public class Ball{
     }
 
     //if the ball collides with the fall, it will change direction
-    public void suddentlyPaddle(float xPaddle, float yPaddle, int screenWidth, int screenHeight) {
-        if (isNear(xPaddle, yPaddle, getX(), getY(),screenWidth,screenHeight)) changeDirection();
+    public void suddentlyPaddle(float xPaddle, float yPaddle, Bitmap paddle, Bitmap ball) {
+        if (isCollisionDetected(paddle, (int)xPaddle,(int) yPaddle, ball,(int) getX(),(int) getY())) changeDirection();
     }
 
     //if the ball collides with a brick, it changes direction
-    public boolean suddentlyBrick(float xBrick, float yBrick, int screenWidth, int screenHeight) {
-        if (isCloseToBrick(xBrick, yBrick, getX(), getY(),screenWidth,screenHeight)) {
+    public boolean suddentlyBrick(float xBrick, float yBrick, Bitmap brick, Bitmap ball) {
+     //   if (isCloseToBrick(xBrick, yBrick, getX(), getY(),screenWidth,screenHeight)) {
+        if(isCollisionDetected(brick, (int)xBrick,(int) yBrick, ball,(int) getX(),(int) getY())){
             changeDirection();
             return true;
         } else return false;

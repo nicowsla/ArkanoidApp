@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -750,8 +751,8 @@ public class MainActivity extends AppCompatActivity {
                 paint.setColor(Color.WHITE);
                 //La riga sotto era +200 + 40
                 //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
-                canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920, paint);
-
+               // canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920, paint);
+                canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
                 // draw bricks
                 paint.setColor(Color.GREEN);
                 for (int i = 0; i < list.size(); i++) {
@@ -807,14 +808,17 @@ public class MainActivity extends AppCompatActivity {
                     paint.setColor(Color.WHITE);
                     //La riga sotto era +200 + 40
                     //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
-                    canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (paddle_width * screenWidth) / 1080, paddle.getY() + (paddle_height * screenHeight) / 1920, paint);
-                    //canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
+                   // canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (paddle_width * screenWidth) / 1080, paddle.getY() + (paddle_height * screenHeight) / 1920, paint);
+                canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
+                //canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
                     // draw bricks
                     paint.setColor(Color.GREEN);
                     for (int i = 0; i < list.size(); i++) {
                         Brick b = list.get(i);
                         //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
-                        canvas.drawBitmap(b.getBrick(), null, new RectF(b.getX(), b.getY(), b.getX() + (100 * screenWidth) / 1080, b.getY() + (70 * screenHeight) / 1920), paint);
+                        //canvas.drawBitmap(b.getBrick(), null, new RectF(b.getX(), b.getY(), b.getX() + (100 * screenWidth) / 1080, b.getY() + (70 * screenHeight) / 1920), paint);
+                        Bitmap brick =    scaleDown(b.getBrick(), (100 * screenWidth) / 1080, true);
+                        canvas.drawBitmap(brick, b.getX(), b.getY(), paint);
                     }
 
                     // draw text
@@ -880,9 +884,9 @@ public class MainActivity extends AppCompatActivity {
     
             //check that the ball has not touched the edge
             private void chechEdges() {
-                if (ball.getX() + ball.getxSpeed() >= size.x - (30*screenWidth)/1080) {
+                if (ball.getX() + ball.getxSpeed() >= size.x - (60*screenWidth)/1080) {
                     ball.changeDirection("rights");
-                } else if (ball.getX() + ball.getxSpeed() <= (30*screenWidth)/1080) {
+                } else if (ball.getX() + ball.getxSpeed() <= (0*screenWidth)/1080) {
                     ball.changeDirection("left");
                 } else if (ball.getY() + ball.getySpeed() <= (180*screenHeight)/1920) {
                     ball.changeDirection("up");
@@ -986,10 +990,10 @@ public class MainActivity extends AppCompatActivity {
                 if (start) {
                     win();
                     chechEdges();
-                    ball.suddentlyPaddle(paddle.getX(), paddle.getY(),screenWidth,screenHeight);
+                    ball.suddentlyPaddle(paddle.getX(), paddle.getY(), new_paddle, redBall);
                     for (int i = 0; i < list.size(); i++) {
                         Brick b = list.get(i);
-                        if (ball.suddentlyBrick(b.getX(), b.getY(),screenWidth,screenHeight)) {
+                        if (ball.suddentlyBrick(b.getX(), b.getY(), scaleDown(b.getBrick(), (100 * screenWidth) / 1080, true), redBall)) {
                             list.remove(i);
                             soundPlayer.playHitSound();
                             score = score + 50; //PUNTEGGIO SE ROMPI UN MATTONCINO
