@@ -205,5 +205,6 @@
     <string name="empty_matrix">Posiziona i mattoncini prima di proseguire!</string>
     <string name="italian">Italiano</string>
     <string name="english">English</string>
+    <string name="draw">Partita difficile...</string>
 
 </resources>

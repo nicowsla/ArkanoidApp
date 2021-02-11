@@ -479,7 +479,6 @@ public class MainActivity extends AppCompatActivity {
             new_paddle = Bitmap.createScaledBitmap(paddle_p,(paddle_width*screenWidth)/1080,(paddle_height*screenHeight)/1920,true);
 
             // creates a new ball, paddle, and list of bricks
-
             ball = new Ball(size.x / 2, size.y - (470*screenHeight)/1920, level);
             paddle = new Paddle((size.x / 2) - (100*screenWidth)/1080, size.y - (400*screenHeight)/1920);
             list = new ArrayList<Brick>();
@@ -518,7 +517,6 @@ public class MainActivity extends AppCompatActivity {
             new_icon_lives = scaleDown(icon_lives, maxSize, true);
             new_icon_score = scaleDown(icon_score, maxSize, true);
             new_icon_time = scaleDown(icon_time, maxSize, true);
-
 
             this.setOnTouchListener(this);
 
@@ -744,20 +742,16 @@ public class MainActivity extends AppCompatActivity {
 
                 // draw the ball
                 paint.setColor(Color.RED);
-                //canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
                 canvas.drawBitmap(redBall, ball.getX(), ball.getY(), paint);
 
                 // draw fell, disegna rettangolo cioè barra
                 paint.setColor(Color.WHITE);
-                //La riga sotto era +200 + 40
-                //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
-               // canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920, paint);
                 canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
+
                 // draw bricks
                 paint.setColor(Color.GREEN);
                 for (int i = 0; i < list.size(); i++) {
                     Brick b = list.get(i);
-                    //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
                     canvas.drawBitmap(b.getBrick(), null, new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1920, b.getY() + (100*screenHeight)/2880) , paint);
                 }
 
@@ -799,26 +793,17 @@ public class MainActivity extends AppCompatActivity {
 
                     // draw the ball
                     paint.setColor(Color.RED);
-
-
                     canvas.drawBitmap(redBall, ball.getX(), ball.getY(), paint);
-                    //canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
+
 
                     // draw fell, disegna rettangolo cioè barra
                     paint.setColor(Color.WHITE);
-                    //La riga sotto era +200 + 40
-                    //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
-                   // canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (paddle_width * screenWidth) / 1080, paddle.getY() + (paddle_height * screenHeight) / 1920, paint);
                 canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
-                //canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
                     // draw bricks
                     paint.setColor(Color.GREEN);
                     for (int i = 0; i < list.size(); i++) {
                         Brick b = list.get(i);
-                        //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
-                        //canvas.drawBitmap(b.getBrick(), null, new RectF(b.getX(), b.getY(), b.getX() + (100 * screenWidth) / 1080, b.getY() + (70 * screenHeight) / 1920), paint);
-                        Bitmap brick =    scaleDown(b.getBrick(), (100 * screenWidth) / 1080, true);
-                        canvas.drawBitmap(brick, b.getX(), b.getY(), paint);
+                        canvas.drawBitmap(Bitmap.createScaledBitmap(b.getBrick(),(100*screenWidth)/1080,(70*screenHeight)/1920,true), b.getX(), b.getY(), paint);
                     }
 
                     // draw text
@@ -837,6 +822,7 @@ public class MainActivity extends AppCompatActivity {
                         canvas.drawBitmap(new_icon_time, (size.x / 6) * 4 - 40 - (maxSize + 5), 50, paint);
                         canvas.drawBitmap(new_icon_lives, (size.x / 6) * 2 - (maxSize + 5), 50, paint);
                         canvas.drawText("" + lifes, (size.x / 6) * 2, 100, paint);
+
                         if(!start && !gameOver && !pause){
                             canvas.drawText(0 + "'" + 0 + "''" + 0 + 0 + 0, (size.x / 6) * 4 - 40, 100, paint);
                         }else {
@@ -856,7 +842,6 @@ public class MainActivity extends AppCompatActivity {
                             canvas.drawBitmap(new_icon_score, (size.x / 6) * 5 - (maxSize + 5), 50, paint);
                             canvas.drawText("" + score, (size.x / 6) * 5, 100, paint);
                         }
-
                     }
 
                     //in case of loss draw "Game over!"
@@ -868,15 +853,15 @@ public class MainActivity extends AppCompatActivity {
                             database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), score*(-1), bestTime, levArcade, levTheme, new Coordinate(0,0)));
                         }
 
-                            Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
-                            canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
-                            if(!arcadeMode && !themeMode){
-                                level = 1;
-                            }
-                            if(!multiplayer){
-                                boss = false;
-                                startTime = 0;
-                                attivato = false;
+                        Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
+                        canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
+                        if(!arcadeMode && !themeMode){
+                            level = 1;
+                        }
+                        if(!multiplayer){
+                            boss = false;
+                            startTime = 0;
+                            attivato = false;
                         }
                     }
                 }
@@ -919,8 +904,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 } );
                         alertDialog.show();
-                    }
-                    if(multiplayer && sfidato){
+                    }else if(multiplayer && sfidato){
                         onPause();
                         DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
                         myRef.child("RichiesteSfidaRicevute").child(idRequest).removeValue();
@@ -947,10 +931,22 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     } );
                             alertDialog.show();
-                        }else{
+                        }else if (score<friendScore){
                             AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
                             alertDialog.setTitle( R.string.loser );
                             alertDialog.setMessage( getString(R.string.lost) + getString(R.string.score_show_dialog) + score + "-" + friendScore );
+                            alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                                        }
+                                    } );
+                            alertDialog.show();
+                        }else{
+                            AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
+                            alertDialog.setTitle( R.string.draw_challenge );
+                            alertDialog.setMessage( getString(R.string.draw) + getString(R.string.score_show_dialog) + score + "-" + friendScore );
                             alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.confirm),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -973,7 +969,6 @@ public class MainActivity extends AppCompatActivity {
                     if(!arcadeMode && !themeMode){
                         level = 1;
                     }
-                    soundPlayer.playGameOverSound();
                     invalidate();
 
                 } else {
@@ -993,7 +988,7 @@ public class MainActivity extends AppCompatActivity {
                     ball.suddentlyPaddle(paddle.getX(), paddle.getY(), new_paddle, redBall);
                     for (int i = 0; i < list.size(); i++) {
                         Brick b = list.get(i);
-                        if (ball.suddentlyBrick(b.getX(), b.getY(), scaleDown(b.getBrick(), (100 * screenWidth) / 1080, true), redBall)) {
+                        if (ball.suddentlyBrick(b.getX(), b.getY(), Bitmap.createScaledBitmap(b.getBrick(),(100*screenWidth)/1080,(70*screenHeight)/1920,true), redBall)) {
                             list.remove(i);
                             soundPlayer.playHitSound();
                             score = score + 50; //PUNTEGGIO SE ROMPI UN MATTONCINO
@@ -1197,7 +1192,6 @@ public class MainActivity extends AppCompatActivity {
                                 lifes++;                            //AGGIUNGE UNA VITA
                                 paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
                             }
-                            //soundPlayer.playOverSound();
                             resetLevel(level, buttonValue);
                             start = false;
                         }
