@@ -262,7 +262,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void verifyCredentials(){
-        if(username == null || username.length()<1 || username.length()>18){
+        if(username == null || username.length()<1 || username.length()>16){
             usernameLayout.setError( getString(R.string.invalid_username) );
             error = true;
         }

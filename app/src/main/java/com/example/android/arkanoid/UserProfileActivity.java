@@ -336,7 +336,7 @@ public class UserProfileActivity extends NavigationMenuActivity {
     }
 
     private void checkData(){
-        if(usernameString.isEmpty() || usernameString.length()<1 || usernameString.length()>18){
+        if(usernameString.isEmpty() || usernameString.length()<1 || usernameString.length()>16){
             usernameLayout.setError( getString(R.string.invalid_username) );
             errore = true;
         }
