@@ -55,7 +55,7 @@ public class NavigationMenuActivity extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         final String currentUser = pref.getString("uid", null);
         String usernameString = pref.getString("username", null);
-        String imageString = pref.getString("photo", "ciao");
+        String imageString = pref.getString("photo", "empty");
 
 
 
@@ -64,8 +64,8 @@ public class NavigationMenuActivity extends AppCompatActivity {
         username.setText(usernameString);
         photo = findViewById(R.id.menu_photo);
 
-        if( imageString.equals("ciao")){
-
+        if( imageString.equals("empty")){
+            //non fa nulla
         }else{
             byte[] b = Base64.decode(imageString, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);

@@ -82,11 +82,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+        SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
+        String language=preferences.getString("My_Lang","");
+
+        if(language.equals("") || language.isEmpty()|| language.equals(null)){
+            language = "it";
+        }
+
         SharedPreferences.Editor editorLanguage=getSharedPreferences("Settings",MODE_PRIVATE).edit();
-        editorLanguage.putString("My_Lang","it");
+        editorLanguage.putString("My_Lang",language);
         editorLanguage.apply();
 
-        Locale locale=new Locale("it");
+
+        Locale locale=new Locale(language);
         Locale.setDefault(locale);
         Configuration config=new Configuration();
         config.locale=locale;
