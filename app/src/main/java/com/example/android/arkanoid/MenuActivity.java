@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+
+import java.util.Locale;
 
 public class MenuActivity extends NavigationMenuActivity {
     private int level;
@@ -22,35 +25,21 @@ public class MenuActivity extends NavigationMenuActivity {
         View contentView = inflater.inflate(R.layout.activity_menu, null, false);
         dl.addView(contentView, 0);
 
+        SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
+        String language=preferences.getString("My_Lang","");
+        //IMPOSTA LA LINGUA
+        Locale locale=new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config=new Configuration();
+        config.locale=locale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         level = pref.getInt("livArcade", 1);
 
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //CONTROLLO PER IL PRIMO AVVIO
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        boolean dialogShown = settings.getBoolean("dialogShown", false);
-
-        if (!dialogShown) {
-            // AlertDialog code here
-            AlertDialog alertDialog = new AlertDialog.Builder( MenuActivity.this ).create();
-            alertDialog.setTitle( getString(R.string.first_run) );
-            alertDialog.setMessage( getString(R.string.first_run_info) );
-            alertDialog.setCanceledOnTouchOutside(false);
-            alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            startActivity(new Intent(MenuActivity.this, SettingsActivity.class));
-                        }
-                    } );
-            alertDialog.show();
-
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("dialogShown", true);
-            editor.commit();
-        }
     }
 
     public void goToGame(View View){

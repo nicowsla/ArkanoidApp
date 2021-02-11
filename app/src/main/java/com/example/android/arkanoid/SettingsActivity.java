@@ -30,7 +30,7 @@ public class SettingsActivity extends NavigationMenuActivity {
     private TextInputLayout commandLayout;
     private EditText command;
     private TextInputLayout languageLayout;
-    private EditText language;
+    private EditText languageString;
     private String s= null;
     private String s1 = null;
     private Boolean enableTouch;
@@ -38,11 +38,19 @@ public class SettingsActivity extends NavigationMenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //LoadLocale();
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_settings, null, false);
         dl.addView(contentView, 0);
+
+        SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
+        String language=preferences.getString("My_Lang","");
+        //IMPOSTA LA LINGUA
+        Locale locale2=new Locale(language);
+        Locale.setDefault(locale2);
+        Configuration config=new Configuration();
+        config.locale=locale2;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         enableTouch = pref.getBoolean("touch", true);
@@ -52,9 +60,14 @@ public class SettingsActivity extends NavigationMenuActivity {
         command = findViewById(R.id.settings_commands);
 
         languageLayout = findViewById(R.id.settings_languagec);
-        language = findViewById(R.id.settings_language);
+        languageString = findViewById(R.id.settings_language);
 
-        language.setText(R.string.select_a_language); //TODO METTERE LA LINGUA CHE STA
+        if(language.equals("it")){
+            languageString.setText(R.string.italian);
+        }else{
+            languageString.setText(R.string.english);
+        }
+
 
         if(enableTouch && !enableAccelerometer){
             command.setText(getString(R.string.touch));
@@ -133,7 +146,7 @@ public class SettingsActivity extends NavigationMenuActivity {
                                     setLocale("en");
                                     recreate();
                                 }
-                                language.setText( s1 );
+                                languageString.setText( s1 );
                                 dialog.dismiss();
                                 Toast.makeText(SettingsActivity.this, s1, Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SettingsActivity.this, SettingsActivity.class));
@@ -166,7 +179,6 @@ public class SettingsActivity extends NavigationMenuActivity {
             case R.id.mybuttoncontacts:
                 Intent i=new Intent(this, ContactUsActivity.class);
                 startActivity(i);
-                //finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -182,13 +194,6 @@ public class SettingsActivity extends NavigationMenuActivity {
         SharedPreferences.Editor editor=getSharedPreferences("Settings",MODE_PRIVATE).edit();
         editor.putString("My_Lang",lang);
         editor.apply();
-    }
-
-    private void LoadLocale()
-    {
-        SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
-        String language=preferences.getString("My_Lang","");
-        setLocale(language);
     }
 
     public void infoCommands(View view) {

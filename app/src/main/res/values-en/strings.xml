@@ -205,5 +205,7 @@
     <string name="send_challenges">Sent challenges</string>
     <string name="received_challenges">Received challenges</string>
     <string name="empty_matrix">You have to put the bricks!</string>
+    <string name="italian">Italiano</string>
+    <string name="english">English</string>
 
 </resources>

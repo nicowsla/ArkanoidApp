@@ -81,6 +81,17 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences.Editor editorLanguage=getSharedPreferences("Settings",MODE_PRIVATE).edit();
+        editorLanguage.putString("My_Lang","it");
+        editorLanguage.apply();
+
+        Locale locale=new Locale("it");
+        Locale.setDefault(locale);
+        Configuration config=new Configuration();
+        config.locale=locale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
@@ -88,6 +99,8 @@ public class LoginActivity extends AppCompatActivity {
         String[] PERMISSIONS = {
                 Manifest.permission.INTERNET,
         };
+
+
 
         //salvo lo userID per non perdere l'accesso
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
@@ -99,11 +112,6 @@ public class LoginActivity extends AppCompatActivity {
 
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        //imposto la lingua predefinita come inglese
-        SharedPreferences.Editor editor=getSharedPreferences("Settings",MODE_PRIVATE).edit();
-        editor.putString("My_Lang","en");
-        editor.apply();
 
         Animation frombottom = AnimationUtils.loadAnimation(this, R.anim.show_from_bottom); //prima era frombottom
         Animation fromtop = AnimationUtils.loadAnimation(this, R.anim.fromtop);

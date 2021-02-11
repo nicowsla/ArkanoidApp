@@ -46,7 +46,6 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
         //FORZO IMPOSTAZIONE LINGUA
         SharedPreferences preferences=context.getSharedPreferences("Settings", MODE_PRIVATE);
         String language=preferences.getString("My_Lang","");
-
         //IMPOSTA LA LINGUA
         Locale locale=new Locale(language);
         Locale.setDefault(locale);

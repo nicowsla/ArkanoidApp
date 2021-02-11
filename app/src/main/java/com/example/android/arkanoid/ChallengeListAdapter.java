@@ -41,16 +41,14 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
         this.received = received;
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        //FORZO IMPOSTAZIONE LINGUA
         SharedPreferences preferences=context.getSharedPreferences("Settings", MODE_PRIVATE);
         String language=preferences.getString("My_Lang","");
-
         //IMPOSTA LA LINGUA
         Locale locale=new Locale(language);
         Locale.setDefault(locale);
         Configuration config=new Configuration();
         config.locale=locale;
-        context.getResources().updateConfiguration(config,context.getResources().getDisplayMetrics());
+       context.getResources().updateConfiguration(config,context.getResources().getDisplayMetrics());
     }
 
     @Override

@@ -203,5 +203,7 @@
     <string name="send_challenges">Sfide inviate</string>
     <string name="received_challenges">Sfide ricevute</string>
     <string name="empty_matrix">Posiziona i mattoncini prima di proseguire!</string>
+    <string name="italian">Italiano</string>
+    <string name="english">English</string>
 
 </resources>

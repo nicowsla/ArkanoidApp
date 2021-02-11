@@ -7,6 +7,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Looper;
@@ -50,6 +51,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.util.Locale;
+
 public class UsersListActivity extends NavigationMenuActivity {
     private static final int PERMISSION_ID = 44;
     private RecyclerView recyclerView;
@@ -77,6 +80,15 @@ public class UsersListActivity extends NavigationMenuActivity {
         View contentView = inflater.inflate(R.layout.activity_users_list, null, false);
         dl.addView(contentView, 0);
 
+        SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
+        String language=preferences.getString("My_Lang","");
+        //IMPOSTA LA LINGUA
+        Locale locale=new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config=new Configuration();
+        config.locale=locale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         rankingScore = pref.getBoolean("score", false);
         rankingTime = pref.getBoolean("time", false);
@@ -87,7 +99,8 @@ public class UsersListActivity extends NavigationMenuActivity {
         label = (TextView) findViewById(R.id.tw);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        getLastLocation();
+
+
 
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
         searchBar = findViewById(R.id.search_bar);
@@ -154,6 +167,7 @@ public class UsersListActivity extends NavigationMenuActivity {
 
         }else{
             bottonMenu.setVisibility(View.GONE); // se visualizzo la lista utenti nascondo la searchBar
+            getLastLocation();
         }
         fetch();
 

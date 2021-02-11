@@ -60,16 +60,12 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
 
         SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
         String language=preferences.getString("My_Lang","");
-
         //IMPOSTA LA LINGUA
         Locale locale=new Locale(language);
         Locale.setDefault(locale);
         Configuration config=new Configuration();
         config.locale=locale;
         getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
-        SharedPreferences.Editor editor=getSharedPreferences("Settings",MODE_PRIVATE).edit();
-        editor.putString("My_Lang",language);
-        editor.apply();
 
         Bundle i = getIntent().getExtras();
         requestSend = i.getBoolean("S");
