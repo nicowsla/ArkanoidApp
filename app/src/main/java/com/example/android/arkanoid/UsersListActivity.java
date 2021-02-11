@@ -94,9 +94,9 @@ public class UsersListActivity extends NavigationMenuActivity {
         rankingScore = pref.getBoolean("score", false);
         rankingTime = pref.getBoolean("time", false);
 
-        if(!rankingTime && !rankingScore){
-            getLastLocation();
-        }
+
+
+
 
         distanceTextView = (TextView) findViewById( R.id.distance );
         seekBar = (SeekBar) findViewById(R.id.seekBarDistance);
@@ -172,6 +172,7 @@ public class UsersListActivity extends NavigationMenuActivity {
 
         }else{
             bottonMenu.setVisibility(View.GONE); // se visualizzo la lista utenti nascondo la searchBar
+            getLastLocation();
         }
         fetch();
 

@@ -33,7 +33,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.android.arkanoid.entity.Ball;
 import com.example.android.arkanoid.entity.Challenge;
 import com.example.android.arkanoid.entity.Paddle;
@@ -133,14 +132,13 @@ public class MainActivity extends AppCompatActivity {
         wm.getDefaultDisplay().getMetrics(displayMetrics);
         int screenWidth = displayMetrics.widthPixels;
         int screenHeight = displayMetrics.heightPixels;
-        int partita = 0;
 
         if(!guestMode){
             database = FirebaseDatabase.getInstance();
             mAuth = FirebaseAuth.getInstance();
             user = mAuth.getCurrentUser();
             Bundle i = getIntent().getExtras();
-            partita = i.getInt("MODE");
+            int partita = i.getInt("MODE");
 
             if(actionBar != null) {
                 switch (partita) {
