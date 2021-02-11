@@ -40,6 +40,8 @@ public class CreateLevel extends Activity {
 
     int maxSize;
 
+    String emptyMatrixString = "0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0";
+
     Integer[][] matrix = new Integer[][]{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -239,7 +241,6 @@ public class CreateLevel extends Activity {
             }else if (i ==raw || i==raw1){
                 changeColor(i, j);
             }else if(i>raw1+2){
-
                 // converto la matrice in stringa e la metto nelle shared preferences
                 StringBuilder matrixString= new StringBuilder();
                 int j=0;
@@ -259,11 +260,17 @@ public class CreateLevel extends Activity {
                     j++;
                 }
 
-                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                editor.putString( "matrixString", matrixString.toString() );
-                editor.apply();
+                if(matrixString.toString().equals(emptyMatrixString)){
+                    Toast.makeText(CreateLevel.this,getString(R.string.empty_matrix) , Toast.LENGTH_SHORT).show();
+                }else{
+                    SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                    editor.putString( "matrixString", matrixString.toString() );
+                    editor.apply();
 
-                startActivity(new Intent(CreateLevel.this, CreateLevelActivity.class));
+                    startActivity(new Intent(CreateLevel.this, CreateLevelActivity.class));
+                }
+
+
 
             }
 

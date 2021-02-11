@@ -202,4 +202,6 @@
     <string name="first_run">Primo avvio</string>
     <string name="send_challenges">Sfide inviate</string>
     <string name="received_challenges">Sfide ricevute</string>
+    <string name="empty_matrix">Posiziona i mattoncini prima di proseguire!</string>
+
 </resources>
