@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/button"
             android:textColorHint="@color/button"
-            android:maxLength="18"/>
+            android:maxLength="16"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

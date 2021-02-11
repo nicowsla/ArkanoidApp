@@ -154,6 +154,9 @@ public class UserProfileActivity extends NavigationMenuActivity {
         //altrimenti nascondo il menu per modificare poichè non si trova sul suo profilo
         if(currentUser.equals(profileUser)){
             bottonMenu.setVisibility(View.GONE);
+            if (!hasPermissions(this, PERMISSIONS)) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+            }
         }else{
             menu.setVisibility(View.GONE);
         }
@@ -217,9 +220,7 @@ public class UserProfileActivity extends NavigationMenuActivity {
             }
         } );
 
-        if (!hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
-        }
+
 
     }
 
