@@ -357,9 +357,9 @@ public class UsersListActivity extends NavigationMenuActivity {
         if (requestCode == PERMISSION_ID) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLastLocation();
+            }else{
+                Toast.makeText(UsersListActivity.this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
             }
-        }else{
-            Toast.makeText(UsersListActivity.this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
         }
     }
 
