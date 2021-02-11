@@ -201,9 +201,9 @@ public class MainActivity extends AppCompatActivity {
     private void createHandler() {
         updateHandler = new Handler() {
             public void handleMessage(Message msg) {
-                game.invalidate();
-                game.update();
-                super.handleMessage(msg);
+            game.invalidate();
+            game.update();
+            super.handleMessage(msg);
             }
         };
     }
@@ -590,6 +590,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }else{
+                    boss=false;
                     for (int i = 3; i < level+3; i++) {
                         for (int j = 1; j < 10; j++) {
                             numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
@@ -859,7 +860,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
                             canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
-                            if(infinityMode || landscape || timeMode){
+                            if(!arcadeMode && !themeMode){
                                 level = 1;
                             }
                             if(!multiplayer){
@@ -959,7 +960,7 @@ public class MainActivity extends AppCompatActivity {
 
                     gameOver = true;
                     start = false;
-                    if(infinityMode || timeMode || landscape){
+                    if(!arcadeMode && !themeMode){
                         level = 1;
                     }
                     soundPlayer.playGameOverSound();
@@ -1107,25 +1108,7 @@ public class MainActivity extends AppCompatActivity {
             private void win() {
                 if (list.isEmpty()) {
                     soundPlayer.playOverSound();
-                    if(boss){
-                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
-                        alertDialog.setTitle( R.string.vittoria );
-                        alertDialog.setMessage( getString(R.string.messaggio_vittoria_boss) );
-                        alertDialog.setCanceledOnTouchOutside(false);
-                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        if(guestMode){
-                                            startActivity( new Intent( MainActivity.this, LoginActivity.class ) );
-                                        }else{
-                                            startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
-                                        }
-                                    }
-                                } );
-                        alertDialog.show();
-                        start = false;
-                    }else if(timeMode){
+                    if(timeMode){
                         onPause();
                         difference = System.currentTimeMillis() - startTime;
                         minuti = difference / (1000 * 60);
@@ -1149,7 +1132,7 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                 });
                         alertDialog.show();
-                        start = false;
+                        //start = false;
                     }else if(themeMode){
                         if(level==10) {
                             AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
@@ -1173,40 +1156,42 @@ public class MainActivity extends AppCompatActivity {
                             resetLevel(level,buttonValue);
                             start = false;
                         }
-
-                    }else if(landscape && level==3){
-                        AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
-                        alertDialog.setTitle( R.string.vittoria_tempo );
-                        alertDialog.setMessage( getString(R.string.messaggio_landscape) );
-                        alertDialog.setCanceledOnTouchOutside(false);
-                        alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                                    }
-                                } );
-                        alertDialog.show();
-                        start = false;
-                    }else if(arcadeMode ){
-                        if(!boss){
+                    }else if(arcadeMode){
+                        if(boss){
+                            AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
+                            alertDialog.setTitle( R.string.vittoria );
+                            alertDialog.setMessage( getString(R.string.messaggio_vittoria_boss) );
+                            alertDialog.setCanceledOnTouchOutside(false);
+                            alertDialog.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.commands_confirm),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            if(guestMode){
+                                                startActivity( new Intent( MainActivity.this, LoginActivity.class ) );
+                                            }else{
+                                                startActivity( new Intent( MainActivity.this, MenuActivity.class ) );
+                                            }
+                                        }
+                                    } );
+                            alertDialog.show();
+                            start = false;
+                        }else {
                             level++;
+                            if (level > levArcade && !guestMode) {
+                                database.getReference("utenti").child(user.getUid()).child("livArcade").setValue(level);
+                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                editor.putInt("livArcade", level);
+                                editor.apply();
+                            }
+                            if (level % 5 == 0) {         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
+                                lifes++;                            //AGGIUNGE UNA VITA
+                                paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
+                            }
+                            //soundPlayer.playOverSound();
+                            resetLevel(level, buttonValue);
+                            start = false;
                         }
-                        if(level > levArcade && !guestMode){
-                            database.getReference("utenti").child(user.getUid()).child("livArcade").setValue(level);
-                            SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                            editor.putInt( "livArcade", level );
-                            editor.apply();
-                        }
-                        if(level%5 == 0){         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
-                            lifes++;                            //AGGIUNGE UNA VITA
-                            paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
-                        }
-                        soundPlayer.playOverSound();
-                        resetLevel(level,buttonValue);
-                        start = false;
-                    }
-                    else if(landscape && level==3) {
+                    }else if(landscape && level==3) {
                         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                         alertDialog.setTitle(R.string.vittoria_tempo);
                         alertDialog.setMessage(getString(R.string.messaggio_landscape));
@@ -1222,10 +1207,6 @@ public class MainActivity extends AppCompatActivity {
                         start = false;
                     }else{
                         level++;
-                        if(level%5 == 0 && arcadeMode){         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
-                            lifes++;                            //AGGIUNGE UNA VITA
-                            paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
-                        }
                         resetLevel(level,buttonValue);
                         start = false;
                     }
