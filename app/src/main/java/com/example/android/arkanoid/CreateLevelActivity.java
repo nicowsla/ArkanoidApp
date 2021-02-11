@@ -17,6 +17,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.arkanoid.entity.Level;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -165,7 +166,6 @@ public class CreateLevelActivity extends AppCompatActivity {
             startActivity(new Intent(CreateLevelActivity.this, PersonalLevelsActivity.class));
         }
         //creare un pop up che conferma il salvataggio del livello e poi uscire
-
     }
 
 }

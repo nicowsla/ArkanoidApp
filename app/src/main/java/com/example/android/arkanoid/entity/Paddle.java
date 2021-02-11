@@ -1,5 +1,4 @@
-package com.example.android.arkanoid;
-
+package com.example.android.arkanoid.entity;
 public class Paddle {
 
     private float x;

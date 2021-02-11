@@ -1,4 +1,4 @@
-package com.example.android.arkanoid;
+package com.example.android.arkanoid.entity;
 
 public class Level {
     private String id;

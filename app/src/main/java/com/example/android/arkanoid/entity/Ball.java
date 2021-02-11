@@ -1,4 +1,4 @@
-package com.example.android.arkanoid;
+package com.example.android.arkanoid.entity;
 
 import android.graphics.RectF;
 
@@ -18,7 +18,7 @@ public class Ball{
     }
 
     // creates a random speed ball
-    protected void createSpeed(int level) {
+    public void createSpeed(int level) {
         int minX;
         int minY = -10;
         if(Math.random()*100>50){ //la pallina va a destra o sinistra in modo casuale alla partenza
@@ -52,7 +52,7 @@ public class Ball{
     }
 
     // changes direction depending on which wall it touched and speed
-    protected void changeDirection(String wall) {
+    public void changeDirection(String wall) {
         if (xSpeed > 0 && ySpeed < 0 && wall.equals("rights")) {
             otocXSpeed();
         } else if (xSpeed > 0 && ySpeed < 0 && wall.equals("up")) {
@@ -174,12 +174,12 @@ public class Ball{
     }
 
     //if the ball collides with the fall, it will change direction
-    protected void suddentlyPaddle(float xPaddle, float yPaddle, int screenWidth, int screenHeight) {
+    public void suddentlyPaddle(float xPaddle, float yPaddle, int screenWidth, int screenHeight) {
         if (isNear(xPaddle, yPaddle, getX(), getY(),screenWidth,screenHeight)) changeDirection();
     }
 
     //if the ball collides with a brick, it changes direction
-    protected boolean suddentlyBrick(float xBrick, float yBrick,int screenWidth, int screenHeight) {
+    public boolean suddentlyBrick(float xBrick, float yBrick, int screenWidth, int screenHeight) {
         if (isCloseToBrick(xBrick, yBrick, getX(), getY(),screenWidth,screenHeight)) {
             changeDirection();
             return true;
@@ -187,7 +187,7 @@ public class Ball{
     }
 
     //moves by the specified speed
-    protected void hurryUp() {
+    public void hurryUp() {
         x = x + xSpeed;
         y = y + ySpeed;
     }

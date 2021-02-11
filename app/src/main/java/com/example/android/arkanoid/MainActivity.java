@@ -33,6 +33,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.android.arkanoid.entity.Ball;
+import com.example.android.arkanoid.entity.Challenge;
+import com.example.android.arkanoid.entity.Paddle;
+import com.example.android.arkanoid.entity.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -43,6 +48,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import com.example.android.arkanoid.Brick;
+import com.example.android.arkanoid.Coordinate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -731,9 +738,6 @@ public class MainActivity extends AppCompatActivity {
                 //canvas.drawText("w"+ screenWidth,50,300, paint );
                 paint.setColor(Color.WHITE);
                 paint.setTextSize(50);
-
-                float velocitaX = ball.getxSpeed();
-                float velocitaY = ball.ySpeed;
 
                 Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
                 Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
