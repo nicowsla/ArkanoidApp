@@ -94,6 +94,10 @@ public class UsersListActivity extends NavigationMenuActivity {
         rankingScore = pref.getBoolean("score", false);
         rankingTime = pref.getBoolean("time", false);
 
+        if(!rankingTime && !rankingScore){
+            getLastLocation();
+        }
+
         distanceTextView = (TextView) findViewById( R.id.distance );
         seekBar = (SeekBar) findViewById(R.id.seekBarDistance);
         kmTextView = (TextView) findViewById( R.id.kilometri );
@@ -168,7 +172,6 @@ public class UsersListActivity extends NavigationMenuActivity {
 
         }else{
             bottonMenu.setVisibility(View.GONE); // se visualizzo la lista utenti nascondo la searchBar
-            getLastLocation();
         }
         fetch();
 
@@ -290,7 +293,6 @@ public class UsersListActivity extends NavigationMenuActivity {
                         }
                 );
             } else {
-                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
             }
