@@ -2,10 +2,12 @@ package com.example.android.arkanoid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import android.content.DialogInterface;
 import android.view.WindowManager;
 
 
-public class ThemeLevelsActivity extends AppCompatActivity {
+public class ThemeLevelsActivity extends NavigationMenuActivity {
     private ImageView img1;
     private ImageView img2;
     private ImageView img3;
@@ -33,7 +35,10 @@ public class ThemeLevelsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_theme_levels);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_theme_levels, null, false);
+        dl.addView(contentView, 0);
+
 
         SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
         String language=preferences.getString("My_Lang","");

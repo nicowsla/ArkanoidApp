@@ -96,10 +96,10 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
         }
 
         if(!sent && !received){
-            if(lista.getYourScore()<lista.getScore()){
-                holder.setResult(context.getString(R.string.win_challenges_list));
-            }else if (lista.getYourScore()==lista.getScore()){
+            if(lista.getYourScore().equals(lista.getScore())){
                 holder.setResult(context.getString(R.string.draw_challenge));
+            }else if (lista.getYourScore()<lista.getScore()){
+                holder.setResult(context.getString(R.string.win_challenges_list));
             }else{
                 holder.setResult(context.getString(R.string.lose_challenges_list));
             }

@@ -461,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
             sensorAccelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
             // create a bitmap for the ball and paddle
-            redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
+            redBall = BitmapFactory.decodeResource(getResources(), R.drawable.sfera);
             paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
 
             new_paddle = Bitmap.createScaledBitmap(paddle_p,(paddle_width*screenWidth)/1080,(paddle_height*screenHeight)/1920,true);
@@ -715,7 +715,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // draw the ball
                 paint.setColor(Color.RED);
-                canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
+                //canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
+                canvas.drawBitmap(redBall, ball.getX(), ball.getY(), paint);
 
 
                 // draw fell, disegna rettangolo cioè barra

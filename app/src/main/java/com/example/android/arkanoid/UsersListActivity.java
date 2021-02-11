@@ -161,9 +161,9 @@ public class UsersListActivity extends NavigationMenuActivity {
             label.setVisibility(View.GONE);
 
             if(rankingTime){
-                getSupportActionBar().setTitle(R.string.ranking_score);
-            }else{
                 getSupportActionBar().setTitle(R.string.ranking_time);
+            }else{
+                getSupportActionBar().setTitle(R.string.ranking_score);
             }
 
         }else{
