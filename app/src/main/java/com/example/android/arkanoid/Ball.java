@@ -19,10 +19,17 @@ public class Ball{
 
     // creates a random speed ball
     protected void createSpeed(int level) {
-        int minX = 6;
+        int minX;
         int minY = -10;
-        xSpeed = (level)+ minX;
-        ySpeed = minY - (level);
+        if(Math.random()*100>50){ //la pallina va a destra o sinistra in modo casuale alla partenza
+            minX = 6;
+            xSpeed = (level)+ minX;
+        }else{
+            minX = -6;
+            xSpeed = minX - level;
+        }
+        System.out.println(Math.random()*100);
+        ySpeed = minY - level;
     }
 
     // changes direction according to speed

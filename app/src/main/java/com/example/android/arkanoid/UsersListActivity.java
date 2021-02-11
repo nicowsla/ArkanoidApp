@@ -265,7 +265,7 @@ public class UsersListActivity extends NavigationMenuActivity {
                                 if (location == null) {
                                     requestNewLocationData();
                                 } else {
-                                    if(!distanceTextView.getText().toString().equals( "Illimitata" )) {
+                                    if(!distanceTextView.getText().toString().equals( getString(R.string.unlimited) )) {
                                         adapter.setDistance( Long.parseLong( distanceTextView.getText().toString()) );
                                         adapter.setUserCoordinate( new Coordinate( location.getLatitude(), location.getLongitude() ) );
                                         adapter.notifyDataSetChanged();

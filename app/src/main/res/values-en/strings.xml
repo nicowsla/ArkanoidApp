@@ -199,7 +199,7 @@
     <string name="label_infinity_home">Infinity mode</string>
     <string name="label_landscape_mode">Landscape mode</string>
     <string name="km">Km</string>
-    <string name="unlimited_speed">Unlimited</string>
+    <string name="unlimited">Unlimited</string>
     <string name="first_run_info">Before to play you have to set command type and language!</string>
     <string name="first_run">Game setup</string>
     <string name="send_challenges">Sent challenges</string>
