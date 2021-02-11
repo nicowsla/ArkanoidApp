@@ -145,7 +145,7 @@ public class CreateLevel extends Activity {
             mCanvas.drawText(getString(R.string.select_the_color), 30, 2*dh, paint);
             mCanvas.drawText(getString(R.string.draw_bricks), 30, 3*dh, paint);
             mCanvas.drawText(getString(R.string.touch_the_color), 50, (raw -2)*dh, paint);
-            mCanvas.drawText(getString(R.string.touch_here_to_continue), (screenWidth/2)-100, (raw +4)*dh, paint);
+            mCanvas.drawText(getString(R.string.touch_here_to_continue), (screenWidth/2)-100, (raw +6)*dh, paint);
 
             //gomma da cancellare
             //  Bitmap ereaser = Bitmap.createScaledBitmap(box, brick.getWidth(), brick.getHeight(), true);
