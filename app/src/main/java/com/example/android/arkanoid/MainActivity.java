@@ -429,6 +429,18 @@ public class MainActivity extends AppCompatActivity {
         private int paddle_width = 200;
         private int paddle_height = 40;
 
+        Bitmap icon_level;
+        Bitmap icon_lives;
+        Bitmap icon_score;
+        Bitmap icon_time ;
+
+        int maxSize;
+
+        Bitmap new_icon_level;
+        Bitmap new_icon_lives;
+        Bitmap new_icon_score;
+        Bitmap new_icon_time;
+
         public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita, Boolean multiplayer, Boolean sfidante, Boolean sfidato) {
             super(context);
             paint = new Paint();
@@ -459,15 +471,22 @@ public class MainActivity extends AppCompatActivity {
             sensorAccelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
             // create a bitmap for the ball and paddle
-            redBall = BitmapFactory.decodeResource(getResources(), R.drawable.sfera);
+            Bitmap originalBall =  BitmapFactory.decodeResource(getResources(), R.drawable.sfera);
+            redBall = scaleDown(originalBall, 60, true);
             paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
 
             new_paddle = Bitmap.createScaledBitmap(paddle_p,(paddle_width*screenWidth)/1080,(paddle_height*screenHeight)/1920,true);
 
             // creates a new ball, paddle, and list of bricks
+
             ball = new Ball(size.x / 2, size.y - (470*screenHeight)/1920, level);
             paddle = new Paddle((size.x / 2) - (100*screenWidth)/1080, size.y - (400*screenHeight)/1920);
             list = new ArrayList<Brick>();
+
+            icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
+            icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
+            icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
+            icon_time = BitmapFactory.decodeResource(this.getResources(), R.drawable.stopwatch);
 
             buttonValue = partita;
             switch(buttonValue){
@@ -488,6 +507,17 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
             generateBricks(context, level, buttonValue);
+
+            if(landscape){
+                maxSize = (int) screenWidth/36;
+            }else{
+                maxSize = (int) screenWidth / 18;
+            }
+            new_icon_level = scaleDown(icon_level, maxSize, true);
+            new_icon_lives = scaleDown(icon_lives, maxSize, true);
+            new_icon_score = scaleDown(icon_score, maxSize, true);
+            new_icon_time = scaleDown(icon_time, maxSize, true);
+
 
             this.setOnTouchListener(this);
 
@@ -686,8 +716,7 @@ public class MainActivity extends AppCompatActivity {
             float ratio = Math.min((float) maxImageSize / realImage.getWidth(), (float) maxImageSize / realImage.getHeight());
             int width = Math.round((float) ratio * realImage.getWidth());
             int height = Math.round((float) ratio * realImage.getHeight());
-            Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width, height, filter);
-            return newBitmap;
+            return Bitmap.createScaledBitmap(realImage, width, height, filter);
         }
 
         protected void onDraw(Canvas canvas) {
@@ -717,7 +746,6 @@ public class MainActivity extends AppCompatActivity {
                 //canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
                 canvas.drawBitmap(redBall, ball.getX(), ball.getY(), paint);
 
-
                 // draw fell, disegna rettangolo cioè barra
                 paint.setColor(Color.WHITE);
                 //La riga sotto era +200 + 40
@@ -729,27 +757,13 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < list.size(); i++) {
                     Brick b = list.get(i);
                     //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
-                    r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1920, b.getY() + (100*screenHeight)/2880) ;
-                    canvas.drawBitmap(b.getBrick(), null, r, paint);
+                    canvas.drawBitmap(b.getBrick(), null, new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1920, b.getY() + (100*screenHeight)/2880) , paint);
                 }
 
-                // draw text
-                //canvas.drawText("h"+ screenHeight,50,250, paint );
-                //canvas.drawText("w"+ screenWidth,50,300, paint );
+                // draw text and icons
                 paint.setColor(Color.WHITE);
                 paint.setTextSize(50);
 
-                Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
-                Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
-                Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
-                Bitmap icon_time = BitmapFactory.decodeResource(this.getResources(), R.drawable.stopwatch);
-
-                int maxSize = (int) screenWidth/36;
-
-                Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
-                Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
-                Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
-                Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
                 canvas.drawBitmap(new_icon_level, size.x/6, 50 - 48, paint);
                 canvas.drawText("" + level,(size.x/6) + 60,100 - 50, paint );
                 canvas.drawBitmap(new_icon_lives, (size.x/6)*3 - 50, 50 - 45, paint);
@@ -784,38 +798,30 @@ public class MainActivity extends AppCompatActivity {
 
                     // draw the ball
                     paint.setColor(Color.RED);
-                    canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
+
+
+                    canvas.drawBitmap(redBall, ball.getX(), ball.getY(), paint);
+                    //canvas.drawCircle(ball.getX(), ball.getY(), 30, paint);
 
                     // draw fell, disegna rettangolo cioè barra
                     paint.setColor(Color.WHITE);
                     //La riga sotto era +200 + 40
                     //r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + (200*screenWidth)/1080, paddle.getY() + (40*screenHeight)/1920);
                     canvas.drawRect(paddle.getX(), paddle.getY(), paddle.getX() + (paddle_width * screenWidth) / 1080, paddle.getY() + (paddle_height * screenHeight) / 1920, paint);
-
+                    //canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
                     // draw bricks
                     paint.setColor(Color.GREEN);
                     for (int i = 0; i < list.size(); i++) {
                         Brick b = list.get(i);
                         //r = new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/screenWidth, b.getY() + (70*screenHeight)/screenHeight) ;
-                        r = new RectF(b.getX(), b.getY(), b.getX() + (100 * screenWidth) / 1080, b.getY() + (70 * screenHeight) / 1920);
-                        canvas.drawBitmap(b.getBrick(), null, r, paint);
+                        canvas.drawBitmap(b.getBrick(), null, new RectF(b.getX(), b.getY(), b.getX() + (100 * screenWidth) / 1080, b.getY() + (70 * screenHeight) / 1920), paint);
                     }
 
                     // draw text
                     paint.setColor(Color.WHITE);
                     paint.setTextSize(50);
 
-                    Bitmap icon_level = BitmapFactory.decodeResource(this.getResources(), R.drawable.up_arrows);
-                    Bitmap icon_lives = BitmapFactory.decodeResource(this.getResources(), R.drawable.heart);
-                    Bitmap icon_score = BitmapFactory.decodeResource(this.getResources(), R.drawable.high_score);
-                    Bitmap icon_time = BitmapFactory.decodeResource(this.getResources(), R.drawable.stopwatch);
 
-                    int maxSize = (int) screenWidth / 18;
-
-                    Bitmap new_icon_level = scaleDown(icon_level, maxSize, true);
-                    Bitmap new_icon_lives = scaleDown(icon_lives, maxSize, true);
-                    Bitmap new_icon_score = scaleDown(icon_score, maxSize, true);
-                    Bitmap new_icon_time = scaleDown(icon_time, maxSize, true);
 
                     if (timeMode) {
                         difference = System.currentTimeMillis() - startTime;
