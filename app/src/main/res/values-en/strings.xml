@@ -207,5 +207,6 @@
     <string name="empty_matrix">You have to put the bricks!</string>
     <string name="italian">Italiano</string>
     <string name="english">English</string>
+    <string name="draw">Hard match...</string>
 
 </resources>
