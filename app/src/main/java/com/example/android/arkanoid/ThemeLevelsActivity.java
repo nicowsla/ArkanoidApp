@@ -81,11 +81,6 @@ public class ThemeLevelsActivity extends NavigationMenuActivity {
                 editor.putInt("livTheme", level);
                 editor.apply();
 
-                if(level<10){
-                    for(int a = level; a<10; a++){
-                        img.get(a).setImageDrawable(getDrawable(R.drawable.locker));
-                    }
-                }
 
                 Intent i = new Intent(ThemeLevelsActivity.this, MainActivity.class);
                 i.putExtra("MODE", 1);
@@ -112,6 +107,12 @@ public class ThemeLevelsActivity extends NavigationMenuActivity {
                 img.add(img8);
                 img.add(img9);
                 img.add(img10);
+
+                if(level<10){
+                    for(int a = level; a<10; a++){
+                        img.get(a).setImageDrawable(getDrawable(R.drawable.locker));
+                    }
+                }
 
                 for(int a=0; a<level; a++ ){
                     final int c = a+1;
