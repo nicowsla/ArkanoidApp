@@ -853,7 +853,7 @@ public class MainActivity extends AppCompatActivity {
                         canvas.drawBitmap(new_icon_lives, (size.x / 6) * 2 - (maxSize + 5), 50, paint);
                         canvas.drawText("" + lifes, (size.x / 6) * 2, 100, paint);
 
-                        if(!start && !gameOver && !pause){
+                        if((!start && !gameOver && !pause)|| gameOver){
                             canvas.drawText(0 + "'" + 0 + "''" + 0 + 0 + 0, (size.x / 6) * 4 - 40, 100, paint);
                         }else {
                             canvas.drawText(minuti + "'" + secondi + "''" + decimi + centesimi + millesimi, (size.x / 6) * 4 - 40, 100, paint);
