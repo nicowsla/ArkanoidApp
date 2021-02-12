@@ -2,7 +2,6 @@ package com.example.android.arkanoid;
 
 
 import androidx.annotation.NonNull;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -15,30 +14,23 @@ import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.SearchView;
-
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
-
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.android.arkanoid.entity.Coordinate;
 import com.example.android.arkanoid.entity.User;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -52,7 +44,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-
 import java.util.Locale;
 
 public class UsersListActivity extends NavigationMenuActivity {
@@ -206,17 +197,17 @@ public class UsersListActivity extends NavigationMenuActivity {
                 }
 
         FirebaseRecyclerOptions<User> options =
-                new FirebaseRecyclerOptions.Builder<User>()
-                        .setQuery(query, new SnapshotParser<User>() {
-                            @NonNull
-                            @Override
-                            public User parseSnapshot(@NonNull DataSnapshot snapshot) {
-                                return new User(snapshot.child("id").getValue(String.class), snapshot.child("username").getValue(String.class),
-                                        snapshot.child("email").getValue(String.class), snapshot.child("bestScore").getValue(Long.class),
-                                       snapshot.child("bestTime").getValue(Long.class), snapshot.child("livArcade").getValue(Integer.class), snapshot.child("livTema").getValue(Integer.class), new Coordinate(snapshot.child( "coordinate" ).child("latitude").getValue(Double.class), snapshot.child( "coordinate" ).child("longitude").getValue(Double.class))) ;
-                            }
-                        })
-                        .build();
+            new FirebaseRecyclerOptions.Builder<User>()
+                .setQuery(query, new SnapshotParser<User>() {
+                    @NonNull
+                    @Override
+                    public User parseSnapshot(@NonNull DataSnapshot snapshot) {
+                        return new User(snapshot.child("id").getValue(String.class), snapshot.child("username").getValue(String.class),
+                                snapshot.child("email").getValue(String.class), snapshot.child("bestScore").getValue(Long.class),
+                               snapshot.child("bestTime").getValue(Long.class), snapshot.child("livArcade").getValue(Integer.class), snapshot.child("livTema").getValue(Integer.class), new Coordinate(snapshot.child( "coordinate" ).child("latitude").getValue(Double.class), snapshot.child( "coordinate" ).child("longitude").getValue(Double.class))) ;
+                    }
+                })
+                .build();
 
         adapter = new UserListAdapter(options, "", getApplicationContext(), rankingScore, rankingTime);
         recyclerView.setAdapter(adapter);

@@ -8,18 +8,14 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
-
 import com.example.android.arkanoid.entity.Coordinate;
 import com.example.android.arkanoid.entity.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.util.Locale;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListViewHolder> {

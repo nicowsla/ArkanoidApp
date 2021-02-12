@@ -108,6 +108,7 @@
     <string name="brown_chosen">Chosen color: brown</string>
     <string name="aqua_chosen">Chosen color: aqua</string>
     <string name="grey_chosen">Chosen color: grey</string>
+    <string name="dark_green">Chosen color: dark green</string>
     <string name="lite_grey_chosen">Chosen color: light grey</string>
     <string name="choose_speed">Choose the ball speed!</string>
     <string name="ereaser_chosen">Rubber selected!</string>

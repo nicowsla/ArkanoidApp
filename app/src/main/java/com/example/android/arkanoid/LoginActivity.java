@@ -17,13 +17,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,7 +36,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.util.Locale;
 import java.util.Objects;
 
@@ -48,22 +44,15 @@ import static com.example.android.arkanoid.SignInActivity.hasPermissions;
 public class LoginActivity extends AppCompatActivity {
     private static final long ONE_MEGABYTE= 1024 * 1024;
     private FirebaseAuth mAuth;
-
     private ImageView logo;
-
     private TextInputLayout emailLayout;
     private EditText emailET;
     private String email;
-
     private TextInputLayout pswLayout;
     private EditText pswET;
     private String password;
-    private String photo;
-
-    private Button loginButton;
     private Button guestButton;
     private StorageReference mStorageRef;
-
     private boolean error=false;
 
     @Override
@@ -122,20 +111,9 @@ public class LoginActivity extends AppCompatActivity {
         pswLayout = findViewById(R.id.login_pswc);
         pswET = findViewById(R.id.login_psw);
 
-        loginButton = findViewById(R.id.login_button);
-        TextView signin = findViewById(R.id.sign_in);
-        TextView lostpassword = findViewById(R.id.recovery_password);
         guestButton = findViewById(R.id.guest_button);
 
         logo.startAnimation(fromtop);
-
-        /*
-        emailLayout.startAnimation(fromtop);
-        pswLayout.startAnimation(fromtop);
-        loginButton.startAnimation(frombottom);
-        signin.startAnimation(frombottom);
-        lostpassword.startAnimation(frombottom);
-        */
 
         guestButton.startAnimation(frombottom);
 
@@ -174,7 +152,6 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
-        Button contact = (Button) findViewById(R.id.mybuttoncontacts);
 
         if (!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION);

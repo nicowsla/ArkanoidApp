@@ -300,74 +300,74 @@ public class SignInActivity extends AppCompatActivity {
 
     public void createAccount(){
 
-            if(imageString==null){
-                Toast.makeText(SignInActivity.this, getString(R.string.error_image_not_found),
-                        Toast.LENGTH_SHORT).show();
-            }
-            if(!error && imageString!=null){ mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
+        if(imageString==null){
+            Toast.makeText(SignInActivity.this, getString(R.string.error_image_not_found),
+                    Toast.LENGTH_SHORT).show();
+        }
+        if(!error && imageString!=null){ mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
 
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                currentUser = user.getUid();
-                                user.sendEmailVerification();
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        currentUser = user.getUid();
+                        user.sendEmailVerification();
 
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference myRef = database.getReference( "utenti" ).child( user.getUid() );
-                                myRef.setValue( new User(currentUser,username, email, 0, 1000000000, 1, 1, null) );
-                                myRef.child("coordinate").child("latitude").setValue(latitude);
-                                myRef.child("coordinate").child("longitude").setValue(longitude);
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference( "utenti" ).child( user.getUid() );
+                        myRef.setValue( new User(currentUser,username, email, 0, 1000000000, 1, 1, null) );
+                        myRef.child("coordinate").child("latitude").setValue(latitude);
+                        myRef.child("coordinate").child("longitude").setValue(longitude);
 
-                                if (imageString != null) {
-                                    StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-                                    StorageReference riversRef = storageRef.child( currentUser ).child( "images/profilo.jpg" );
-                                    riversRef.putBytes( imgByte )
-                                            .addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                    // Get a URL to the uploaded content
-                                                }
-                                            } )
-                                            .addOnFailureListener( new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception exception) {
-                                                }
-                                            } );
-                                }
-
-                                AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
-                                alertDialog.setTitle( R.string.attention);
-                                alertDialog.setMessage(getString(R.string.signin_check_mail));
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                startActivity( new Intent( SignInActivity.this, LoginActivity.class ) );//qui mettere passaggio per l'altra activity
-                                            }
-                                        } );
-                                alertDialog.show();
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
-                                alertDialog.setTitle( R.string.signin_failed );
-                                alertDialog.setMessage( getString(R.string.sigin_failure_msg) );
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        } );
-                                alertDialog.show();
-
-                            }
+                        if (imageString != null) {
+                            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                            StorageReference riversRef = storageRef.child( currentUser ).child( "images/profilo.jpg" );
+                            riversRef.putBytes( imgByte )
+                                .addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        // Get a URL to the uploaded content
+                                    }
+                                } )
+                                .addOnFailureListener( new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                    }
+                                } );
                         }
-                    });
-            }
+
+                        AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
+                        alertDialog.setTitle( R.string.attention);
+                        alertDialog.setMessage(getString(R.string.signin_check_mail));
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        startActivity( new Intent( SignInActivity.this, LoginActivity.class ) );//qui mettere passaggio per l'altra activity
+                                    }
+                                } );
+                        alertDialog.show();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        AlertDialog alertDialog = new AlertDialog.Builder( SignInActivity.this ).create();
+                        alertDialog.setTitle( R.string.signin_failed );
+                        alertDialog.setMessage( getString(R.string.sigin_failure_msg) );
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                } );
+                        alertDialog.show();
+
+                    }
+                }
+            });
+        }
 
 
     }

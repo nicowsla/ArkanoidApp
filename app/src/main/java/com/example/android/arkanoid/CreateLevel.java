@@ -149,10 +149,6 @@ public class CreateLevel extends Activity {
             mCanvas.drawText(getString(R.string.touch_the_color), 50, (raw -2)*dh, paint);
             mCanvas.drawText(getString(R.string.touch_here_to_continue), (screenWidth/2)-100, (raw +6)*dh, paint);
 
-            //gomma da cancellare
-            //  Bitmap ereaser = Bitmap.createScaledBitmap(box, brick.getWidth(), brick.getHeight(), true);
-            // disegna(4*dw, (raw -2)*dh, ereaser);
-
             originalBrick = BitmapFactory.decodeResource(this.getResources(), R.drawable.brick_blue);
             brick = scaleDown(originalBrick, maxSize, true);
             disegna(0*dw, raw*dh, brick);
@@ -206,7 +202,6 @@ public class CreateLevel extends Activity {
             disegna(7*dw, raw1*dh, brick);
             originalBrick = BitmapFactory.decodeResource(this.getResources(), R.drawable.gomma);
             Bitmap scaledBrick = Bitmap.createScaledBitmap(originalBrick, brick.getWidth(), brick.getHeight(), true);
-            //brick = scaleDown(scaledBrick, maxSize, true);
             disegna(8*dw, raw1*dh, scaledBrick);
         }
 
@@ -259,7 +254,7 @@ public class CreateLevel extends Activity {
                     }
                     j++;
                 }
-
+                //se la stringa è vuota non va avanti
                 if(matrixString.toString().equals(emptyMatrixString)){
                     Toast.makeText(CreateLevel.this,getString(R.string.empty_matrix) , Toast.LENGTH_SHORT).show();
                 }else{

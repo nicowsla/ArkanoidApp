@@ -116,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
         friend = pref.getString("friend", null);
         friendUsername = pref.getString("friendName", null);
         idRequest = pref.getString("idRichiesta", null);
-        //int levTheme = pref.getInt("livTheme",1);
         levArcade = pref.getInt("livArcade", 1);
         levTheme = pref.getInt("livTheme", 1);
         guestMode = pref.getBoolean("guest", false);
@@ -406,13 +405,10 @@ public class MainActivity extends AppCompatActivity {
         private Display display;
         private Point size;
         private Paint paint;
-        private Paint paintGameOver;
 
         private Ball ball;
         private ArrayList<Brick> list;
         private Paddle paddle;
-
-        private RectF r;
 
         private SensorManager sManager;
         private Sensor sensorAccelerometer;
@@ -469,7 +465,6 @@ public class MainActivity extends AppCompatActivity {
         public Game(Context context, int lifes, int score, int level, int screenWidth, int screenHeight, int partita, Boolean multiplayer, Boolean sfidante, Boolean sfidato) {
             super(context);
             paint = new Paint();
-            paintGameOver = new Paint();
 
             // continue context, lifes, score a level
             this.context = context;
@@ -569,7 +564,7 @@ public class MainActivity extends AppCompatActivity {
                 messageText.setGravity(Gravity.CENTER);
                 dialog.show();
             }else if(button == 1){              //PARTITE A TEMA
-                //Parto da 3 perchè mi abbasso
+                //Parto da 3 perchè mi altrimenti va sopra la barra delle vite
                 for (int i = 3; i < 20; i++) {
                     for (int j = 1; j < 10; j++) {
                         switch (level) {
@@ -798,7 +793,6 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap gameovericon = BitmapFactory.decodeResource(this.getResources(), R.drawable.gameover);
                     canvas.drawBitmap(gameovericon, (canvas.getWidth() - gameovericon.getWidth()) / 2, (canvas.getHeight() - gameovericon.getHeight())/ 2, null);
                     level = 1;
-                    //infinityMode = false;
                     startTime = 0;
                     attivato = false;
                 }
@@ -1043,7 +1037,6 @@ public class MainActivity extends AppCompatActivity {
                     if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                         paddle.setX(paddle.getX() - event.values[0] - event.values[0]);
     
-                        //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
                         if (paddle.getX() + event.values[0] > size.x - (paddle_width*screenWidth)/1080) {
                             paddle.setX(size.x - (paddle_width*screenWidth)/1080);
                         } else if (paddle.getX() - event.values[0] <= (0*screenWidth)/1080) {
@@ -1170,7 +1163,7 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                 });
                         alertDialog.show();
-                        //start = false;
+
                     }else if(themeMode){
                         if(level==10) {
                             AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this ).create();
@@ -1185,12 +1178,6 @@ public class MainActivity extends AppCompatActivity {
                             alertDialog.show();
                         }else{
                             level++;
-                            if(level>levTheme){
-                                //myRef.child("livTema").setValue(level);
-                                //SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                                //editor.putInt( "livTheme", level );
-                                //editor.apply();
-                            }
                             resetLevel(level,buttonValue);
                             start = false;
                         }
@@ -1216,7 +1203,6 @@ public class MainActivity extends AppCompatActivity {
                             level++;
                             if (level % 5 == 0) {         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
                                 lifes++;                            //AGGIUNGE UNA VITA
-                                paddle_width += 300;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
                             }
                             resetLevel(level, buttonValue);
                             start = false;
