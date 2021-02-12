@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
             game.invalidate();
             game.update();
-            //super.handleMessage(msg);
+            super.handleMessage(msg);
             }
         };
     }
@@ -1169,7 +1169,7 @@ public class MainActivity extends AppCompatActivity {
                         }else{
                             level++;
                             if(level>levTheme){
-                                myRef.child("livTema").setValue(level);
+                                //myRef.child("livTema").setValue(level);
                                 //SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                                 //editor.putInt( "livTheme", level );
                                 //editor.apply();
@@ -1198,7 +1198,7 @@ public class MainActivity extends AppCompatActivity {
                         }else {
                             level++;
                             if (level > levArcade && !guestMode) {
-                                myRef.child("livArcade").setValue(level);
+                                //myRef.child("livArcade").setValue(level);
                                 //SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                                 //editor.putInt("livArcade", level);
                                 //editor.apply();
