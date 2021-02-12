@@ -53,79 +53,84 @@ public class ThemeLevelsActivity extends NavigationMenuActivity {
 
         SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
         String language=preferences.getString("My_Lang","");
+
         //IMPOSTA LA LINGUA
         Locale locale=new Locale(language);
         Locale.setDefault(locale);
         Configuration config=new Configuration();
         config.locale=locale;
         getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
 
         DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
 
+        //nasconde il pannello delle notifiche
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 level = (dataSnapshot.child("livTema").getValue(Integer.class));
+
+                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                editor.putInt("livTheme", level);
+                editor.apply();
+
+                if(level<10){
+                    for(int a = level; a<10; a++){
+                        img.get(a).setImageDrawable(getDrawable(R.drawable.locker));
+                    }
+                }
+
+                Intent i = new Intent(ThemeLevelsActivity.this, MainActivity.class);
+                i.putExtra("MODE", 1);
+                i.putExtra("Multiplayer", false);
+
+                img1 = findViewById(R.id.img1);
+                img2 = findViewById(R.id.img2);
+                img3 = findViewById(R.id.img3);
+                img4 = findViewById(R.id.img4);
+                img5 = findViewById(R.id.img5);
+                img6 = findViewById(R.id.img6);
+                img7 = findViewById(R.id.img7);
+                img8 = findViewById(R.id.img8);
+                img9 = findViewById(R.id.img9);
+                img10 = findViewById(R.id.img10);
+
+                img.add(img1);
+                img.add(img2);
+                img.add(img3);
+                img.add(img4);
+                img.add(img5);
+                img.add(img6);
+                img.add(img7);
+                img.add(img8);
+                img.add(img9);
+                img.add(img10);
+
+                for(int a=0; a<level; a++ ){
+                    final int c = a+1;
+                    img.get(a).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            i.putExtra("Level", c);
+                            startActivity(i);
+                        }
+                    });
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
+
             }
         });
 
-        SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-        editor.putInt("livTheme", level);
-        editor.apply();
-
-        //nasconde il pannello delle notifiche
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        img1 = findViewById(R.id.img1);
-        img2 = findViewById(R.id.img2);
-        img3 = findViewById(R.id.img3);
-        img4 = findViewById(R.id.img4);
-        img5 = findViewById(R.id.img5);
-        img6 = findViewById(R.id.img6);
-        img7 = findViewById(R.id.img7);
-        img8 = findViewById(R.id.img8);
-        img9 = findViewById(R.id.img9);
-        img10 = findViewById(R.id.img10);
-
-        img.add(img1);
-        img.add(img2);
-        img.add(img3);
-        img.add(img4);
-        img.add(img5);
-        img.add(img6);
-        img.add(img7);
-        img.add(img8);
-        img.add(img9);
-        img.add(img10);
-
-        if(level<10){
-            for(int a = level+1; a<10; a++){
-                img.get(a).setImageDrawable(getDrawable(R.drawable.locker));
-            }
-        }
-
-        Intent i = new Intent(ThemeLevelsActivity.this, MainActivity.class);
-        i.putExtra("MODE", 1);
-        i.putExtra("Multiplayer", false);
-
-        for(int a=0; a<level+1; a++ ){
-            final int c = a+1;
-            img.get(a).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    i.putExtra("Level", c);
-                    startActivity(i);
-                }
-            });
-        }
     }
 
     @Override

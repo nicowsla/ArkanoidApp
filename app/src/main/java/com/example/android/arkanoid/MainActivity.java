@@ -320,12 +320,23 @@ public class MainActivity extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-
                                         if(guestMode){
                                             startActivity( new Intent( MainActivity.this, LoginActivity.class ) );
                                         }else if(game.themeMode){
+                                            if(game.level>levTheme){
+                                                myRef.child("livTema").setValue(game.level);
+                                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                                editor.putInt( "livTheme", game.level );
+                                                editor.apply();
+                                            }
                                             startActivity( new Intent( MainActivity.this, ThemeLevelsActivity.class ) );
                                         }else {
+                                            if( game.level>levArcade && game.arcadeMode){
+                                                myRef.child("livArcade").setValue(game.level);
+                                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                                editor.putInt("livArcade", game.level);
+                                                editor.apply();
+                                            }
                                             startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                         }
                                     }
@@ -356,12 +367,23 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-
                         if(guestMode){
                             startActivity( new Intent( MainActivity.this, LoginActivity.class ) );
                         }else if(game.themeMode){
+                            if(game.level>levTheme){
+                                myRef.child("livTema").setValue(game.level);
+                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                editor.putInt( "livTheme", game.level );
+                                editor.apply();
+                            }
                             startActivity( new Intent( MainActivity.this, ThemeLevelsActivity.class ) );
                         }else {
+                            if( game.level>levArcade && game.arcadeMode){
+                                myRef.child("livArcade").setValue(game.level);
+                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                editor.putInt("livArcade", game.level);
+                                editor.apply();
+                            }
                             startActivity(new Intent(MainActivity.this, MenuActivity.class));
                         }
                     }
@@ -1197,12 +1219,6 @@ public class MainActivity extends AppCompatActivity {
                             alertDialog.show();
                         }else {
                             level++;
-                            if (level > levArcade && !guestMode) {
-                                //myRef.child("livArcade").setValue(level);
-                                //SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                                //editor.putInt("livArcade", level);
-                                //editor.apply();
-                            }
                             if (level % 5 == 0) {         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
                                 lifes++;                            //AGGIUNGE UNA VITA
                                 paddle_width += 300;                 //AUMENTA LA LUNGHEZZA DEL PADDLE

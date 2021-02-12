@@ -45,28 +45,9 @@ public class MenuActivity extends NavigationMenuActivity {
         config.locale=locale;
         getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
 
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-        database = FirebaseDatabase.getInstance();
-
-        DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                level = (dataSnapshot.child("livArcade").getValue(Integer.class));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-            }
-        });
-
-        SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-        editor.putInt("livArcade", level);
-        editor.apply();
-
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
+        level = pref.getInt("livArcade", 1);
+        System.out.println("LIVELLOOOOOOOO= "+level);
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
