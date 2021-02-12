@@ -633,7 +633,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     boss=false;
                     for (int i = 3; i < level+3; i++) {
-                        for (int j = 2; j < 10; j++) {
+                        for (int j = 1; j < 10; j++) {
                             numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
                             list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
                         }
