@@ -116,7 +116,7 @@ public class ThemeLevelsActivity extends NavigationMenuActivity {
         i.putExtra("MODE", 1);
         i.putExtra("Multiplayer", false);
 
-        for(int a=0; a<level; a++ ){
+        for(int a=0; a<level+1; a++ ){
             final int c = a+1;
             img.get(a).setOnClickListener(new View.OnClickListener() {
                 @Override
