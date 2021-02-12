@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
     private Boolean enableTouch;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
+    private DatabaseReference myRefArc;
+    private DatabaseReference myRefThem;
+
     private FirebaseUser user;
     private Boolean enableAccelerometer;
     private SoundPlayer soundPlayer;
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean sfidante = false;
     private Boolean sfidato = false;
     private Boolean pause = false;
+    private String userID;
     private int level;
 
     @Override
@@ -96,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
         //creo la action bar dinamica che si modifica in base alla modalità
         ActionBar actionBar = getSupportActionBar();
+
+        database = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         //mantiene il display acceso durante il gioco
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -121,9 +128,6 @@ public class MainActivity extends AppCompatActivity {
             friendScore = Long.parseLong(s)*(-1);
         }
 
-        database = FirebaseDatabase.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
 
         //sets the screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -139,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
             database = FirebaseDatabase.getInstance();
             mAuth = FirebaseAuth.getInstance();
             user = mAuth.getCurrentUser();
+            userID = user.getUid();
+            myRefArc =  database.getReference("utenti").child(userID).child("livArcade");
+            myRefThem =  database.getReference("utenti").child(userID).child("livTema");
             Bundle i = getIntent().getExtras();
             int partita = i.getInt("MODE");
 
@@ -626,7 +633,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     boss=false;
                     for (int i = 3; i < level+3; i++) {
-                        for (int j = 1; j < 10; j++) {
+                        for (int j = 2; j < 10; j++) {
                             numero = 1 + (int)(Math.random() * ((10 - 1) + 1));
                             list.add(new Brick(context, (size.x/11)*j, (i * 70 * size.y) / screenHeight, numero));
                         }
@@ -1135,8 +1142,8 @@ public class MainActivity extends AppCompatActivity {
                         millesimi = (difference - (minuti*60000) - (secondi*1000) - (decimi*100) - (centesimi*10));
     
                         if(difference<bestTime){
-                            database.getReference("utenti").child(user.getUid()).child( "bestTime" ).setValue( difference );
-                            database.getReference("punteggi").child(user.getUid()).setValue(new User(user.getUid(), username, user.getEmail(), bestScore*(-1), difference, levArcade, levTheme, new Coordinate(0,0)));
+                            database.getReference("utenti").child(userID).child( "bestTime" ).setValue( difference );
+                            database.getReference("punteggi").child(userID).setValue(new User(user.getUid(), username, user.getEmail(), bestScore*(-1), difference, levArcade, levTheme, new Coordinate(0,0)));
                         }
     
                         AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
@@ -1165,7 +1172,7 @@ public class MainActivity extends AppCompatActivity {
                         }else{
                             level++;
                             if(level>levTheme){
-                                database.getReference("utenti").child(user.getUid()).child("livTema").setValue(level);
+                                myRefThem.setValue(level);
                                 //SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                                 //editor.putInt( "livTheme", level );
                                 //editor.apply();
@@ -1194,7 +1201,7 @@ public class MainActivity extends AppCompatActivity {
                         }else {
                             level++;
                             if (level > levArcade && !guestMode) {
-                                database.getReference("utenti").child(user.getUid()).child("livArcade").setValue(level);
+                                myRefArc.setValue(level);
                                 //SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                                 //editor.putInt("livArcade", level);
                                 //editor.apply();

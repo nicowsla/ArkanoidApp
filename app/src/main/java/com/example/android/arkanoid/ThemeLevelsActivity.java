@@ -106,8 +106,8 @@ public class ThemeLevelsActivity extends NavigationMenuActivity {
         img.add(img9);
         img.add(img10);
 
-        if(level<=10){
-            for(int a = level; a<10; a++){
+        if(level<10){
+            for(int a = level+1; a<10; a++){
                 img.get(a).setImageDrawable(getDrawable(R.drawable.locker));
             }
         }
