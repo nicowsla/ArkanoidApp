@@ -61,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean enableTouch;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
-    private DatabaseReference myRefArc;
-    private DatabaseReference myRefThem;
-
+    private DatabaseReference myRef;
     private FirebaseUser user;
     private Boolean enableAccelerometer;
     private SoundPlayer soundPlayer;
@@ -144,8 +142,7 @@ public class MainActivity extends AppCompatActivity {
             mAuth = FirebaseAuth.getInstance();
             user = mAuth.getCurrentUser();
             userID = user.getUid();
-            myRefArc =  database.getReference("utenti").child(userID).child("livArcade");
-            myRefThem =  database.getReference("utenti").child(userID).child("livTema");
+            myRef =  database.getReference("utenti").child(userID);
             Bundle i = getIntent().getExtras();
             int partita = i.getInt("MODE");
 
@@ -214,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
             game.invalidate();
             game.update();
-            super.handleMessage(msg);
+            //super.handleMessage(msg);
             }
         };
     }
@@ -1172,7 +1169,7 @@ public class MainActivity extends AppCompatActivity {
                         }else{
                             level++;
                             if(level>levTheme){
-                                myRefThem.setValue(level);
+                                myRef.child("livTema").setValue(level);
                                 //SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                                 //editor.putInt( "livTheme", level );
                                 //editor.apply();
@@ -1201,7 +1198,7 @@ public class MainActivity extends AppCompatActivity {
                         }else {
                             level++;
                             if (level > levArcade && !guestMode) {
-                                myRefArc.setValue(level);
+                                myRef.child("livArcade").setValue(level);
                                 //SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
                                 //editor.putInt("livArcade", level);
                                 //editor.apply();
