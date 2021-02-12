@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
     private Boolean multiplayer;
     private Boolean sfidante = false;
     private Boolean sfidato = false;
-    private Boolean pause = false;
     private String userID;
     private int level;
 
@@ -240,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        pause=true;
         if (id == R.id.mybutton) {
             onPause();
             final CharSequence[] items={getString(R.string.resume),getString(R.string.commands), getString(R.string.exit)};
@@ -274,7 +272,6 @@ public class MainActivity extends AppCompatActivity {
 
                                     dialogInterface.dismiss();
                                     onResume();
-                                    pause=false;
                                     Toast.makeText(MainActivity.this, getString(R.string.touch_selected), Toast.LENGTH_SHORT).show();
 
                                 }else if (items[i].equals(getString(R.string.accelerometer))){
@@ -288,7 +285,6 @@ public class MainActivity extends AppCompatActivity {
 
                                     dialogInterface.dismiss();
                                     onResume();
-                                    pause=false;
                                     Toast.makeText(MainActivity.this, getString(R.string.accelerometer_selected), Toast.LENGTH_SHORT).show();
 
                                 }
@@ -303,7 +299,6 @@ public class MainActivity extends AppCompatActivity {
 
                                     dialogInterface.dismiss();
                                     onResume();
-                                    pause=false;
                                     Toast.makeText(MainActivity.this, getString(R.string.gamepad_selected), Toast.LENGTH_SHORT).show();
 
                                 }
