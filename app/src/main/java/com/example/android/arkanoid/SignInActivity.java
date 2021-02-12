@@ -445,27 +445,6 @@ public class SignInActivity extends AppCompatActivity {
         return true;
     }
 
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-                    Toast.makeText(SignInActivity.this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent( SignInActivity.this, LoginActivity.class));
-                }
-                return;
-            }
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }*/
-
-
     public void posizione(){
         getLastLocation();
     }
