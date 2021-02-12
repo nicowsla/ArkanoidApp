@@ -60,7 +60,7 @@ public class UserListAdapter extends FirebaseRecyclerAdapter<User, UsersListView
 
     @Override
     protected void onBindViewHolder(@NonNull final UsersListViewHolder holder, int i, @NonNull final User lista) {
-        if((rankingScore && lista.getBestScore()==0)|| (rankingTime && lista.getBestTime()>=1000000) || (!rankingScore && !rankingTime && uid.equals(lista.getId()))) {
+        if((rankingScore && lista.getBestScore()==0)|| (rankingTime && lista.getBestTime()>=1000000)) {
             holder.hide();
         }else  {
             if(rankingScore){
