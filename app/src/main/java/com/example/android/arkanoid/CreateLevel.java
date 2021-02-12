@@ -348,7 +348,7 @@ public class CreateLevel extends Activity {
                 case 0:
                     originalBrick = BitmapFactory.decodeResource(this.getResources(), R.drawable.brick_green2);
                     chosenColor = 10;
-                    Toast.makeText(CreateLevel.this,getString(R.string.dark_grey_chosen) , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateLevel.this,getString(R.string.dark_green) , Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
                     originalBrick = BitmapFactory.decodeResource(this.getResources(), R.drawable.brick_white);

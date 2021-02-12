@@ -205,5 +205,6 @@
     <string name="italian">Italiano</string>
     <string name="english">English</string>
     <string name="draw">Partita difficile...</string>
+    <string name="dark_green">Colore scelto: verde scuro</string>
 
 </resources>

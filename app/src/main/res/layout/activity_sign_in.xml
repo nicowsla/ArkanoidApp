@@ -1,150 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignInActivity"
-    android:orientation="vertical"
     android:background="@drawable/backgroud">
 
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/signin_photo"
-        android:layout_width="196dp"
-        android:layout_height="196dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/ic_baseline_person_white_24"
-        android:minHeight="200dp"
-        android:onClick="selectImage"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="1dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signin_emailc"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:textColorHint="@color/button"
-        app:boxStrokeColor="@color/button"
-        app:errorEnabled="true"
-        app:hintTextColor="@color/button"
-        android:ems="10"
-        android:hint="@string/signin_email"
-        android:inputType="textEmailAddress"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="235dp">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signin_email"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/signin_photo"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/ic_baseline_add_a_photo_24"
+            android:onClick="selectImage"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="1dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signin_emailc"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/button"
-            android:textColorHint="@color/button"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signin_usernamec"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:textColorHint="@color/button"
-        app:boxStrokeColor="@color/button"
-        app:errorEnabled="true"
-        app:hintTextColor="@color/button"
-        android:ems="10"
-        android:hint="@string/signin_username"
-        android:inputType="text"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="235dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signin_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/button"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
             android:textColorHint="@color/button"
-            android:maxLength="16"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            app:boxStrokeColor="@color/button"
+            app:errorEnabled="true"
+            app:hintTextColor="@color/button"
+            android:ems="10"
+            android:hint="@string/signin_email"
+            android:inputType="textEmailAddress"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="235dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signin_pswc"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:textColorHint="@color/button"
-        app:boxStrokeColor="@color/button"
-        app:passwordToggleTint="@color/button"
-        app:passwordToggleEnabled="true"
-        app:hintTextColor="@color/button"
-        app:errorEnabled="true"
-        android:ems="10"
-        android:hint="@string/signin_psw"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="235dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signin_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button"
+                android:textColorHint="@color/button"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:inputType="textPassword"
-            android:id="@+id/signin_psw"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signin_usernamec"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/button"
-            android:textColorHint="@color/button"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:textColorHint="@color/button"
+            app:boxStrokeColor="@color/button"
+            app:errorEnabled="true"
+            app:hintTextColor="@color/button"
+            android:ems="10"
+            android:hint="@string/signin_username"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="235dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signin_psw_confermac"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:textColorHint="@color/button"
-        app:boxStrokeColor="@color/button"
-        app:passwordToggleTint="@color/button"
-        app:passwordToggleEnabled="true"
-        app:hintTextColor="@color/button"
-        app:errorEnabled="true"
-        android:ems="10"
-        android:hint="@string/signin_psw_confirm"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="235dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signin_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button"
+                android:textColorHint="@color/button"
+                android:maxLength="16"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:inputType="textPassword"
-            android:id="@+id/signin_psw_conferma"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signin_pswc"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/button"
-            android:textColorHint="@color/button"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:textColorHint="@color/button"
+            app:boxStrokeColor="@color/button"
+            app:passwordToggleTint="@color/button"
+            app:passwordToggleEnabled="true"
+            app:hintTextColor="@color/button"
+            app:errorEnabled="true"
+            android:ems="10"
+            android:hint="@string/signin_psw"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="235dp">
 
-    <Button
-        android:id="@+id/signin_confirm"
-        android:text="@string/signin_button"
-        android:onClick="signin"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/button"
-        android:shadowColor="#A8A8A8"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="10"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:cornerRadius="15dp"/>
-</LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:inputType="textPassword"
+                android:id="@+id/signin_psw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button"
+                android:textColorHint="@color/button"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signin_psw_confermac"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:textColorHint="@color/button"
+            app:boxStrokeColor="@color/button"
+            app:passwordToggleTint="@color/button"
+            app:passwordToggleEnabled="true"
+            app:hintTextColor="@color/button"
+            app:errorEnabled="true"
+            android:ems="10"
+            android:hint="@string/signin_psw_confirm"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="235dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:inputType="textPassword"
+                android:id="@+id/signin_psw_conferma"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button"
+                android:textColorHint="@color/button"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/signin_confirm"
+            android:text="@string/signin_button"
+            android:onClick="signin"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="10"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:cornerRadius="15dp"/>
+
+
+        </LinearLayout>
+</ScrollView>
