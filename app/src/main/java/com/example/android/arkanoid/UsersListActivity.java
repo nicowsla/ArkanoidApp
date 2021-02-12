@@ -34,6 +34,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.arkanoid.entity.Coordinate;
 import com.example.android.arkanoid.entity.User;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -51,7 +52,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.example.android.arkanoid.Coordinate;
+
 import java.util.Locale;
 
 public class UsersListActivity extends NavigationMenuActivity {

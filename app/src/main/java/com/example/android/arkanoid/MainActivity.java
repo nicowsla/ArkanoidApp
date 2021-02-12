@@ -13,7 +13,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -35,7 +34,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.android.arkanoid.entity.Ball;
+import com.example.android.arkanoid.entity.Brick;
 import com.example.android.arkanoid.entity.Challenge;
+import com.example.android.arkanoid.entity.Coordinate;
 import com.example.android.arkanoid.entity.Paddle;
 import com.example.android.arkanoid.entity.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,8 +49,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
-import com.example.android.arkanoid.Brick;
-import com.example.android.arkanoid.Coordinate;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean sfidante = false;
     private Boolean sfidato = false;
     private Boolean pause = false;
+    private int level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +167,9 @@ public class MainActivity extends AppCompatActivity {
                 sfidante = i.getBoolean("Sfidante");
                 sfidato = i.getBoolean("Sfidato");
             }
-            int level = i.getInt("Level");
+            level = i.getInt("Level");
+
+
             DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -479,6 +482,7 @@ public class MainActivity extends AppCompatActivity {
             new_paddle = Bitmap.createScaledBitmap(paddle_p,(paddle_width*screenWidth)/1080,(paddle_height*screenHeight)/1920,true);
 
             // creates a new ball, paddle, and list of bricks
+
             ball = new Ball(size.x / 2, size.y - (470*screenHeight)/1920, level);
             paddle = new Paddle((size.x / 2) - (100*screenWidth)/1080, size.y - (400*screenHeight)/1920);
             list = new ArrayList<Brick>();
@@ -504,6 +508,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 6:
                     landscape = true;
+                    ball.setY(size.y - (470*screenHeight)/1920 - 50);
                     break;
             }
             generateBricks(context, level, buttonValue);
@@ -663,8 +668,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }else if(button == 6){ //modalità landscape
-                for (int i = 2; i < 8; i++) { //6*15
-                    for (int j = 3; j < 18; j++) {
+                for (int i = 2; i < 8; i++) {
+                    for (int j = 2; j < 17; j++) {
                         switch (level){
                             case 1:
                                 if (Levels.Livello1LANDSCAPE[i][j] != 0) {
@@ -721,6 +726,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(Canvas canvas) {
 
             if(landscape){
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 if (stretchedOut == null ) {
                     stretchedOut = Bitmap.createScaledBitmap(background, size.x, size.y, true);
                 }
@@ -728,7 +734,7 @@ public class MainActivity extends AppCompatActivity {
                     stretchedOutGamepad = Bitmap.createScaledBitmap(backgroundGamepadLandscape, size.x, size.y, true);
                 }
 
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
                 int a = screenWidth;
                 screenWidth = screenHeight;
                 screenWidth = a;
@@ -752,7 +758,7 @@ public class MainActivity extends AppCompatActivity {
                 paint.setColor(Color.GREEN);
                 for (int i = 0; i < list.size(); i++) {
                     Brick b = list.get(i);
-                    canvas.drawBitmap(b.getBrick(), null, new RectF(b.getX(), b.getY(), b.getX() + (100*screenWidth)/1920, b.getY() + (100*screenHeight)/2880) , paint);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(b.getBrick(),(95*screenWidth)/1920,(75*screenHeight)/1080,true), b.getX(), b.getY(), paint);
                 }
 
                 // draw text and icons
@@ -798,7 +804,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // draw fell, disegna rettangolo cioè barra
                     paint.setColor(Color.WHITE);
-                canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
+                    canvas.drawBitmap(new_paddle, paddle.getX(), paddle.getY(), paint);
                     // draw bricks
                     paint.setColor(Color.GREEN);
                     for (int i = 0; i < list.size(); i++) {
@@ -809,8 +815,6 @@ public class MainActivity extends AppCompatActivity {
                     // draw text
                     paint.setColor(Color.WHITE);
                     paint.setTextSize(50);
-
-
 
                     if (timeMode) {
                         difference = System.currentTimeMillis() - startTime;
@@ -974,7 +978,11 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     lifes--;
                     ball.setX((size.x / 2) - (30*screenWidth)/1080);
-                    ball.setY(size.y - (470*screenHeight)/1920);
+                    if(landscape){
+                        ball.setY(size.y - (470*screenHeight)/1920 - 50);
+                    }else{
+                        ball.setY(size.y - (470*screenHeight)/1920);
+                    }
                     ball.createSpeed(level);
                     start = false;
                 }
@@ -988,7 +996,7 @@ public class MainActivity extends AppCompatActivity {
                     ball.suddentlyPaddle(paddle.getX(), paddle.getY(), new_paddle, redBall);
                     for (int i = 0; i < list.size(); i++) {
                         Brick b = list.get(i);
-                        if (ball.suddentlyBrick(b.getX(), b.getY(), Bitmap.createScaledBitmap(b.getBrick(),(100*screenWidth)/1080,(70*screenHeight)/1920,true), redBall)) {
+                        if (ball.suddentlyBrick(b.getX(), b.getY(), Bitmap.createScaledBitmap(b.getBrick(), landscape?(95 * screenWidth) / 1920:(100 * screenWidth) / 1080, landscape?(75 * screenHeight) / 1080 :(70 * screenHeight) / 1920, false), redBall)) {
                             list.remove(i);
                             soundPlayer.playHitSound();
                             score = score + 50; //PUNTEGGIO SE ROMPI UN MATTONCINO
@@ -1026,8 +1034,7 @@ public class MainActivity extends AppCompatActivity {
             }
     
             @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-            }
+            public void onAccuracyChanged(Sensor sensor, int accuracy) { }
     
             //serves to suspend the game in case of a new game
             @Override
@@ -1035,8 +1042,9 @@ public class MainActivity extends AppCompatActivity {
                 if (gameOver && !start) {
                     score = 0;
                     lifes = 3;    //se cambi vite cambia anche qui
-                    resetLevel(level,buttonValue);
                     gameOver = false;
+                    resetLevel(level,buttonValue);
+
     
                     //LA DIMENSIONE DELLO SCHERMO IN LARGHEZZA VA DA 35 A 235 CON I BORDI DELLO SFONDO ORIGINALE MENTRE DA 0 A 200 SENZA BORDI
                 }else if(start && !gameOver && !accelerometro && touch) { //flag accelerometro deve essere false e touch true
@@ -1103,7 +1111,11 @@ public class MainActivity extends AppCompatActivity {
             // sets the game to start
             private void resetLevel(int level, int buttonValue) {
                 ball.setX((size.x / 2) - (30*screenWidth)/1080);
-                ball.setY(size.y - (470*screenHeight)/1920);
+                if(landscape){
+                    ball.setY(size.y - (470*screenHeight)/1920 - 50);
+                }else{
+                    ball.setY(size.y - (470*screenHeight)/1920);
+                }
                 ball.createSpeed(level);
                 list = new ArrayList<Brick>();
                 generateBricks(context,level,buttonValue);
@@ -1154,15 +1166,15 @@ public class MainActivity extends AppCompatActivity {
                             level++;
                             if(level>levTheme){
                                 database.getReference("utenti").child(user.getUid()).child("livTema").setValue(level);
-                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                                editor.putInt( "livTheme", level );
-                                editor.apply();
+                                //SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                //editor.putInt( "livTheme", level );
+                                //editor.apply();
                             }
                             resetLevel(level,buttonValue);
                             start = false;
                         }
                     }else if(arcadeMode){
-                        if(boss){
+                        if(level==17){
                             AlertDialog alertDialog = new AlertDialog.Builder( MainActivity.this).create();
                             alertDialog.setTitle( R.string.vittoria );
                             alertDialog.setMessage( getString(R.string.messaggio_vittoria_boss) );
@@ -1179,23 +1191,20 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     } );
                             alertDialog.show();
-                            start = false;
                         }else {
                             level++;
                             if (level > levArcade && !guestMode) {
                                 database.getReference("utenti").child(user.getUid()).child("livArcade").setValue(level);
-                                SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
-                                editor.putInt("livArcade", level);
-                                editor.apply();
+                                //SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+                                //editor.putInt("livArcade", level);
+                                //editor.apply();
                             }
                             if (level % 5 == 0) {         //SE ARRIVI AD UN LIVELLO MULTIPLO DI 5 IN ARCADE MODE
                                 lifes++;                            //AGGIUNGE UNA VITA
-                                paddle_width += 50;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
+                                paddle_width += 300;                 //AUMENTA LA LUNGHEZZA DEL PADDLE
                             }
-                            start = false;
                             resetLevel(level, buttonValue);
-
-
+                            start = false;
                         }
                     }else if(landscape && level==3) {
                         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -1210,11 +1219,12 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 } );
                         alertDialog.show();
-                        start = false;
+
                     }else{
                         level++;
-                        start = false;
                         resetLevel(level,buttonValue);
+                        start = false;
+
                     }
                 }
             }

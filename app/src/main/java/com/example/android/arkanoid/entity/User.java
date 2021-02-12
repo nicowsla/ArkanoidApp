@@ -1,6 +1,6 @@
 package com.example.android.arkanoid.entity;
 
-import com.example.android.arkanoid.Coordinate;
+
 
 public class User {
     private String id;

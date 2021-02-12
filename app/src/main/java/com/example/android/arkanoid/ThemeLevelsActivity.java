@@ -18,6 +18,14 @@ import androidx.appcompat.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.WindowManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 public class ThemeLevelsActivity extends NavigationMenuActivity {
     private ImageView img1;
@@ -31,6 +39,9 @@ public class ThemeLevelsActivity extends NavigationMenuActivity {
     private ImageView img9;
     private ImageView img10;
     private List<ImageView> img = new ArrayList();
+    private FirebaseDatabase database;
+    private FirebaseUser user;
+    private FirebaseAuth mAuth;
     private int level;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +59,27 @@ public class ThemeLevelsActivity extends NavigationMenuActivity {
         Configuration config=new Configuration();
         config.locale=locale;
         getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
-        level = pref.getInt("livTheme", 1);
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+
+        DatabaseReference myRef = database.getReference("utenti").child(user.getUid());
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                level = (dataSnapshot.child("livTema").getValue(Integer.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+            }
+        });
+
+        SharedPreferences.Editor editor = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+        editor.putInt("livTheme", level);
+        editor.apply();
 
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

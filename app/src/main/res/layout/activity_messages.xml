@@ -50,7 +50,7 @@
             android:gravity="center"
             android:onClick="send"
             android:paddingRight="10dp"
-            android:src="@drawable/baseline_send_24"
+            android:src="@drawable/ic_baseline_send_24"
             android:textSize="18sp"
             app:backgroundTint="#92289E"
             app:rippleColor="#673AB7" />
