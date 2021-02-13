@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -233,6 +234,14 @@ public class SignInActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ID);
         }
 
+        //carico immagine di default nel caso in cui l'utente non metta alcuna foto profilo
+        bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.def);
+        imageString = imageToString();
+        SharedPreferences.Editor editor1 = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
+        editor1.putString("photo", imageString);
+        editor1.apply();
+
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -300,11 +309,7 @@ public class SignInActivity extends AppCompatActivity {
 
     public void createAccount(){
 
-        if(imageString==null){
-            Toast.makeText(SignInActivity.this, getString(R.string.error_image_not_found),
-                    Toast.LENGTH_SHORT).show();
-        }
-        if(!error && imageString!=null){ mAuth.createUserWithEmailAndPassword(email, password)
+        if(!error){ mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {

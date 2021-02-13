@@ -53,8 +53,8 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    public  static final int IDEAL_WIDTH=1080;
-    public  static final int IDEAL_HEIGHT=1920;
+    public static final int IDEAL_SCREENWIDTH = 1080;
+    public static final int IDEAL_SCREENHEIGHT = 1920;
     private Game game;
     private UpdateThread myThread;
     private Handler updateHandler;
@@ -501,7 +501,7 @@ public class MainActivity extends AppCompatActivity {
             redBall = scaleDown(originalBall, 60, true);
             paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
 
-            new_paddle = Bitmap.createScaledBitmap(paddle_p,(paddle_width*screenWidth)/1080,(paddle_height*screenHeight)/1920,true);
+            new_paddle = Bitmap.createScaledBitmap(paddle_p,(paddle_width*screenWidth)/ IDEAL_SCREENWIDTH,(paddle_height*screenHeight)/ IDEAL_SCREENHEIGHT,true);
 
             // creates a new ball, paddle, and list of bricks
 
