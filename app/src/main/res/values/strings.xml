@@ -207,5 +207,6 @@
     <string name="draw">Partita difficile...</string>
     <string name="dark_green">Colore scelto: verde scuro</string>
     <string name="label_guest_mode">Modalità Arcade Demo</string>
+    <string name="turn_on_location">Attiva la geolocalizzazione</string>
 
 </resources>

@@ -209,6 +209,8 @@
     <string name="english">English</string>
     <string name="draw">Hard match...</string>
     <string name="label_guest_mode">Arcade Mode Demo</string>
+    <string name="turn_on_location">Turn on location</string>
+
 
 
 </resources>

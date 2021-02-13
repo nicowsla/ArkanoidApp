@@ -240,8 +240,6 @@ public class SignInActivity extends AppCompatActivity {
         SharedPreferences.Editor editor1 = getSharedPreferences("arkanoid", MODE_PRIVATE).edit();
         editor1.putString("photo", imageString);
         editor1.apply();
-
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -473,7 +471,7 @@ public class SignInActivity extends AppCompatActivity {
                         }
                 );
             } else {
-                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.turn_on_location), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
             }
@@ -553,6 +551,9 @@ public class SignInActivity extends AppCompatActivity {
         super.onResume();
         if (checkPermissions()) {
             getLastLocation();
+        }else{
+            Toast.makeText(SignInActivity.this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(SignInActivity.this, LoginActivity.class));
         }
 
     }

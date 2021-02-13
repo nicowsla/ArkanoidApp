@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
-        String language=preferences.getString("My_Lang","");
+        String language = preferences.getString("My_Lang","");
 
         if(language.equals("") || language.isEmpty()|| language.equals(null)){
             language = "it";
@@ -71,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editorLanguage=getSharedPreferences("Settings",MODE_PRIVATE).edit();
         editorLanguage.putString("My_Lang",language);
         editorLanguage.apply();
-
 
         Locale locale=new Locale(language);
         Locale.setDefault(locale);
@@ -252,7 +251,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this,getString(R.string.empty_field) ,
                     Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void insertData(){

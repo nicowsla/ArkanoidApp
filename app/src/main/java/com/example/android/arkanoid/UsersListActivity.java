@@ -318,7 +318,7 @@ public class UsersListActivity extends NavigationMenuActivity {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Location location = locationResult.getLastLocation();
-            if(!distanceTextView.getText().toString().equals( "Illimitata" )) {
+            if(!distanceTextView.getText().toString().equals( getString(R.string.unlimited) )) {
                 adapter.setDistance( Long.parseLong( distanceTextView.getText().toString()) );
                 adapter.setUserCoordinate( new Coordinate( location.getLatitude(), location.getLongitude() ) );
                 adapter.notifyDataSetChanged();
