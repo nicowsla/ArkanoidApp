@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             int partita = i.getInt("MODE");
 
             if(actionBar != null) {
+
                 switch (partita) {
                     case 1:
                         actionBar.setTitle(R.string.label_theme_mode);
@@ -162,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
                         actionBar.setTitle(R.string.label_landscape_mode);
                         break;
                 }
+
+
             }
 
             multiplayer = i.getBoolean("Multiplayer");
@@ -191,6 +194,9 @@ public class MainActivity extends AppCompatActivity {
             game = new Game(this, 3, 0, level, screenWidth, screenHeight, partita, multiplayer, sfidante, sfidato);
 
         }else{
+            if(actionBar != null) {
+                    actionBar.setTitle(R.string.label_guest_mode);
+                }
             game = new Game(this, 3, 0, 1, screenWidth, screenHeight, 3, false, false, false);
 
         }

@@ -73,35 +73,6 @@ public class Ball{
         }
     }
 
-    // zisti ci je lopticka blizko
-    //clean ci is a ball close traduttore di merda che minchia vuol dire
-    private boolean isNear(float xPaddle, float yPaddle, float xBall, float yBall, int screenWidth, int screenHeight) {
-        // temporary variables to set edges for testing
-        int raggio = 60;
-        float rect_width = (200*screenWidth)/1080;
-        float rect_height = (40*screenHeight)/1920;
-        float testX = xBall;
-        float testY = yBall;
-
-        // which edge is closest?
-        if (xBall < xPaddle) {testX = xPaddle;}      // test left edge
-        else if (xBall > xPaddle+rect_width) {testX = xPaddle+rect_width;}   // right edge
-        if (yBall < yPaddle) {testY = yPaddle;}      // top edge
-        else if (yBall > yPaddle+rect_height) {testY = yPaddle+rect_height;}   // bottom edge
-
-        // get distance from closest edges
-        float distX = xBall-testX;
-        float distY = yBall-testY;
-        double distance = Math.sqrt((distX*distX) + (distY*distY));
-
-        // if the distance is less than the radius, collision!
-        if (distance <= raggio) {
-            return true;
-        }
-        return false;
-
-    }
-
     public static boolean isCollisionDetected(Bitmap bitmap1, int x1, int y1,
                                               Bitmap bitmap2, int x2, int y2) {
 
