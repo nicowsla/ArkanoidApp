@@ -30,8 +30,9 @@ public class MenuActivity extends NavigationMenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //inserire la navbar
         super.onCreate(savedInstanceState);
+
+        //metto la NavBar laterale
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_menu, null, false);
         dl.addView(contentView, 0);

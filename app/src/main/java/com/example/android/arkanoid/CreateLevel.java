@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 public class CreateLevel extends Activity {
-
+    //Classe che permette all'utente di creare livelli personalizzati
     private DrawingView dv ;
     private int i,j;
     private Bitmap originalBrick;

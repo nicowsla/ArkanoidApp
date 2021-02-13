@@ -47,6 +47,8 @@ public class PersonalLevelsActivity extends NavigationMenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //metto la NavBar laterale
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_personal_levels, null, false);
         dl.addView(contentView, 0);
@@ -68,7 +70,7 @@ public class PersonalLevelsActivity extends NavigationMenuActivity {
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        recyclerView = findViewById(R.id.list);
+        recyclerView = (RecyclerView) findViewById(R.id.list);
 
         database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();

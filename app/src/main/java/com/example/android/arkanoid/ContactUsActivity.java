@@ -136,7 +136,7 @@ public class ContactUsActivity extends AppCompatActivity {
                     bodyString = body.getText().toString();
 
                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {email.getText().toString()});
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {emailString});
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectString);
                     emailIntent.putExtra(Intent.EXTRA_TEXT, bodyString);
                     emailIntent.setData(Uri.parse("mailto:"));

@@ -33,6 +33,8 @@ public class SettingsActivity extends NavigationMenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //metto la NavBar laterale
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_settings, null, false);
         dl.addView(contentView, 0);
@@ -50,11 +52,11 @@ public class SettingsActivity extends NavigationMenuActivity {
         enableTouch = pref.getBoolean("touch", true);
         enableAccelerometer = pref.getBoolean("accelerometro", false);
 
-        commandLayout = findViewById(R.id.settings_commandsc);
-        command = findViewById(R.id.settings_commands);
+        commandLayout = (TextInputLayout) findViewById(R.id.settings_commandsc);
+        command = (EditText) findViewById(R.id.settings_commands);
 
-        languageLayout = findViewById(R.id.settings_languagec);
-        languageString = findViewById(R.id.settings_language);
+        languageLayout =  (TextInputLayout) findViewById(R.id.settings_languagec);
+        languageString =  (EditText) findViewById(R.id.settings_language);
 
         if(language.equals("it")){
             languageString.setText(R.string.italian);
@@ -157,8 +159,6 @@ public class SettingsActivity extends NavigationMenuActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-
-        Button contact = (Button) findViewById(R.id.mybuttoncontacts);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

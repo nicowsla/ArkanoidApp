@@ -74,14 +74,14 @@ public class MessagesActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        actionBarName = findViewById(R.id.action_bar_name);
+        actionBarName = (TextView) findViewById(R.id.action_bar_name);
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
 
-        recyclerView = findViewById(R.id.list);
+        recyclerView = (RecyclerView) findViewById(R.id.list);
         recyclerView.startAnimation( fromtop );
-        messaggio = findViewById( R.id.commenti_scrivi);
-        photo = findViewById(R.id.action_bar_img);
+        messaggio = (EditText) findViewById( R.id.commenti_scrivi);
+        photo = (ImageView) findViewById(R.id.action_bar_img);
 
         database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();

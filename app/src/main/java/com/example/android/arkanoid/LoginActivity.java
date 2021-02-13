@@ -105,11 +105,11 @@ public class LoginActivity extends AppCompatActivity {
 
         logo = findViewById(R.id.logo);
 
-        emailLayout = findViewById(R.id.login_emailc);
-        emailET = findViewById(R.id.login_email);
+        emailLayout = (TextInputLayout) findViewById(R.id.login_emailc);
+        emailET = (EditText) findViewById(R.id.login_email);
 
-        pswLayout = findViewById(R.id.login_pswc);
-        pswET = findViewById(R.id.login_psw);
+        pswLayout = (TextInputLayout) findViewById(R.id.login_pswc);
+        pswET = (EditText) findViewById(R.id.login_psw);
 
         guestButton = findViewById(R.id.guest_button);
 

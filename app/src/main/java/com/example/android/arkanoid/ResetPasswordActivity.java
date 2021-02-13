@@ -55,9 +55,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
         frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
 
-        email = findViewById(R.id.email_reset_psw);
-        emailLayout =  findViewById(R.id.email_reset_pswc);
-        b =  findViewById( R.id.reset_psw) ;
+        email = (EditText) findViewById(R.id.email_reset_psw);
+        emailLayout =  (TextInputLayout) findViewById(R.id.email_reset_pswc);
+        b =  (Button) findViewById( R.id.reset_psw) ;
         emailLayout.startAnimation( fromtop );
         b.startAnimation( frombottom );
 

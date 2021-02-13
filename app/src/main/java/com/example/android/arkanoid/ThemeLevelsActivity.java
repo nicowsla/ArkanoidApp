@@ -39,10 +39,10 @@ public class ThemeLevelsActivity extends NavigationMenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //metto la NavBar laterale
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_theme_levels, null, false);
         dl.addView(contentView, 0);
-
 
         SharedPreferences preferences=getSharedPreferences("Settings", MODE_PRIVATE);
         String language=preferences.getString("My_Lang","");

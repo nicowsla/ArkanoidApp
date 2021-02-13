@@ -46,6 +46,8 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //metto la NavBar laterale
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_challenge_list, null, false);
         dl.addView(contentView, 0);
@@ -53,7 +55,7 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("arkanoid", MODE_PRIVATE);
         myUsername=  pref.getString("username", null);
 
-        bottonMenu = findViewById(R.id.bottom_navigation_challenge);
+        bottonMenu = (BottomNavigationView) findViewById(R.id.bottom_navigation_challenge);
         bottonMenu.setOnNavigationItemSelectedListener(navListener);
 
         //nasconde il pannello delle notifiche
@@ -68,6 +70,7 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
         config.locale=locale;
         getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
 
+        // i Boolean seguenti servono per impostare la visualizzazione della classifica se per tempo o puntiu
         Bundle i = getIntent().getExtras();
         requestSend = i.getBoolean("S");
         requestReceived = i.getBoolean("R");
@@ -85,11 +88,12 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
 
         linearLayoutManager = new LinearLayoutManager(this);
 
-        recyclerView = findViewById(R.id.list);
+        recyclerView = (RecyclerView) findViewById(R.id.list);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.startAnimation( fromtop );
 
+        //titolo ActionBar
         if(!requestReceived && !requestSend){
             bottonMenu.setVisibility(View.GONE);
             getSupportActionBar().setTitle(R.string.history);
@@ -106,7 +110,8 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
     }
 
     private void fetch() {
-        //query di tutti gli utenti ordinati per username per visualizzare la lista di utenti
+
+        //in base ai flag booleani ricevuti si effettua una diversa query
         final Query query;
 
         if(requestReceived){
@@ -152,6 +157,7 @@ public class ChallengeListActivity extends NavigationMenuActivity  {
         startActivity( new Intent( ChallengeListActivity.this, MenuActivity.class) );
     }
 
+    //imposto il BottomNavigationMenu per effettuare lo switch tra le varie visualizzazioni della classifica
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {

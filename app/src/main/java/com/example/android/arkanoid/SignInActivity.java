@@ -138,21 +138,21 @@ public class SignInActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         storageRef = FirebaseStorage.getInstance().getReference();
 
-        emailLayout = findViewById((R.id.signin_emailc));
-        emailET = (EditText)findViewById(R.id.signin_email);
+        emailLayout =  (TextInputLayout)findViewById((R.id.signin_emailc));
+        emailET = (EditText) findViewById(R.id.signin_email);
 
-        usernameLayout = findViewById(R.id.signin_usernamec);
-        userNameET = findViewById(R.id.signin_username);
+        usernameLayout =  (TextInputLayout) findViewById(R.id.signin_usernamec);
+        userNameET = (EditText) findViewById(R.id.signin_username);
 
-        passwordLayout = findViewById(R.id.signin_pswc);
-        pswET = findViewById(R.id.signin_psw);
+        passwordLayout =  (TextInputLayout) findViewById(R.id.signin_pswc);
+        pswET = (EditText) findViewById(R.id.signin_psw);
 
-        passwordConfirmationLayout = findViewById(R.id.signin_psw_confermac);
-        passwordConfirmationET = findViewById(R.id.signin_psw_conferma);
+        passwordConfirmationLayout =  (TextInputLayout) findViewById(R.id.signin_psw_confermac);
+        passwordConfirmationET = (EditText) findViewById(R.id.signin_psw_conferma);
 
-        photo = findViewById(R.id.signin_photo);
+        photo = (ImageView) findViewById(R.id.signin_photo);
 
-        signinButton = findViewById(R.id.signin_confirm);
+        signinButton = (Button) findViewById(R.id.signin_confirm);
 
         emailLayout.startAnimation(fromtop);
         usernameLayout.startAnimation(fromtop);

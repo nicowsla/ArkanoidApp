@@ -71,7 +71,7 @@ public class ChallengeListAdapter extends FirebaseRecyclerAdapter<Challenge, Cha
         }else{
             holder.setScore2(context.getString(R.string.waiting));
         }
-
+        //chiamo lo storage e associo ad ogni utente della lista tramite il suo id, l'immagine del profilo corretta
         StorageReference riversRef = mStorageRef.child(lista.getUserID()).child("images/profilo.jpg");
         riversRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytes -> {
             img = Base64.encodeToString(bytes, Base64.DEFAULT);

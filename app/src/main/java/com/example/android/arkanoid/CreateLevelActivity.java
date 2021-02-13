@@ -55,11 +55,11 @@ public class CreateLevelActivity extends AppCompatActivity {
         //nasconde il pannello delle notifiche
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        nameLayout = findViewById(R.id.level_namec);
-        nameET = findViewById(R.id.level_name);
+        nameLayout = (TextInputLayout) findViewById(R.id.level_namec);
+        nameET = (EditText) findViewById(R.id.level_name);
 
-        seekBar = findViewById(R.id.seekBar);
-        progress = findViewById(R.id.progress);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        progress = (TextView) findViewById(R.id.progress);
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();

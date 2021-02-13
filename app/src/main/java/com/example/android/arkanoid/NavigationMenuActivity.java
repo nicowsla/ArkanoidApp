@@ -58,9 +58,9 @@ public class NavigationMenuActivity extends AppCompatActivity {
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled( true );
-        username = findViewById(R.id.username);
+        username = (TextView) findViewById(R.id.username);
         username.setText(usernameString);
-        photo = findViewById(R.id.menu_photo);
+        photo = (ImageView) findViewById(R.id.menu_photo);
 
         if( imageString.equals("empty")){
             //non fa nulla
