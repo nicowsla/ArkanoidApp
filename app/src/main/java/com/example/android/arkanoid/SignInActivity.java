@@ -551,9 +551,6 @@ public class SignInActivity extends AppCompatActivity {
         super.onResume();
         if (checkPermissions()) {
             getLastLocation();
-        }else{
-            Toast.makeText(SignInActivity.this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(SignInActivity.this, LoginActivity.class));
         }
 
     }
