@@ -6,9 +6,9 @@ Arkanoid è un videogioco arcade prodotto dalla software house giapponese Taito 
 Progetto sviluppato per l'esame di Sviluppo di Mobile Software dell'A.A. 2020/21<br/>
 
 Sviluppato da:
+<br> Nicola Boccaccio
 <br> Leonardo Novelli
 <br> Margherita Spiriticchio
 <br> Angelo Liso
-<br> Nicola Boccaccio
 
 
